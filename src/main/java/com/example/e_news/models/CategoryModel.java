@@ -1,0 +1,32 @@
+package com.example.e_news.models;
+
+import com.example.e_news.beans.Category;
+import com.example.e_news.utils.DbUtils;
+import org.sql2o.Connection;
+
+import java.util.List;
+
+public class CategoryModel {
+  public static List<Category> findAll() {
+    final String query = "select * from categories";
+    try (Connection con = DbUtils.getConnection()) {
+      return con.createQuery(query)
+              .executeAndFetch(Category.class);
+    }
+  }
+
+  public static Category findById(int id) {
+    final String query = "select * from categories where CatID = :CatID";
+    try (Connection con = DbUtils.getConnection()) {
+      List<Category> list = con.createQuery(query)
+              .addParameter("CatID", id)
+              .executeAndFetch(Category.class);
+
+      if (list.size() == 0) {
+        return null;
+      }
+
+      return list.get(0);
+    }
+  }
+}
