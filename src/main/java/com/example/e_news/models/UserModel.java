@@ -4,6 +4,7 @@ import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
+import java.util.List;
 public class UserModel {
 
     public static void add(User c){
@@ -23,4 +24,16 @@ public class UserModel {
         }
     }
 
+    public static User findByUsername(String username){
+        final String query = "select * from users where username = :username";
+        try (Connection con = DbUtils.getConnection()) {
+            List<User> list = con.createQuery(query)
+                    .addParameter("username",username)
+                    .executeAndFetch(User.class);
+            if (list.size()==0){
+                return null;
+            }
+            return list.get(0);
+        }
+    }
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +30,17 @@ public class AccountServlet extends HttpServlet {
                 break;
             case "/Profile":
                 ServletUtils.forward("/views/vwAccount/Profile.jsp", request, response);
+                break;
+            case "/IsAvailable":
+                String username = request.getParameter("user");
+                User user = UserModel.findByUsername(username);
+                boolean isAvailable = (user==null);
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+
+                out.print(isAvailable);
+                out.flush();
                 break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
