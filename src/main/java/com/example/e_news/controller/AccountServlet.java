@@ -117,7 +117,9 @@ public class AccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("auth", false);
         session.setAttribute("authUser", new User());
-        String url = "/Home";
+
+        String url = request.getHeader("referer");
+        if (url == null) url = "/Home";
         ServletUtils.redirect(url, request, response);
     }
 
