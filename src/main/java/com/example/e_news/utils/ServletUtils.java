@@ -21,6 +21,5 @@ public class ServletUtils {
         else {
             response.sendRedirect(url);
         }
-        response.sendRedirect(request.getContextPath()+url);
     }
 }
