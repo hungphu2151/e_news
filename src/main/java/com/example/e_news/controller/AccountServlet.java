@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -83,6 +84,29 @@ public class AccountServlet extends HttpServlet {
     }
 
     private static void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
+        User user = UserModel.findByUsername(username);
+        if (user != null) {
+            BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
+            if (result.verified){
+                HttpSession session = request.getSession();
+                session.setAttribute("auth", true);
+                session.setAttribute("authUser", user);
+                String url = "/Home";
+                ServletUtils.redirect(url, request, response);
+            }
+            else {
+                request.setAttribute("hasError", true);
+                request.setAttribute("errorMassage", "Invalid Login!");
+                ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
+            }
+        }
+        else {
+            request.setAttribute("hasError", true);
+            request.setAttribute("errorMassage", "Invalid Login!");
+            ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
+        }
     }
 }
