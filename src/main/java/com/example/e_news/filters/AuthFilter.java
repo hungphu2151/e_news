@@ -1,19 +1,17 @@
 package com.example.e_news.filters;
 
 
-import com.example.e_news.beans.Category;
-import com.example.e_news.beans.User;
-import com.example.e_news.models.CategoryModel;
+import com.example.e_news.utils.ServletUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
-@WebFilter(filterName = "SessionInitFilter")
-public class SessionInitFilter implements Filter {
+@WebFilter(filterName = "AuthFilter")
+public class AuthFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
 
@@ -23,11 +21,13 @@ public class SessionInitFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
-        HttpSession session =  request.getSession();
-        if (session.getAttribute("auth")==null)
-        {
-            session.setAttribute("auth", false);
-            session.setAttribute("authUser", new User());
+        HttpServletResponse response = (HttpServletResponse) res;
+
+        HttpSession session = (HttpSession) request.getSession();
+        boolean auth = (boolean) session.getAttribute("auth");
+        if (auth == false) {
+            ServletUtils.redirect("/Account/Login",request , response);
+            return;
         }
         chain.doFilter(req, res);
     }
