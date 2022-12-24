@@ -32,7 +32,7 @@
                 Profile
               </a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript: $('formLogout').submit()">
+              <a class="dropdown-item" href="javascript: $('#formLogout').submit()">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
                 Sign Out
               </a>
