@@ -59,6 +59,9 @@ public class AccountServlet extends HttpServlet {
             case "/Login":
                 login(request,response);
                 break;
+            case "/Logout":
+                logout(request,response);
+                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -109,4 +112,13 @@ public class AccountServlet extends HttpServlet {
             ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
         }
     }
+    private static void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("auth", false);
+        session.setAttribute("authUser", new User());
+        String url = "/Home";
+        ServletUtils.redirect(url, request, response);
+    }
+
 }
