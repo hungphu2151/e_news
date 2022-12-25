@@ -5,14 +5,13 @@
 
 <jsp:useBean id="articles" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
+<jsp:useBean id="cat" scope="request" type="com.example.e_news.beans.Category" />
 
 <t:main>
   <jsp:attribute name="reader">
         <jsp:include page="../../views/partials/leftReader.jsp"/>
   </jsp:attribute>
   <jsp:body>
-    <div class="card">
-      <h5 class="card-header">Article</h5>
       <c:choose>
         <c:when test="${articles.size() == 0}">
           <div class="card-body">
@@ -20,10 +19,14 @@
           </div>
         </c:when>
         <c:otherwise>
-          <div class="card-body">
-            <div class="row">
-              <c:forEach items="${articles}" var="a">
-                <div class="col-sm-12 mb-2 mt-2 d-flex justify-content-around">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="">${cat.name}</h5>
+            </div>
+            <c:forEach items="${articles}" var="a">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12 mb-2 mt-2 d-flex justify-content-around">
                     <div class="col-sm-3 mb-2 mt-2 align-self-center">
                       <img src="${pageContext.request.contextPath}/public/imgs/articles/${a.id_article}/main.jpg" alt="${a.title}" title="${a.title}" class="card-img-top">
                     </div>
@@ -49,9 +52,10 @@
                         </a>
                       </div>
                     </div>
+                  </div>
                 </div>
-              </c:forEach>
-            </div>
+              </div>
+            </c:forEach>
           </div>
         </c:otherwise>
       </c:choose>
