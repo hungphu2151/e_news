@@ -29,4 +29,16 @@ public class CategoryModel {
       return list.get(0);
     }
   }
+
+  public static void add(Category c){
+    String insertSql = "INSERT INTO categories ( name, parent_id,editor_id) VALUES (:name, :parent_id,:editor_id)";
+    try (Connection con = DbUtils.getConnection()){
+      con.createQuery(insertSql)
+              .addParameter("name", c.getName())
+              .addParameter("parent_id",c.getParent_id())
+              .addParameter("editor_id",c.getEditor_id())
+              .executeUpdate();
+    }
+
+  }
 }
