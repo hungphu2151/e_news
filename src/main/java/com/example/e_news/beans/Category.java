@@ -11,9 +11,9 @@ public class Category {
     this.name = name;
   }
 
-  public Category(String name, int parent_id) {
-    this.parent_id = 0;
-    this.editor_id = parent_id;
+  public Category(String name, int parent_id,int editor_id) {
+    this.parent_id = parent_id;
+    this.editor_id = editor_id;
     this.name = name;
   }
 

@@ -2,7 +2,8 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<jsp:useBean id="editors" scope="request" type="java.util.List<com.example.e_news.beans.User>"/>
+
+<jsp:useBean id="mainCategories" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
 
 <t:main>
     <jsp:attribute name="reader">
@@ -12,7 +13,7 @@
         <form action="" method="post">
             <div class="card">
                 <h4 class="card-header ">
-                    Danh mục chính
+                    Thêm danh mục phụ
                 </h4>
                 <div class="card-body">
                         <div class="form-group">
@@ -20,10 +21,10 @@
                             <input type="text" class="form-control w-25" id="textCatName" name="name" autofocus>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="inputGroupSelect">Tên biên tập viên</label>
+                            <label for="inputGroupSelect">Thuộc danh mục chính</label>
                             <select class="form-control w-25" id="inputGroupSelect" name="id" >
-                                <c:forEach items="${editors}" var="c">
-                                    <option value="${c.id}">${c.name}</option>
+                                <c:forEach items="${mainCategories}" var="c">
+                                    <option value="${c.id_category}">${c.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -42,3 +43,6 @@
         </form>
     </jsp:body>
 </t:main>
+
+
+
