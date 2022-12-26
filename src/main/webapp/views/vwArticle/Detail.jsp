@@ -3,9 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <jsp:useBean id="article" scope="request" type="com.example.e_news.beans.Article" />
+<jsp:useBean id="cmts" scope="request" type="java.util.List<com.example.e_news.beans.Cmt>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
 
 <t:main>
+  <jsp:attribute name="reader">
+        <jsp:include page="../../views/partials/leftReader.jsp"/>
+  </jsp:attribute>
   <jsp:body>
     <div class="card mb-3">
       <h4 class="card-header">
@@ -28,19 +32,45 @@
         </div>
       </div>
     </div>
-      <div class="card col-sm-8">
-        <from>
-          <div class="form-group" rows="4">
-            <label for="txtCmt">A hãy bình luận của bạn</label>
-            <textarea id="txtCmt" name="username" cols="30" rows="4" class="form-control"></textarea>
-          </div>
-          <button type="submit" class="btn btn-info mb-2">
-            Đăng bình luận
-          </button>
-        </from>
+    <div class="card" style="width: 50%">
+      <div class="card-header">
+        Bình luận
       </div>
-    <div class="card col-sm-8 mt-3">
-      <h5>Bình luận</h5>
+      <div class="card-body">
+        <c:choose>
+          <c:when test="${cmts.size()==0}">
+            <div class="d-flex flex-column bd-highlight mb-3 ml-3">
+              <div class="p-2 bd-highlight">Chưa có bình luận!</div>
+            </div>
+          </c:when>
+          <c:otherwise>
+            <c:forEach items="${cmts}" var="c">
+              <div class="d-flex flex-column bd-highlight mb-3 ml-3">
+                <div class="p-2 bd-highlight mr-5">
+                    ${c.id_comment}
+                </div>
+                <div class="p-2 bd-highlight">
+                  <div class="card border-info mb-3" style="max-width: 30rem;">
+                    <div class="card-body text-info">${c.comment}</div>
+                    <div class="card-footer d-flex justify-content-end">${c.date}</div>
+                  </div>
+                </div>
+              </div>
+            </c:forEach>
+          </c:otherwise>
+        </c:choose>
+        <div class="d-flex flex-column bd-highlight ml-3">
+          <from>
+            <div class="form-group p-2 bd-highlight" rows="4">
+              <label for="txtCmt">A hãy bình luận của bạn</label>
+              <textarea id="txtCmt" name="username" rows="4" class="form-control mb-2" style="max-width: 30rem;"></textarea>
+              <button type="submit" class="btn btn-info">
+                Đăng bình luận
+              </button>
+            </div>
+          </from>
+        </div>
+      </div>
     </div>
 
 

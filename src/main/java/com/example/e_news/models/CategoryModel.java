@@ -1,5 +1,6 @@
 package com.example.e_news.models;
 
+import com.example.e_news.beans.Article;
 import com.example.e_news.beans.Category;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
@@ -14,7 +15,20 @@ public class CategoryModel {
               .executeAndFetch(Category.class);
     }
   }
+  public static Category findByIdforArt(int catId) {
+    final String query = "select * from categories where id_category = :id_category";
+    try (Connection con = DbUtils.getConnection()) {
+      List<Category> list = con.createQuery(query)
+              .addParameter("id_category", catId)
+              .executeAndFetch(Category.class);
 
+      if (list.size() == 0) {
+        return null;
+      }
+
+      return list.get(0);
+    }
+  }
   public static Category findById(int id) {
     final String query = "select * from categories where CatID = :CatID";
     try (Connection con = DbUtils.getConnection()) {

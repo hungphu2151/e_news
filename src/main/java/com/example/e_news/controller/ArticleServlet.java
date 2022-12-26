@@ -1,7 +1,11 @@
 package com.example.e_news.controller;
 
 import com.example.e_news.beans.Article;
+import com.example.e_news.beans.Category;
+import com.example.e_news.beans.Cmt;
 import com.example.e_news.models.ArticleModel;
+import com.example.e_news.models.CategoryModel;
+import com.example.e_news.models.CmtModel;
 import com.example.e_news.utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -21,6 +25,8 @@ public class ArticleServlet extends HttpServlet {
       case "/ByCat":
         int catId = Integer.parseInt(request.getParameter("id"));
         List<Article> list = ArticleModel.findByCatId(catId);
+        Category cat = CategoryModel.findByIdforArt(catId);
+        request.setAttribute("cat", cat);
         request.setAttribute("articles", list);
         ServletUtils.forward("/views/vwArticle/ByCat.jsp", request, response);
         break;
@@ -28,9 +34,11 @@ public class ArticleServlet extends HttpServlet {
       case "/Detail":
         int artID = Integer.parseInt(request.getParameter("id"));
         Article art = ArticleModel.findById(artID);
+        List<Cmt> cmt = CmtModel.findByArtId(artID);
         if (art == null)
-          ServletUtils.redirect("/Hom", request, response);
+          ServletUtils.redirect("/Home", request, response);
         else {
+          request.setAttribute("cmts", cmt);
           request.setAttribute("article", art);
           ServletUtils.forward("/views/vwArticle/Detail.jsp", request, response);
         }
