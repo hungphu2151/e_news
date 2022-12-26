@@ -1,5 +1,6 @@
 package com.example.e_news.models;
 
+import com.example.e_news.beans.Category;
 import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
@@ -34,6 +35,14 @@ public class UserModel {
                 return null;
             }
             return list.get(0);
+        }
+    }
+    public static List<User> findByRole(int role) {
+        final String query = "select * from users WHERE role = :role ";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("role",role)
+                    .executeAndFetch(User.class);
         }
     }
 }
