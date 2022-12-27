@@ -157,6 +157,7 @@ public class AdminCategoryServlet extends HttpServlet {
 
     private static void deleteMainCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id_category"));
+        System.out.println(id);
         CategoryModel.delete(id,0);
         ServletUtils.redirect("/Admin/Category", request, response);
     }

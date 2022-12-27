@@ -8,7 +8,7 @@
 
 <t:main>
     <jsp:attribute name="reader">
-        <jsp:include page="../../views/partials/leftReader.jsp"/>
+        <jsp:include page="../../views/partials/leftAdmin.jsp"/>
     </jsp:attribute>
   <jsp:body>
     <form action="" method="post">
@@ -17,7 +17,7 @@
           Chỉnh sửa danh mục chính
         </h4>
         <div class="card-body">
-          <div class="form-group">
+          <input class="form-group">
             <label for="txtID">ID</label>
             <input type="text" class="form-control w-25" id="txtID" name="id_category" value="${category.id_category}" readonly>
           </div>

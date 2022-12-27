@@ -7,7 +7,7 @@
 
 <t:main>
     <jsp:attribute name="reader">
-        <jsp:include page="../../views/partials/leftReader.jsp"/>
+        <jsp:include page="../../views/partials/leftAdmin.jsp"/>
     </jsp:attribute>
     <jsp:body>
         <form action="" method="post">
