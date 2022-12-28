@@ -1,6 +1,7 @@
 package com.example.e_news.models;
 
 import com.example.e_news.beans.Article;
+import com.example.e_news.beans.Category;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -54,4 +55,32 @@ public class ArticleModel {
             return list.get(0);
         }
     }
+
+    public static List<Article> findByViews() {
+        final String sql = "select * from articles order by views desc limit 10";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
+    public static List<Article> findByDate() {
+        final String sql = "select * from articles order by public_date desc limit 10";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
+    public static List<Article> findByTopCat() {
+        final String sql = "select * from articles\n" +
+                "where public_date in (select max(public_date) as public_date\n" +
+                "                      from articles\n" +
+                "                      group by category_id)";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
 }

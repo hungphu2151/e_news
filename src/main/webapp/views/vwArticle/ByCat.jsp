@@ -59,11 +59,6 @@
           </div>
         </c:otherwise>
       </c:choose>
-
-      <div class="card-footer text-muted">
-        2 months ago!
-      </div>
-    </div>
   </jsp:body>
 </t:main>
 
