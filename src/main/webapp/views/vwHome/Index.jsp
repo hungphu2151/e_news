@@ -6,13 +6,66 @@
 <jsp:useBean id="views" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="dates" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="top10" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
+<jsp:useBean id="countCmt" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
 
 <t:main>
   <jsp:attribute name="reader">
         <jsp:include page="../../views/partials/leftReader.jsp"/>
   </jsp:attribute>
+    <jsp:attribute name="left_home">
+        <jsp:include page="../../views/partials/leftHome.jsp"/>
+    </jsp:attribute>
     <jsp:body>
+        <c:choose>
+            <c:when test="${countCmt.size() == 0}">
+                <div class="card-body mb-3">
+                    <p class="card-text">Không có dữ liệu phù hợp!</p>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <a name="noi_bat">
+                            <h5>Nỗi bật</h5>
+                        </a>
+                    </div>
+                    <c:forEach items="${countCmt}" var="count">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 mb-2 mt-2 d-flex justify-content-around">
+                                    <div class="col-sm-3 mb-2 mt-2 align-self-center">
+                                        <img src="${pageContext.request.contextPath}/public/imgs/articles/${count.id_article}/main.jpg" alt="${count.title}" title="${count.title}" class="card-img-top">
+                                    </div>
+                                    <div class="col-sm-9 mb-2 mt-2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${count.title}</h5>
+                                            <p class="card-text">${count.sumary}</p>
+                                            <div class="d-flex justify-content-end">
+                                                    ${count.public_date}
+                                            </div>
+                                            <div class="d-flex justify-content-end text-danger">
+                                                <c:forEach items="${categoriesWithDetails}" var="c">
+                                                    <c:if test="${count.category_id==c.id_category}">
+                                                        ${c.name}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-md-between">
+                                            <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${count.views}</div>
+                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${count.id_article}" role="button">
+                                                Details
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:otherwise>
+        </c:choose>
         <c:choose>
             <c:when test="${views.size() == 0}">
                 <div class="card-body mb-3">
@@ -22,7 +75,9 @@
             <c:otherwise>
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h5>Xem nhiều</h5>
+                        <a name="xem_nhieu">
+                            <h5>Xem nhiều</h5>
+                        </a>
                     </div>
                     <c:forEach items="${views}" var="v">
                         <div class="card-body">
@@ -69,7 +124,9 @@
             <c:otherwise>
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h5>Mới nhất</h5>
+                        <a name="moi_nhat">
+                            <h5>Mới nhất</h5>
+                        </a>
                     </div>
                     <c:forEach items="${dates}" var="d">
                         <div class="card-body">
@@ -115,6 +172,8 @@
             </c:when>
             <c:otherwise>
                 <div class="card mb-3">
+                    <a name="top10">
+                    </a>
                     <c:forEach items="${top10}" var="t">
                         <div class="card-header">
                             <h5>

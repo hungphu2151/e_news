@@ -4,6 +4,7 @@
 
 <jsp:useBean id="article" scope="request" type="com.example.e_news.beans.Article" />
 <jsp:useBean id="cmts" scope="request" type="java.util.List<com.example.e_news.beans.Cmt>" />
+<jsp:useBean id="user" scope="request" type="java.util.List<com.example.e_news.beans.User>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
 
 <t:main>
@@ -47,7 +48,11 @@
             <c:forEach items="${cmts}" var="c">
               <div class="d-flex flex-column bd-highlight mb-3 ml-3">
                 <div class="p-2 bd-highlight mr-5">
-                    ${c.id_comment}
+                  <c:forEach items="${user}" var="u">
+                    <c:if test="${c.user_id==u.id}">
+                      ${u.name}
+                    </c:if>
+                  </c:forEach>
                 </div>
                 <div class="p-2 bd-highlight">
                   <div class="card border-info mb-3" style="max-width: 30rem;">

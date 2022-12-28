@@ -1,9 +1,7 @@
 package com.example.e_news.controller;
 
 import com.example.e_news.beans.Article;
-import com.example.e_news.beans.Category;
 import com.example.e_news.models.ArticleModel;
-import com.example.e_news.models.CategoryModel;
 import com.example.e_news.utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -32,6 +30,8 @@ public class HomeServlet extends HttpServlet {
                 request.setAttribute("dates",listDate);
                 List<Article> listtop10 = ArticleModel.findByTopCat();
                 request.setAttribute("top10", listtop10);
+                List<Article> listcountCmt = ArticleModel.findBycountCmt();
+                request.setAttribute("countCmt", listcountCmt);
                 ServletUtils.forward("/views/vwHome/Index.jsp", request, response);
                 break;
             default:

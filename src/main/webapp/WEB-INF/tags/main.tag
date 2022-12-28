@@ -2,6 +2,7 @@
 <%@attribute name="css" fragment="true" required="false" %>
 <%@attribute name="js" fragment="true" required="false" %>
 <%@attribute name="reader" fragment="true" required="false" %>
+<%@attribute name="left_home" fragment="true" required="false" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,7 @@
     <div class="row">
         <div class="col-sm-2">
             <jsp:invoke fragment="reader"/>
+            <jsp:invoke fragment="left_home"/>
         </div>
         <div class="col-sm-10">
             <jsp:doBody/>

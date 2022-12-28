@@ -83,4 +83,18 @@ public class ArticleModel {
         }
     }
 
+    public static List<Article> findBycountCmt() {
+        final String sql = "select id_article, title, public_date, category_id, tag_id, sumary, content, status, views, writer_id\n" +
+                "from comments, articles\n" +
+                "where comments.article_id = articles.id_article\n" +
+                "group by article_id\n" +
+                "order by count(article_id)\n" +
+                "desc\n" +
+                "limit 10";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
 }
