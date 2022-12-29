@@ -30,6 +30,7 @@ public class ArticleServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String path = request.getPathInfo();
     switch (path) {
+
       case "/ByCat":
         int catId = Integer.parseInt(request.getParameter("id"));
         List<Article> list = ArticleModel.findByCatId(catId);

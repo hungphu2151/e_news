@@ -1,9 +1,7 @@
 package com.example.e_news.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.example.e_news.beans.Category;
 import com.example.e_news.beans.User;
-import com.example.e_news.models.CategoryModel;
 import com.example.e_news.models.UserModel;
 import com.example.e_news.utils.ServletUtils;
 
@@ -16,8 +14,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@WebServlet(name = "AdminUserServlet", value = "/Admin/User/*")
-public class AdminUserServlet extends HttpServlet {
+@WebServlet(name = "AdminUsersServlet", value = "/Admin/User/*")
+public class AdminUsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
@@ -90,6 +88,7 @@ public class AdminUserServlet extends HttpServlet {
     }
 
     private static void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String pen_name = request.getParameter("pen_name");
         String username = request.getParameter("username");
@@ -101,14 +100,14 @@ public class AdminUserServlet extends HttpServlet {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dob = LocalDate.parse(StrDob, df);
         LocalDateTime issue_at= LocalDateTime.parse(request.getParameter("issue_at"));
-        User u = new User(0,role,1,username,bcrypHashString,name,email,pen_name,dob,issue_at);
+        System.out.println(issue_at);
+        User u = new User(id,role,1,username,bcrypHashString,name,email,pen_name,dob,issue_at);
         UserModel.update(u);
         ServletUtils.redirect("/Admin/User", request, response);
     }
 
     private static void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username =request.getParameter("username");
-        System.out.println(username);
         UserModel.delete(username);
         ServletUtils.redirect("/Admin/User", request, response);
     }
