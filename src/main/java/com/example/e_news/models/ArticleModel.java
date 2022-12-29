@@ -97,4 +97,15 @@ public class ArticleModel {
         }
     }
 
+    public static List<Article> findSameCat() {
+        final String sql = "SELECT * FROM articles\n" +
+                "where category_id=4\n" +
+                "ORDER BY RAND()\n" +
+                "LIMIT 5";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
 }

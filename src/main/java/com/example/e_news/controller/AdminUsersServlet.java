@@ -75,14 +75,15 @@ public class AdminUsersServlet extends HttpServlet {
         String pen_name = request.getParameter("pen_name");
         String username = request.getParameter("username");
         String rawpassword = request.getParameter("rawpassword");
-        String bcrypHashString = BCrypt.withDefaults().hashToString(12,rawpassword.toCharArray());
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12,rawpassword.toCharArray());
         String email = request.getParameter("email");
         int role = Integer.parseInt(request.getParameter("role"));
         String StrDob = request.getParameter("dob");
         DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dob = LocalDate.parse(StrDob, df);
         LocalDateTime issue_at= LocalDateTime.now();
-        User u = new User(0,role,1,username,bcrypHashString,name,email,pen_name,dob,issue_at);
+        LocalDateTime expriration = issue_at.minusMinutes(10080);
+        User u = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
         UserModel.add(u);
         ServletUtils.redirect("/Admin/User", request, response);
     }
@@ -93,15 +94,16 @@ public class AdminUsersServlet extends HttpServlet {
         String pen_name = request.getParameter("pen_name");
         String username = request.getParameter("username");
         String rawpassword = request.getParameter("rawpassword");
-        String bcrypHashString = BCrypt.withDefaults().hashToString(12,rawpassword.toCharArray());
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12,rawpassword.toCharArray());
         String email = request.getParameter("email");
         int role = Integer.parseInt(request.getParameter("role"));
         String StrDob = request.getParameter("dob");
         DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dob = LocalDate.parse(StrDob, df);
         LocalDateTime issue_at= LocalDateTime.parse(request.getParameter("issue_at"));
+        LocalDateTime expriration = issue_at.minusMinutes(10080);
         System.out.println(issue_at);
-        User u = new User(id,role,1,username,bcrypHashString,name,email,pen_name,dob,issue_at);
+        User u = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
         UserModel.update(u);
         ServletUtils.redirect("/Admin/User", request, response);
     }

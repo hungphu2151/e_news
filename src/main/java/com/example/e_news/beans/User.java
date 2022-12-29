@@ -4,19 +4,18 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class User {
-    private int id, role, expriration;
+    private int id, role;
     private String username, password, name, email, pen_name;
     private LocalDate dob;
-    private LocalDateTime issue_at;
+    private LocalDateTime issue_at, expriration;
 
 
     public User() {
     }
 
-    public User(int id, int role, int expriration, String username, String password, String name, String email, String pen_name, LocalDate dob, LocalDateTime issue_at) {
+    public User(int id, int role, String username, String password, String name, String email, String pen_name, LocalDate dob, LocalDateTime issue_at, LocalDateTime expriration) {
         this.id = id;
         this.role = role;
-        this.expriration = expriration;
         this.username = username;
         this.password = password;
         this.name = name;
@@ -24,6 +23,7 @@ public class User {
         this.pen_name = pen_name;
         this.dob = dob;
         this.issue_at = issue_at;
+        this.expriration = expriration;
     }
 
     public int getId() {
@@ -32,10 +32,6 @@ public class User {
 
     public int getRole() {
         return role;
-    }
-
-    public int getExpriration() {
-        return expriration;
     }
 
     public String getUsername() {
@@ -64,5 +60,9 @@ public class User {
 
     public LocalDateTime getIssue_at() {
         return issue_at;
+    }
+
+    public LocalDateTime getExpriration() {
+        return expriration;
     }
 }
