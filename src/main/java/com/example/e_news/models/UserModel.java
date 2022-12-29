@@ -35,17 +35,18 @@ public class UserModel {
     }
 
     public static void update(User c){
-        String insertSql = "UPDATE users SET  username = :username, password = :password, name = :name, issue_at = :issueAt, expriration = :expriration, role = :role, pen_name = :penName, email = :email, dob = :dob WHERE id = :id \n";
+        String insertSql = "UPDATE users SET  username = :username, password = :password, name = :name, expriration = :expriration, issue_at =:issue_at, role = :role, pen_name = :pen_name, email = :email  , dob = :dob WHERE id = :id \n";
         try (Connection con = DbUtils.getConnection()){
             con.createQuery(insertSql)
+                    .addParameter("id",c.getId())
                     .addParameter("username", c.getUsername())
                     .addParameter("password", c.getPassword())
                     .addParameter("name", c.getName())
                     .addParameter("email", c.getEmail())
                     .addParameter("dob", c.getDob())
+                    .addParameter("issue_at",c.getIssue_at())
                     .addParameter("role", c.getRole())
                     .addParameter("pen_name", c.getPen_name())
-                    .addParameter("issue_at", c.getIssue_at())
                     .addParameter("expriration", c.getExpriration())
                     .executeUpdate();
         }

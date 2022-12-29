@@ -16,12 +16,27 @@
             $('#frmUser').on('submit', function (e){
                 e.preventDefault();
                 const username = $('#txtUsername').val();
-                if(username.length===0){
-                    alert('Vui lòng nhập Username');
+                const name = $('#txtname').val();
+                const penname = $('#txtPenname').val();
+                const psw = $('#txtPassword').val();
+                const email = $('#txtEmail').val();
+                const dob = $('#txtDOB').val();
+                if(username.length===0 || name.length===0 || penname.length===0 || psw.length === 0 || email.length===0 || dob.length===0){
+                    alert('Vui lòng nhập đầy đủ!!!');
                     return;
                 }
-                $('#frmUser').off('submit').submit();
+                else {
+                    $.getJSON('${pageContext.request.contextPath}/Account/IsAvailable?user='+ username,function (data){
+                        if (data === true){
+                            $('#frmUser').off('submit').submit();
+                        }
+                        else {
+                            alert('Tên đã tồn tại');
+                        }
+                    });
+                }
             });
+
             $('#txtDOB').datetimepicker({
                 format:'d/m/Y',
                 timepicker: false,
@@ -76,7 +91,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a  class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Category/" role="button">
+                    <a  class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/User/" role="button">
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         Quay lại
                     </a>
