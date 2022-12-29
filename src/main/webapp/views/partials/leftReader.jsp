@@ -3,7 +3,13 @@
 
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
 
-<div class="card">
+<div>
+    <form class="form-inline">
+        <input class="form-control" type="search" placeholder="Search" aria-label="Search" style="width: 100%">
+        <button class="btn btn-light " type="submit">Search</button>
+    </form>
+</div>
+<div class="card mt-3">
     <h4 class="card-header">
         Danh mục
     </h4>
@@ -28,4 +34,3 @@
         </c:forEach>
     </div>
 </div>
-

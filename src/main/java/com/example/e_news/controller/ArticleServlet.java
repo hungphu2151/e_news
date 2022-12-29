@@ -42,11 +42,13 @@ public class ArticleServlet extends HttpServlet {
         int artID = Integer.parseInt(request.getParameter("id"));
         Article art = ArticleModel.findById(artID);
         List<Cmt> cmt = CmtModel.findByArtId(artID);
+        List<User> users = UserModel.findAll();
         if (art == null)
           ServletUtils.redirect("/Home", request, response);
         else {
           request.setAttribute("cmts", cmt);
           request.setAttribute("article", art);
+          request.setAttribute("user", users);
           ServletUtils.forward("/views/vwArticle/Detail.jsp", request, response);
         }
         break;
