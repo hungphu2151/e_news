@@ -17,4 +17,15 @@ public class CmtModel {
     }
   }
 
+    public static void add(Cmt c) {
+      String insertSql = "INSERT INTO comment (article_id, user_id, comment, date) VALUES (:article_id,:user_id,:comment,:date)\n";
+      try (Connection con = DbUtils.getConnection()) {
+        con.createQuery(insertSql)
+                .addParameter("article_id", c.getArticle_id())
+                .addParameter("user_id", c.getUser_id())
+                .addParameter("comment", c.getComment())
+                .addParameter("date", c.getDate())
+                .executeUpdate();
+      }
+    }
 }

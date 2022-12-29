@@ -16,7 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -42,12 +44,14 @@ public class ArticleServlet extends HttpServlet {
         Article art = ArticleModel.findById(artID);
         List<Cmt> cmt = CmtModel.findByArtId(artID);
         List<User> users = UserModel.findAll();
+        List<Article> listSameCat = ArticleModel.findSameCat();
         if (art == null)
           ServletUtils.redirect("/Home", request, response);
         else {
           request.setAttribute("cmts", cmt);
           request.setAttribute("article", art);
           request.setAttribute("user", users);
+          request.setAttribute("sameCat", listSameCat);
           ServletUtils.forward("/views/vwArticle/Detail.jsp", request, response);
         }
         break;
@@ -72,21 +76,21 @@ public class ArticleServlet extends HttpServlet {
   }
 
   private static void postCmt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String username = request.getParameter("username");
-    String rawpwd = request.getParameter("rawpwd");
-    String bcryptHashString = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
-    String name = request.getParameter("name");
-    String email = request.getParameter("email");
-    String StrDob = request.getParameter("dob");
-    DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
-    LocalDate dob = LocalDate.parse(StrDob, df);
-    LocalDateTime issue_at = LocalDateTime.now();
-    int expriration = 0;
-    int role = 4;
-    String pen_name = "";
-    User c = new User(0,role,expriration,username, bcryptHashString, name, email, pen_name, dob, issue_at);
-    UserModel.add(c);
-    ServletUtils.forward("/views/vwAccount/Register.jsp", request, response);
+    HttpSession session = request.getSession();
+    boolean auth = (boolean) session.getAttribute("auth");
+    if (auth == false) {
+      ServletUtils.redirect("/Account/Login",request , response);
+      return;
+    }
+    else {
+//      int article_id = Integer.parseInt(request.getParameter("id"));
+//      int user_id = session.getAttribute("authUser");
+//      String comment = request.getParameter("Cmt");
+//      LocalDateTime date = LocalDateTime.now();
+//      Cmt c = new Cmt(0, article_id, user_id, comment, date);
+//      CmtModel.add(c);
+//      ServletUtils.forward("/views/vwArticle/Detail.jsp", request, response);
+    }
   }
 }
 

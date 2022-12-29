@@ -5,6 +5,7 @@
 <jsp:useBean id="article" scope="request" type="com.example.e_news.beans.Article" />
 <jsp:useBean id="cmts" scope="request" type="java.util.List<com.example.e_news.beans.Cmt>" />
 <jsp:useBean id="user" scope="request" type="java.util.List<com.example.e_news.beans.User>" />
+<jsp:useBean id="sameCat" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
 
 <t:main>
@@ -33,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div class="card" style="width: 50%">
+    <div class="card mb-3" style="width: 50%">
       <div class="card-header">
         Bình luận
       </div>
@@ -65,17 +66,68 @@
           </c:otherwise>
         </c:choose>
         <div class="d-flex flex-column bd-highlight ml-3">
-          <from>
+          <form method="post" action="${pageContext.request.contextPath}/Article/Detail?id=${article.id_article}">
             <div class="form-group p-2 bd-highlight" rows="4">
-              <label for="txtCmt">A hãy bình luận của bạn</label>
-              <textarea id="txtCmt" name="username" rows="4" class="form-control mb-2" style="max-width: 30rem;"></textarea>
+              <label for="txtCmt">Hãy bình luận của bạn</label>
+              <textarea id="txtCmt" name="Cmt" rows="4" class="form-control mb-2" style="max-width: 30rem;"></textarea>
               <button type="submit" class="btn btn-info">
                 Đăng bình luận
               </button>
             </div>
-          </from>
+          </form>
         </div>
       </div>
+    </div>
+    <div>
+      <c:choose>
+        <c:when test="${sameCat.size() == 0}">
+          <div class="card-body">
+            <p class="card-text">Không có dữ liệu phù hợp!</p>
+          </div>
+        </c:when>
+        <c:otherwise>
+          <div class="card">
+            <div class="card-header">
+              <h5 class="">
+                Cùng chuyên mục
+              </h5>
+            </div>
+            <c:forEach items="${sameCat}" var="s">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12 mb-2 mt-2 d-flex justify-content-around">
+                    <div class="col-sm-3 mb-2 mt-2 align-self-center">
+                      <img src="${pageContext.request.contextPath}/public/imgs/articles/${s.id_article}/main.jpg" alt="${s.title}" title="${s.title}" class="card-img-top">
+                    </div>
+                    <div class="col-sm-9 mb-2 mt-2">
+                      <div class="card-body">
+                        <h5 class="card-title">${s.title}</h5>
+                        <p class="card-text">${s.sumary}</p>
+                        <div class="d-flex justify-content-end">
+                            ${s.public_date}
+                        </div>
+                        <div class="d-flex justify-content-end text-danger">
+                          <c:forEach items="${categoriesWithDetails}" var="c">
+                            <c:if test="${s.category_id==c.id_category}">
+                              ${c.name}
+                            </c:if>
+                          </c:forEach>
+                        </div>
+                      </div>
+                      <div class="card-footer d-flex justify-content-md-between">
+                        <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${s.views}</div>
+                        <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${s.id_article}" role="button">
+                          Details
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </c:forEach>
+          </div>
+        </c:otherwise>
+      </c:choose>
     </div>
 
 
