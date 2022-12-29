@@ -78,19 +78,22 @@ public class ArticleServlet extends HttpServlet {
 
   private static void postCmt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession();
+    User u = (User) session.getAttribute("authUser");
     boolean auth = (boolean) session.getAttribute("auth");
     if (auth == false) {
       ServletUtils.redirect("/Account/Login",request , response);
       return;
     }
     else {
-//      int article_id = Integer.parseInt(request.getParameter("id"));
-//      int user_id = session.getAttribute("authUser");
-//      String comment = request.getParameter("Cmt");
-//      LocalDateTime date = LocalDateTime.now();
-//      Cmt c = new Cmt(0, article_id, user_id, comment, date);
-//      CmtModel.add(c);
-//      ServletUtils.forward("/views/vwArticle/Detail.jsp", request, response);
+      int article_id = Integer.parseInt(request.getParameter("id"));
+      int user_id = u.getId();
+      String comment = request.getParameter("Cmt");
+      LocalDateTime date = LocalDateTime.now();
+      Cmt c = new Cmt(0, article_id, user_id, comment, date);
+      CmtModel.add(c);
+      String url = request.getHeader("referer");
+      if (url == null) url = "/Home";
+      ServletUtils.redirect(url, request, response);
     }
   }
 }
