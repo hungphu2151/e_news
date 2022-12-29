@@ -2,6 +2,7 @@
 <%@attribute name="css" fragment="true" required="false" %>
 <%@attribute name="js" fragment="true" required="false" %>
 <%@attribute name="reader" fragment="true" required="false" %>
+<%@attribute name="left_witer" fragment="true" required="false" %>
 <%@attribute name="left_home" fragment="true" required="false" %>
 
 <!DOCTYPE html>
