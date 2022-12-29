@@ -8,7 +8,7 @@
 
 <t:main>
     <jsp:attribute name="reader">
-        <jsp:include page="../../views/partials/leftReader.jsp"/>
+        <jsp:include page="../../views/partials/leftWriter.jsp"/>
   </jsp:attribute>
     <jsp:attribute name="js">
         <script src='https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js'></script>
@@ -24,22 +24,25 @@
         <form action="" method="post">
             <div class="card">
                 <h4 class="card-header ">
-                    WYSIWYG HTML Writer
+                    Đăng bài viết
                 </h4>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="txtArticle">Title</label>
-                        <textarea id="txtArticle">Hello, World!</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtArticle">Summary</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtArticle">Content</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtArticle">Categories</label>
-                    </div>
+                <div class="form-group">
+                    <label for="txtUsernane">Title</label>
+                    <input type="text" class="form-control" id="txtUsernane" name="username">
+                </div>
+                <div class="form-group">
+                    <label for="txtUsernane">Summary</label>
+                    <input type="text" class="form-control" id="txtUsernane" name="username">
+                </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="txtArticle">Content</label>
+                            <textarea id="txtArticle">...</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUsernane">Categories</label>
+                            <input type="text" class="form-control" id="txtUsernane" name="username">
+                        </div>
                     <div class="form-group">
                         <label for="txtArticle">Label</label>
                     </div>
