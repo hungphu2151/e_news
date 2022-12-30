@@ -27,7 +27,10 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwAccount/Register.jsp", request, response);
                 break;
             case "/Login":
-                ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
+                HttpSession session = request.getSession();
+                if ((boolean) session.getAttribute("auth")) {
+                    ServletUtils.redirect("/Home", request, response);
+                } else ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 break;
             case "/Profile":
                 ServletUtils.forward("/views/vwAccount/Profile.jsp", request, response);
@@ -39,7 +42,6 @@ public class AccountServlet extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 response.setContentType("application/json");
                 response.setCharacterEncoding("utf-8");
-
                 out.print(isAvailable);
                 out.flush();
                 break;
@@ -51,8 +53,6 @@ public class AccountServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
         String path = request.getPathInfo();
         switch (path){
             case "/Register":
@@ -60,6 +60,9 @@ public class AccountServlet extends HttpServlet {
                 break;
             case "/Login":
                 login(request,response);
+                break;
+            case "/Profile":
+                updateProfile(request,response);
                 break;
             case "/Logout":
                 logout(request,response);
@@ -75,6 +78,7 @@ public class AccountServlet extends HttpServlet {
         String rawpwd = request.getParameter("rawpwd");
         String bcryptHashString = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
         String name = request.getParameter("name");
+        String pen_name = request.getParameter("pen_name");
         String email = request.getParameter("email");
         String StrDob = request.getParameter("dob");
         DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
@@ -82,7 +86,6 @@ public class AccountServlet extends HttpServlet {
         LocalDateTime issue_at = LocalDateTime.now();
         LocalDateTime expriration = issue_at.minusMinutes(10080);
         int role = 4;
-        String pen_name = "";
         User c = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
         UserModel.add(c);
         ServletUtils.forward("/views/vwAccount/Register.jsp", request, response);
@@ -99,7 +102,8 @@ public class AccountServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("auth", true);
                 session.setAttribute("authUser", user);
-                String url = "/Home";
+                String url = (String) session.getAttribute("reUrl");
+                if (url == null) url="/Home";
                 ServletUtils.redirect(url, request, response);
             }
             else {
@@ -125,4 +129,16 @@ public class AccountServlet extends HttpServlet {
         ServletUtils.redirect(url, request, response);
     }
 
+    private static void updateProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException    {
+        String name = request.getParameter("name");
+        String pen_name = request.getParameter("pen_name");
+        String username = request.getParameter("username");
+        String StrDob = request.getParameter("dob");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate dob = LocalDate.parse(StrDob, df);
+        String email = request.getParameter("email");
+        User u = new  User(username, name, email, pen_name, dob);
+        UserModel.updateProfile(u);
+        ServletUtils.redirect("/Account/Profile", request, response);
+    }
 }

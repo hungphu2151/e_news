@@ -51,7 +51,18 @@ public class UserModel {
                     .executeUpdate();
         }
     }
-
+    public static void updateProfile(User c){
+        String insertSql = "UPDATE users SET username= :username, name = :name,  email = :email, pen_name = :pen_name, dob = :dob WHERE username = :username\n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("username", c.getUsername())
+                    .addParameter("name", c.getName())
+                    .addParameter("pen_name", c.getPen_name())
+                    .addParameter("email", c.getEmail())
+                    .addParameter("dob", c.getDob())
+                    .executeUpdate();
+        }
+    }
     public static void delete (String username){
         String insertSql = "delete from users WHERE username = :username";
         try (Connection con = DbUtils.getConnection()){

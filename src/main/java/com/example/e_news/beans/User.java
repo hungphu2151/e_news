@@ -12,7 +12,13 @@ public class User {
 
     public User() {
     }
-
+    public User(String username, String name, String email, String pen_name, LocalDate dob){
+        this.username = username;
+        this.name = name;
+        this.pen_name = pen_name;
+        this.email = email;
+        this.dob = dob;
+    }
     public User(int id, int role, String username, String password, String name, String email, String pen_name, LocalDate dob, LocalDateTime issue_at, LocalDateTime expriration) {
         this.id = id;
         this.role = role;
