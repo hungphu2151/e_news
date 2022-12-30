@@ -16,10 +16,6 @@
         <div class="card">
         <h4 class="card-header d-flex justify-content-between">
             Danh sách bài báo
-            <a  class="btn btn-sm btn-outline-success" href="${pageContext.request.contextPath}/Admin/Article/AddArticle" role="button">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                Thêm bài báo
-            </a>
         </h4>
         <c:choose>
             <c:when test="${articles.size() == 0}">
@@ -53,7 +49,14 @@
                                         <td>${w.pen_name}</td>
                                     </c:if>
                                 </c:forEach>
-                                <td>${a.public_date.dayOfMonth}/${a.public_date.monthValue}/${a.public_date.year}  ${a.public_date.hour}:${a.public_date.minute}:${a.public_date.second}</td>
+                                <c:choose>
+                                    <c:when test="${a.public_date!=null}">
+                                        <td>${a.public_date.dayOfMonth}/${a.public_date.monthValue}/${a.public_date.year}  ${a.public_date.hour}:${a.public_date.minute}:${a.public_date.second}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td></td>
+                                    </c:otherwise>
+                                </c:choose>
                                 <td class="text-right">
                                     <a  class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Article/EditArticle?id=${a.id_article}" role="button">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>

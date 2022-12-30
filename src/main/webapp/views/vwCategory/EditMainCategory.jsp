@@ -17,7 +17,7 @@
           Chỉnh sửa danh mục chính
         </h4>
         <div class="card-body">
-          <input class="form-group">
+          <div class="form-group">
             <label for="txtID">ID</label>
             <input type="text" class="form-control w-25" id="txtID" name="id_category" value="${category.id_category}" readonly>
           </div>

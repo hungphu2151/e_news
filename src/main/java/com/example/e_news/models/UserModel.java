@@ -6,6 +6,7 @@ import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
+import java.time.LocalDateTime;
 import java.util.List;
 public class UserModel {
 
@@ -48,6 +49,15 @@ public class UserModel {
                     .addParameter("role", c.getRole())
                     .addParameter("pen_name", c.getPen_name())
                     .addParameter("expriration", c.getExpriration())
+                    .executeUpdate();
+        }
+    }
+    public static void updateEx (int id , LocalDateTime expriration){
+        String insertSql = "UPDATE users SET expriration =:expriration WHERE id = :id \n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("id",id)
+                    .addParameter("expriration",expriration)
                     .executeUpdate();
         }
     }

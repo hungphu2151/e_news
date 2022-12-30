@@ -54,7 +54,7 @@
         <form action="" method="post" id="frmUser">
             <div class="card">
                 <h4 class="card-header ">
-                    Thêm người dùng
+                    Chỉnh sửa thông tin người dùng
                 </h4>
                 <div class="card-body">
                     <div class="form-group">
@@ -119,6 +119,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="txtExpriration">Thời hạn tài khoản</label>
+                        <input type="text" class="form-control" id="txtExpriration" name="expriration"value="${user.expriration}" readonly>
+                    </div>
+
+                    <div class="form-group">
                         <label for="txtDOB">Ngày sinh</label>
                         <input type="text" class="form-control" id="txtDOB" name="dob" value="${user.dob}">
                     </div>
@@ -132,10 +137,15 @@
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Lưu
                     </button>
+                    <button type="submit" id="e" class="btn btn-success" formaction="${pageContext.request.contextPath}/Admin/User/ExtendUser">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        Gia hạn
+                    </button>
                     <button type="submit" id="delete" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/User/DeleteUser">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Xóa
                     </button>
+
                 </div>
             </div>
         </form>
