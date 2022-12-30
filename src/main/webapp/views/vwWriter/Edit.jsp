@@ -10,7 +10,8 @@
     <jsp:attribute name="reader">
         <jsp:include page="../../views/partials/leftWriter.jsp"/>
     </jsp:attribute>
-    <jsp:body>
-
-    </jsp:body>
+  <jsp:body>
+    fjjaffjf
+    fsfsf
+  </jsp:body>
 </t:main>
