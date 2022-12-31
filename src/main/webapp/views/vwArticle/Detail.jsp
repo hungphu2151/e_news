@@ -21,7 +21,7 @@
         <img src="${pageContext.request.contextPath}/public/imgs/articles/${article.id_article}/main.jpg" alt="${article.title}" title="${article.title}">
         <p class="card-text mt-3">${article.content}</p>
         <div class="d-flex justify-content-end">
-            ${article.public_date}
+            ${article.public_date.dayOfMonth}/${article.public_date.monthValue}/${article.public_date.year}  ${article.public_date.hour}:${article.public_date.minute}:${article.public_date.second}
         </div>
         <div class="d-flex justify-content-end">
           <c:forEach items="${categoriesWithDetails}" var="c">
@@ -58,7 +58,9 @@
                 <div class="p-2 bd-highlight">
                   <div class="card border-info mb-3" style="max-width: 30rem;">
                     <div class="card-body text-info">${c.comment}</div>
-                    <div class="card-footer d-flex justify-content-end">${c.date}</div>
+                    <div class="card-footer d-flex justify-content-end">
+                        ${c.date.dayOfMonth}/${c.date.monthValue}/${c.date.year}  ${c.date.hour}:${c.date.minute}:${c.date.second}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -104,7 +106,7 @@
                         <h5 class="card-title">${s.title}</h5>
                         <p class="card-text">${s.sumary}</p>
                         <div class="d-flex justify-content-end">
-                            ${s.public_date}
+                            ${s.public_date.dayOfMonth}/${s.public_date.monthValue}/${s.public_date.year}  ${s.public_date.hour}:${s.public_date.minute}:${s.public_date.second}
                         </div>
                         <div class="d-flex justify-content-end text-danger">
                           <c:forEach items="${categoriesWithDetails}" var="c">
