@@ -1,16 +1,14 @@
 package com.example.e_news.beans;
 
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
 
 public class Article {
-  private int id_article, premium, category_id, tag_id, status, views, writer_id;
+  private int id_article, category_id, tag_id, status, views, writer_id;
   private String title, sumary, content;
-  private LocalDateTime public_date;
+  private LocalDate public_date;
 
-  public Article(int id_article, int premium, int category_id, int tag_id, int status, int views, int writer_id, String title, String sumary, String content, LocalDateTime public_date) {
+  public Article(int id_article, int category_id, int tag_id, int status, int views, int writer_id, String title, String sumary, String content, LocalDate public_date) {
     this.id_article = id_article;
-    this.premium = premium;
     this.category_id = category_id;
     this.tag_id = tag_id;
     this.status = status;
@@ -24,8 +22,6 @@ public class Article {
 
   public Article() {
   }
-
-  public int getPremium() {return premium;}
 
   public int getId_article() {
     return id_article;
@@ -63,7 +59,7 @@ public class Article {
     return content;
   }
 
-  public LocalDateTime getPublic_date() {
+  public LocalDate getPublic_date() {
     return public_date;
   }
 

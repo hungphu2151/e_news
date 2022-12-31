@@ -89,5 +89,13 @@ public class ArticleModel {
                     .executeAndFetch(Article.class);
         }
     }
-
+    public static void updateStatus (int id_article, int status){
+        String insertSql = "UPDATE articles SET status =:status WHERE id_article = :id_article \n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("id_article",id_article)
+                    .addParameter("status",status)
+                    .executeUpdate();
+        }
+    }
 }

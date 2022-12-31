@@ -42,10 +42,10 @@ public class AdminArticleServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwArticle/AddArticle.jsp", request, response);
                 break;
             case "/EditArticle":
-                String username =request.getParameter("username");
-                User u = UserModel.findByUsername(username);
-                if(u != null){
-                    request.setAttribute("user",u);
+                int id =Integer.parseInt(request.getParameter("id"));
+                Article a = ArticleModel.findById(id);
+                if(a != null){
+                    request.setAttribute("article",a);
                     ServletUtils.forward("/views/vwArticle/EditArticle.jsp", request, response);
                 }else {
                     ServletUtils.redirect("/Admin/Article", request, response);
@@ -62,60 +62,18 @@ public class AdminArticleServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         String path = request.getPathInfo();
-//        switch (path){
-//            case "/AddUser":
-//                addUser(request, response);
-//                break;
-//            case "/UpdateUser":
-//                updateUser(request, response);
-//                break;
-//            case "/DeleteUser":
-//                deleteUser(request, response);
-//                break;
-//            default:
-//                ServletUtils.forward("/views/404.jsp", request, response);
-//                break;
-//        }
+        switch (path){
+            case "/UpdateStatus":
+                updateStatus(request, response);
+                break;
+            default:
+                ServletUtils.forward("/views/404.jsp", request, response);
+                break;
+        }
     }
-//    private static void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String name = request.getParameter("name");
-//        String pen_name = request.getParameter("pen_name");
-//        String username = request.getParameter("username");
-//        String rawpassword = request.getParameter("rawpassword");
-//        String bcrypHashString = BCrypt.withDefaults().hashToString(12,rawpassword.toCharArray());
-//        String email = request.getParameter("email");
-//        int role = Integer.parseInt(request.getParameter("role"));
-//        String StrDob = request.getParameter("dob");
-//        DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
-//        LocalDate dob = LocalDate.parse(StrDob, df);
-//        LocalDateTime issue_at= LocalDateTime.now();
-//        User u = new User(0,role,1,username,bcrypHashString,name,email,pen_name,dob,issue_at);
-//        UserModel.add(u);
-//        ServletUtils.redirect("/Admin/User", request, response);
-//    }
-//
-//    private static void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        String name = request.getParameter("name");
-//        String pen_name = request.getParameter("pen_name");
-//        String username = request.getParameter("username");
-//        String rawpassword = request.getParameter("rawpassword");
-//        String bcrypHashString = BCrypt.withDefaults().hashToString(12,rawpassword.toCharArray());
-//        String email = request.getParameter("email");
-//        int role = Integer.parseInt(request.getParameter("role"));
-//        String StrDob = request.getParameter("dob");
-//        DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
-//        LocalDate dob = LocalDate.parse(StrDob, df);
-//        LocalDateTime issue_at= LocalDateTime.parse(request.getParameter("issue_at"));
-//        System.out.println(issue_at);
-//        User u = new User(id,role,1,username,bcrypHashString,name,email,pen_name,dob,issue_at);
-//        UserModel.update(u);
-//        ServletUtils.redirect("/Admin/User", request, response);
-//    }
-//
-//    private static void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String username =request.getParameter("username");
-//        UserModel.delete(username);
-//        ServletUtils.redirect("/Admin/User", request, response);
-//    }
+    private static void updateStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id =Integer.parseInt(request.getParameter("id"));
+        ArticleModel.updateStatus(id,1);
+        ServletUtils.redirect("/Admin/Article", request, response);
+    }
 }

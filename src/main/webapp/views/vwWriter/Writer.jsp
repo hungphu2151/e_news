@@ -15,7 +15,7 @@
         <script>
             tinymce.init({
                 selector: '#txtArticle',
-                plugins: 'link',
+                // plugins: 'link',
                 toolbar: 'link'
             });
         </script>
@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="txtArticle">Content</label>
-                            <textarea id="txtArticle">...</textarea>
+                            <textarea id="txtArticle"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="txtUsernane">Categories</label>

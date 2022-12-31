@@ -1,7 +1,9 @@
 package com.example.e_news.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.example.e_news.beans.DateTime;
 import com.example.e_news.beans.User;
+import com.example.e_news.models.DatetimeModel;
 import com.example.e_news.models.UserModel;
 import com.example.e_news.utils.ServletUtils;
 
@@ -28,6 +30,8 @@ public class AdminUsersServlet extends HttpServlet {
             case "/Index":
                 List<User> list = UserModel.findAll();
                 request.setAttribute("users",list);
+                DateTime now = DatetimeModel.datetime();
+                request.setAttribute("now",now);
                 ServletUtils.forward("/views/vwUser/Index.jsp", request, response);
                 break;
 
@@ -62,6 +66,9 @@ public class AdminUsersServlet extends HttpServlet {
             case "/UpdateUser":
                 updateUser(request, response);
                 break;
+            case "/ExtendUser":
+                updateExUser(request, response);
+                break;
             case "/DeleteUser":
                 deleteUser(request, response);
                 break;
@@ -82,7 +89,7 @@ public class AdminUsersServlet extends HttpServlet {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dob = LocalDate.parse(StrDob, df);
         LocalDateTime issue_at= LocalDateTime.now();
-        LocalDateTime expriration = issue_at.minusMinutes(10080);
+        LocalDateTime expriration = issue_at.plusDays(7);
         User u = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
         UserModel.add(u);
         ServletUtils.redirect("/Admin/User", request, response);
@@ -101,10 +108,22 @@ public class AdminUsersServlet extends HttpServlet {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dob = LocalDate.parse(StrDob, df);
         LocalDateTime issue_at= LocalDateTime.parse(request.getParameter("issue_at"));
-        LocalDateTime expriration = issue_at.minusMinutes(10080);
+        LocalDateTime expriration = LocalDateTime.parse(request.getParameter("expriration"));
         System.out.println(issue_at);
-        User u = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
+        User u = new User(id,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
         UserModel.update(u);
+        ServletUtils.redirect("/Admin/User", request, response);
+    }
+
+    private static void updateExUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        LocalDateTime expriration = LocalDateTime.parse(request.getParameter("expriration"));
+        if(expriration.isBefore(LocalDateTime.now())){
+            expriration =LocalDateTime.now().plusDays(7);
+        }else {
+            expriration = expriration.plusDays(7);
+        }
+        UserModel.updateEx(id, expriration);
         ServletUtils.redirect("/Admin/User", request, response);
     }
 

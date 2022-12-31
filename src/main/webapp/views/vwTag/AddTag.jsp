@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="inputGroupSelect">Thuộc bài báo</label>
-                        <select class="form-control w-25" id="inputGroupSelect" name="id" >
+                        <select class="form-control w-25" id="inputGroupSelect" name="id_article" >
                             <c:forEach items="${articles}" var="a">
                                 <option value="${a.id_article}">${a.id_article}</option>
                             </c:forEach>

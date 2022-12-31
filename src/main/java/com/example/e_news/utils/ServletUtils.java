@@ -15,7 +15,7 @@ public class ServletUtils {
     public static void redirect(String url,HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
         String contextPath = request.getContextPath();
         int idx = url.indexOf(contextPath);
-        if (idx<0){
+        if (idx < 0) {
             response.sendRedirect(contextPath + url);
         }
         else {
