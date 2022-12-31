@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet(name = "ArticleServlet", value = "/Article/*")
-public class ArticleServlet extends HttpServlet {
+public class  ArticleServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String path = request.getPathInfo();

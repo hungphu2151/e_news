@@ -116,4 +116,42 @@ public class ArticleModel {
                     .executeUpdate();
         }
     }
+
+    public static List<Article> find_da_duoc_duyet() {
+        final String sql = "select *\n" +
+                "from articles\n" +
+                "where status = 2";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
+    public static List<Article> find_da_xuat_ban() {
+        final String sql = "select *\n" +
+                "from articles\n" +
+                "where status = 1";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+    public static List<Article> find_bi_tu_choi() {
+        final String sql = "select *\n" +
+                "from articles\n" +
+                "where status = 4";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+    public static List<Article> find_chua_duoc_duyet() {
+        final String sql = "select *\n" +
+                "from articles\n" +
+                "where status = 3";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
 }
