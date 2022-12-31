@@ -19,8 +19,14 @@
     <jsp:body>
         <c:choose>
             <c:when test="${countCmt.size() == 0}">
-                <div class="card-body mb-3">
-                    <p class="card-text">Không có dữ liệu phù hợp!</p>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <a name="noi_bat">
+                            <h5>Nỗi bật</h5>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                    </div>
                 </div>
             </c:when>
             <c:otherwise>
@@ -42,7 +48,7 @@
                                             <h5 class="card-title">${count.title}</h5>
                                             <p class="card-text">${count.sumary}</p>
                                             <div class="d-flex justify-content-end">
-                                                    ${count.public_date}
+                                                    ${count.public_date.dayOfMonth}/${count.public_date.monthValue}/${count.public_date.year}  ${count.public_date.hour}:${count.public_date.minute}:${count.public_date.second}
                                             </div>
                                             <div class="d-flex justify-content-end text-danger">
                                                 <c:forEach items="${categoriesWithDetails}" var="c">
@@ -53,7 +59,7 @@
                                             </div>
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
-                                            <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${count.views}</div>
+                                            <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${count.views}</div>
                                             <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${count.id_article}" role="button">
                                                 Details
                                             </a>
@@ -68,8 +74,14 @@
         </c:choose>
         <c:choose>
             <c:when test="${views.size() == 0}">
-                <div class="card-body mb-3">
-                    <p class="card-text">Không có dữ liệu phù hợp!</p>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <a name="xem_nhieu">
+                            <h5>Xem nhiều</h5>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                    </div>
                 </div>
             </c:when>
             <c:otherwise>
@@ -91,7 +103,7 @@
                                             <h5 class="card-title">${v.title}</h5>
                                             <p class="card-text">${v.sumary}</p>
                                             <div class="d-flex justify-content-end">
-                                                    ${v.public_date}
+                                                    ${v.public_date.dayOfMonth}/${v.public_date.monthValue}/${v.public_date.year}  ${v.public_date.hour}:${v.public_date.minute}:${v.public_date.second}
                                             </div>
                                             <div class="d-flex justify-content-end text-danger">
                                                 <c:forEach items="${categoriesWithDetails}" var="c">
@@ -102,7 +114,7 @@
                                             </div>
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
-                                            <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${v.views}</div>
+                                            <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${v.views}</div>
                                             <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${v.id_article}" role="button">
                                                 Details
                                             </a>
@@ -117,8 +129,14 @@
         </c:choose>
         <c:choose>
             <c:when test="${dates.size() == 0}">
-                <div class="card-body mb-3">
-                    <p class="card-text">Không có dữ liệu phù hợp!</p>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <a name="moi_nhat">
+                            <h5>Mới nhất</h5>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                    </div>
                 </div>
             </c:when>
             <c:otherwise>
@@ -140,7 +158,7 @@
                                             <h5 class="card-title">${d.title}</h5>
                                             <p class="card-text">${d.sumary}</p>
                                             <div class="d-flex justify-content-end">
-                                                    ${d.public_date}
+                                                    ${d.public_date.dayOfMonth}/${d.public_date.monthValue}/${d.public_date.year}  ${d.public_date.hour}:${d.public_date.minute}:${d.public_date.second}
                                             </div>
                                             <div class="d-flex justify-content-end text-danger">
                                                 <c:forEach items="${categoriesWithDetails}" var="c">
@@ -151,7 +169,7 @@
                                             </div>
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
-                                            <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${d.views}</div>
+                                            <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${d.views}</div>
                                             <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${d.id_article}" role="button">
                                                 Details
                                             </a>
@@ -166,8 +184,13 @@
         </c:choose>
         <c:choose>
             <c:when test="${top10.size() == 0}">
-                <div class="card-body mb-3">
-                    <p class="card-text">Không có dữ liệu phù hợp!</p>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <a name="top10">
+                        </a>
+                    </div>
+                    <div class="card-body">
+                    </div>
                 </div>
             </c:when>
             <c:otherwise>
@@ -195,7 +218,7 @@
                                             <h5 class="card-title">${t.title}</h5>
                                             <p class="card-text">${t.sumary}</p>
                                             <div class="d-flex justify-content-end">
-                                                    ${t.public_date}
+                                                    ${t.public_date.dayOfMonth}/${t.public_date.monthValue}/${t.public_date.year}  ${t.public_date.hour}:${t.public_date.minute}:${t.public_date.second}
                                             </div>
                                             <div class="d-flex justify-content-end text-danger">
                                                 <c:forEach items="${categoriesWithDetails}" var="c">
@@ -206,7 +229,7 @@
                                             </div>
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
-                                            <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${t.views}</div>
+                                            <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${t.views}</div>
                                             <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${t.id_article}" role="button">
                                                 Details
                                             </a>

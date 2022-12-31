@@ -11,6 +11,10 @@
   <jsp:attribute name="reader">
         <jsp:include page="../../views/partials/leftReader.jsp"/>
   </jsp:attribute>
+  <jsp:attribute name="js">
+    <script>
+    </script>
+  </jsp:attribute>
   <jsp:body>
       <c:choose>
         <c:when test="${articles.size() == 0}">
@@ -35,7 +39,7 @@
                         <h5 class="card-title">${a.title}</h5>
                         <p class="card-text">${a.sumary}</p>
                         <div class="d-flex justify-content-end">
-                            ${a.public_date}
+                            ${a.public_date.dayOfMonth}/${a.public_date.monthValue}/${a.public_date.year}  ${a.public_date.hour}:${a.public_date.minute}:${a.public_date.second}
                         </div>
                         <div class="d-flex justify-content-end text-danger">
                           <c:forEach items="${categoriesWithDetails}" var="c">
@@ -46,10 +50,17 @@
                         </div>
                       </div>
                       <div class="card-footer d-flex justify-content-md-between">
-                        <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${a.views}</div>
-                        <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${a.id_article}" role="button">
-                          Details
-                        </a>
+                        <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${a.views}</div>
+                        <div class="d-flex flex-row">
+                          <div class="d-flex align-items-center text-warning mr-1">
+                            <c:if test="${a.premium==1}">
+                              Premium
+                            </c:if>
+                          </div>
+                          <a id="btn_detail" class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${a.id_article}" role="button">
+                            Details
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
