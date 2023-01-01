@@ -51,6 +51,12 @@
                             </div>
                         </div>
                     </c:forEach>
+                    <div class="card-footer d-flex justify-content-md-between">
+                        <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${a.views}</div>
+                        <a id="btn_detail" class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Misc/Upload" role="button">
+                            Chỉnh sửa
+                        </a>
+                    </div>
                 </div>
             </c:otherwise>
         </c:choose>
