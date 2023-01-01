@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Console;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 
@@ -31,6 +32,8 @@ public class AdminCategoryServlet extends HttpServlet {
         }
         switch (path){
             case "/Index":
+                List<User> listE = UserModel.findByRole(2);
+                request.setAttribute("editors",listE);
                 List<Category> list = CategoryModel.findAll();
                 request.setAttribute("categories",list);
                 ServletUtils.forward("/views/vwCategory/Index.jsp", request, response);
@@ -86,7 +89,22 @@ public class AdminCategoryServlet extends HttpServlet {
                     ServletUtils.redirect("/Admin/Category", request, response);
                 }
                 break;
-
+            case "/IsAvailable":
+                String name = request.getParameter("name");
+                Category category;
+                if(request.getParameter("id") != null){
+                    int id_category= Integer.parseInt(request.getParameter("id"));
+                     category = CategoryModel.findByName(id_category,name);
+                }else {
+                     category = CategoryModel.findByName(0,name);
+                }
+                boolean isAvailable = (category==null);
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                out.print(isAvailable);
+                out.flush();
+                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;

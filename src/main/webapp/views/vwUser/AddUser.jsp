@@ -68,12 +68,12 @@
 
                     <div class="form-group">
                         <label for="txtPassword">Mật khẩu</label>
-                        <input type="text" class="form-control w-25" id="txtPassword" name="rawpassword">
+                        <input type="password" class="form-control w-25" id="txtPassword" name="rawpassword">
                     </div>
 
                     <div class="form-group">
                         <label for="txtEmail">Email</label>
-                        <input type="text" class="form-control w-25" id="txtEmail" name="email">
+                        <input type="email" class="form-control w-25" id="txtEmail" name="email">
                     </div>
 
                     <div class="form-group">

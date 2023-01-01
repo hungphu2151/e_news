@@ -1,6 +1,7 @@
 package com.example.e_news.models;
 
 import com.example.e_news.beans.Category;
+import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -40,6 +41,19 @@ public class CategoryModel {
         return null;
       }
 
+      return list.get(0);
+    }
+  }
+  public static Category findByName(int id_category,String name){
+    final String query = "select * from categories where name = :name and id_category !=:id_category";
+    try (Connection con = DbUtils.getConnection()) {
+      List<Category> list = con.createQuery(query)
+              .addParameter("name",name)
+              .addParameter("id_category",id_category)
+              .executeAndFetch(Category.class);
+      if (list.size()==0){
+        return null;
+      }
       return list.get(0);
     }
   }

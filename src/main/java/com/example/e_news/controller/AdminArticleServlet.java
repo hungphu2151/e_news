@@ -66,6 +66,9 @@ public class AdminArticleServlet extends HttpServlet {
             case "/UpdateStatus":
                 updateStatus(request, response);
                 break;
+            case "/UpdatePremium":
+                updatePremium(request, response);
+                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -75,5 +78,20 @@ public class AdminArticleServlet extends HttpServlet {
         int id =Integer.parseInt(request.getParameter("id"));
         ArticleModel.updateStatus(id,1);
         ServletUtils.redirect("/Admin/Article", request, response);
+    }
+
+    private static void updatePremium(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id =Integer.parseInt(request.getParameter("id"));
+        int premium=Integer.parseInt(request.getParameter("premium"));
+        if(premium ==1){
+            premium =0;
+        }else {
+            premium=1;
+        }
+        ArticleModel.updatePremium(id,premium);
+        Article a = ArticleModel.findById(id);
+        request.setAttribute("article",a);
+        String url = "/Admin/Article/EditArticle?id=" + id;
+        ServletUtils.redirect(url, request, response);
     }
 }

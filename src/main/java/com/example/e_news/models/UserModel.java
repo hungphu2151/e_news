@@ -81,11 +81,12 @@ public class UserModel {
                     .executeUpdate();
         }
     }
-    public static User findByUsername(String username){
-        final String query = "select * from users where username = :username";
+    public static User findByUsername(int id,String username){
+        final String query = "select * from users where username = :username and id !=:id";
         try (Connection con = DbUtils.getConnection()) {
             List<User> list = con.createQuery(query)
                     .addParameter("username",username)
+                    .addParameter("id",id)
                     .executeAndFetch(User.class);
             if (list.size()==0){
                 return null;

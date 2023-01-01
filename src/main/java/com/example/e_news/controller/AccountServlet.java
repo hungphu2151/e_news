@@ -37,7 +37,7 @@ public class AccountServlet extends HttpServlet {
                 break;
             case "/IsAvailable":
                 String username = request.getParameter("user");
-                User user = UserModel.findByUsername(username);
+                User user = UserModel.findByUsername(0,username);
                 boolean isAvailable = (user==null);
                 PrintWriter out = response.getWriter();
                 response.setContentType("application/json");
@@ -95,7 +95,7 @@ public class AccountServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        User user = UserModel.findByUsername(username);
+        User user = UserModel.findByUsername(0,username);
         if (user != null) {
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
             if (result.verified){

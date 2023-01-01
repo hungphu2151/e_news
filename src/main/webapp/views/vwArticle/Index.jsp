@@ -28,6 +28,7 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>STT</th>
                             <th>Tiêu đề</th>
                             <th>Tóm tắt</th>
@@ -40,10 +41,39 @@
                         <tbody>
                         <c:forEach items="${articles}" var="a">
                             <tr>
+                                <c:choose>
+                                    <c:when test="${a.premium == 1}">
+                                        <td><i class="fa fa-star text-warning" aria-hidden="true"></i></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td></td>
+                                    </c:otherwise>
+                                </c:choose>
                                 <td>${a.id_article}</td>
                                 <td>${a.title}</td>
                                 <td>${a.sumary}</td>
-                                <td>${a.status == 1 ? "Đã xuất bản" :a.status ==2 ? "Đã được duyệt và chưa xuất bản" : a.status == 3? "Chưa được duyệt": "Bị từ chối" }</td>
+                                <c:choose>
+                                    <c:when test="${a.status == 1 }">
+                                        <td  style="color: #28a745">
+                                            Đã xuất bản
+                                        </td>
+                                    </c:when>
+                                    <c:when test="${a.status == 2 }">
+                                        <td  style="color: blue">
+                                            Đã được duyệt và chưa xuất bản
+                                        </td>
+                                    </c:when>
+                                    <c:when test="${a.status == 3}">
+                                        <td style="color: sandybrown">
+                                            Chưa được duyệt
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise >
+                                        <td  style="color: red">
+                                            Bị từ chối
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>
                                 <c:forEach items="${writers}" var="w">
                                     <c:if test="${w.id == a.writer_id}">
                                         <td>${w.pen_name}</td>

@@ -11,6 +11,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,13 +41,24 @@ public class AdminUsersServlet extends HttpServlet {
                 break;
             case "/EditUser":
                 String username =request.getParameter("username");
-                User u = UserModel.findByUsername(username);
+                User u = UserModel.findByUsername(0,username);
                 if(u != null){
                     request.setAttribute("user",u);
                     ServletUtils.forward("/views/vwUser/EditUser.jsp", request, response);
                 }else {
                     ServletUtils.redirect("/Admin/User", request, response);
                 }
+                break;
+            case "/IsAvailable":
+                String userName = request.getParameter("user");
+                int id = Integer.parseInt(request.getParameter("id"));
+                User user = UserModel.findByUsername(id,userName);
+                boolean isAvailable = (user==null);
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                out.print(isAvailable);
+                out.flush();
                 break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);

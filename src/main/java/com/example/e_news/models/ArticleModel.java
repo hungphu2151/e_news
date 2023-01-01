@@ -116,4 +116,14 @@ public class ArticleModel {
                     .executeUpdate();
         }
     }
+
+    public static void updatePremium (int id_article, int premium){
+        String insertSql = "UPDATE articles SET premium =:premium WHERE id_article = :id_article \n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("id_article",id_article)
+                    .addParameter("premium",premium)
+                    .executeUpdate();
+        }
+    }
 }
