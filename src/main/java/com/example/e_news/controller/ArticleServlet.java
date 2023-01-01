@@ -1,6 +1,5 @@
 package com.example.e_news.controller;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.e_news.beans.Article;
 import com.example.e_news.beans.Category;
 import com.example.e_news.beans.Cmt;
@@ -18,14 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet(name = "ArticleServlet", value = "/Article/*")
-public class ArticleServlet extends HttpServlet {
+public class  ArticleServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String path = request.getPathInfo();

@@ -1,7 +1,6 @@
 package com.example.e_news.models;
 
 import com.example.e_news.beans.Article;
-import com.example.e_news.beans.Category;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -16,25 +15,8 @@ public class ArticleModel {
         }
     }
 
-//    public static List<ArticleDTO> findByCatId(int catId) {
-//        final String sql = "select * from articles where category_id = :category_id and status=1";
-//        List<ArticleDTO> articleList = new ArrayList<>();
-//        try (Connection con = DbUtils.getConnection()) {
-//            List<Article> list = con.createQuery(sql)
-//                    .addParameter("category_id", catId)
-//                    .executeAndFetch(Article.class);
-//            for (Article item : list) {
-//                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//                String dateFormat = item.getPublic_date().format(dateTimeFormatter);
-//                articleList.add(new ArticleDTO(item.getId_article(), item.getCategory_id(), item.getTag_id(), item.getStatus(),
-//                        item.getViews(), item.getWriter_id(), item.getTitle(), item.getSumary(), item.getContent(), dateFormat));
-//            }
-//            return articleList;
-//        }
-//    }
-
     public static List<Article> findByCatId(int catId) {
-        final String sql = "select * from articles where category_id = :category_id and status=1";
+        final String sql = "select * from articles where category_id = :category_id and status=1 order by premium desc ";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .addParameter("category_id", catId)
@@ -117,13 +99,41 @@ public class ArticleModel {
         }
     }
 
-    public static void updatePremium (int id_article, int premium){
-        String insertSql = "UPDATE articles SET premium =:premium WHERE id_article = :id_article \n";
-        try (Connection con = DbUtils.getConnection()){
-            con.createQuery(insertSql)
-                    .addParameter("id_article",id_article)
-                    .addParameter("premium",premium)
-                    .executeUpdate();
+    public static List<Article> find_da_duoc_duyet() {
+        final String sql = "select *\n" +
+                "from articles\n" +
+                "where status = 2";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
+    public static List<Article> find_da_xuat_ban() {
+        final String sql = "select *\n" +
+                "from articles\n" +
+                "where status = 1";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+    public static List<Article> find_bi_tu_choi() {
+        final String sql = "select *\n" +
+                "from articles\n" +
+                "where status = 4";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
+        }
+    }
+    public static List<Article> find_chua_duoc_duyet() {
+        final String sql = "select *\n" +
+                "from articles\n" +
+                "where status = 3";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Article.class);
         }
     }
 }

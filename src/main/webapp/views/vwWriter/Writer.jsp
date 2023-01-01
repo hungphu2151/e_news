@@ -15,8 +15,12 @@
         <script>
             tinymce.init({
                 selector: '#txtArticle',
-                // plugins: 'link',
-                toolbar: 'link'
+                height: 450,
+                plugins:    'lists paste image link autolink table',
+                menubar: false,
+                toolbar: [
+                    'undo redo | bold italic underline strikethrought | numlist bullíst | alignleft aligncenter alignright | forecolor backcolor | table link image'
+                ]
             });
         </script>
     </jsp:attribute>
@@ -50,7 +54,7 @@
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary" >
                         <i class="fa fa-check" aria-hidden="true"></i>
-                        Thêm
+                        Đăng bài viết
                     </button>
                 </div>
             </div>

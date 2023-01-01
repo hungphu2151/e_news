@@ -11,6 +11,6 @@
         <jsp:include page="../../views/partials/leftWriter.jsp"/>
     </jsp:attribute>
     <jsp:body>
-
+        jdkfjkal;f
     </jsp:body>
 </t:main>
