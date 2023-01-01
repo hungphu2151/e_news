@@ -61,27 +61,60 @@ public class MiscServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
         String path = request.getPathInfo();
         switch (path){
-            case "/AddMainCategory":
-//                addMainCategory(request, response);
+            case "/Accept":
+                postAccept(request, response);
                 break;
-            case "/AddSubCategory":
-//                addSubCategory(request,response);
+            case "/Deny":
+                postDeny(request,response);
                 break;
-            case "/UpdateMainCategory":
-//                updateMainCategory(request, response);
+            case "/Edit":
+                postEdit(request, response);
                 break;
-            case "/UpdateSubCategory":
-//                updateSubCategory(request, response);
+            case "/Publish":
+                postPublish(request, response);
                 break;
 
-            case "/Delete":
-//                deleteMainCategory(request, response);
+            case "/Unapproved":
+                postUnapproved(request, response);
+                break;
+            case "/Upload":
+                postUpload(request, response);
+                break;
+            case "/Writer":
+                postWriter(request, response);
                 break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
         }
+    }
+
+    private void postWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String desc = request.getParameter("FullDes");
+        System.out.println(desc);
+        ServletUtils.forward("/views/vwWriter/Writer.jsp", request, response);
+    }
+
+    private void postUpload(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void postUnapproved(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void postPublish(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void postEdit(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void postDeny(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void postAccept(HttpServletRequest request, HttpServletResponse response) {
     }
 }

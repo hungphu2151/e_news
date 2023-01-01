@@ -20,7 +20,8 @@
                 menubar: false,
                 toolbar: [
                     'undo redo | bold italic underline strikethrought | numlist bullíst | alignleft aligncenter alignright | forecolor backcolor | table link image'
-                ]
+                ],
+                entity_encoding: "raw"
             });
         </script>
     </jsp:attribute>
@@ -30,14 +31,14 @@
                 <h4 class="card-header ">
                     Đăng bài viết
                 </h4>
-                <div class="form-group">
-                    <label for="txtUsernane">Title</label>
-                    <input type="text" class="form-control" id="txtUsernane" name="username">
-                </div>
-                <div class="form-group">
-                    <label for="txtUsernane">Summary</label>
-                    <input type="text" class="form-control" id="txtUsernane" name="username">
-                </div>
+                        <div class="form-group">
+                            <label for="txtUsernane">Title</label>
+                            <input type="text" class="form-control" id="txtUsernane" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUsernane">Summary</label>
+                            <input type="text" class="form-control" id="txtUsernane" name="username">
+                        </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="txtArticle">Content</label>
