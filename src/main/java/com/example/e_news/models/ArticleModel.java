@@ -99,6 +99,16 @@ public class ArticleModel {
         }
     }
 
+    public static void updateReason (int id_article, String reason){
+        String insertSql = "UPDATE articles SET reason =:reason WHERE id_article = :id_article \n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("id_article",id_article)
+                    .addParameter("reason",reason)
+                    .executeUpdate();
+        }
+    }
+
     public static List<Article> find_da_duoc_duyet() {
         final String sql = "select *\n" +
                 "from articles\n" +
