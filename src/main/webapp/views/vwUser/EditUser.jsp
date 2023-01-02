@@ -18,8 +18,15 @@
     <jsp:attribute name="js">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
+            $("#delete").click(function () {
+                console.log("delete");
+                $("#frmUser").attr("action", "${pageContext.request.contextPath}/Admin/User/DeleteUser");
+            });
 
-            $('#save').click(function (e){
+            $("#save").click(function (e) {
+                e.preventDefault();
+                console.log("save");
+                const id = $('#txtID').val();
                 const username = $('#txtUsername').val();
                 const name = $('#txtname').val();
                 const penname = $('#txtPenname').val();
@@ -28,17 +35,18 @@
                 const dob =$('#txtDOB').val();
                 if(username.length===0 || name.length===0 || penname.length===0 || psw.length === 0 || email.length===0 || dob.length===0){
                     alert('Vui lòng nhập đầy đủ!!!');
-                    e.preventDefault();
-                }
-                else {
-                    $.getJSON('${pageContext.request.contextPath}/Account/IsAvailable?user='+ username,function (data){
-                        if (data === false){
+                }else {
+                    $.getJSON('${pageContext.request.contextPath}/Admin/User/IsAvailable?user='+ username + '&id='+id, function (data){
+                        if(data === true){
+                            $('#frmUser').submit();
+                        }else {
                             alert('Tên đã tồn tại');
-                            e.preventDefault();
                         }
                     });
                 }
-            })
+                $("#frmUser").attr("action", "${pageContext.request.contextPath}/Admin/User/UpdateUser");
+            });
+
             $('#txtDOB').datetimepicker({
                 format:'d/m/Y',
                 timepicker: false,
@@ -46,6 +54,7 @@
             });
             $('#txtDOB').val('<fmt:formatDate value="${user.dob}" pattern="dd/MM/yyyy"/>');
             $('#txtUsernane').select();
+
         </script>
     </jsp:attribute>
 
@@ -142,7 +151,7 @@
                         Gia hạn
                     </button>
                     <button type="submit" id="delete" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/User/DeleteUser">
-                        <i class="fa fa-check" aria-hidden="true"></i>
+                        <i class="fa fa-times" aria-hidden="true"></i>
                         Xóa
                     </button>
 

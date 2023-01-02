@@ -9,19 +9,41 @@
     <jsp:attribute name="reader">
         <jsp:include page="../../views/partials/leftAdmin.jsp"/>
     </jsp:attribute>
+    <jsp:attribute name="js">
+        <script>
+            $('#frmCategory').on('submit', function (e){
+                e.preventDefault();
+                const name = $('#textCatName').val();
+                if(name.length===0){
+                    alert('Vui lòng nhập đầy đủ!!!');
+                    return;
+                }
+                else {
+                    $.getJSON('${pageContext.request.contextPath}/Admin/Category/IsAvailable?name='+ name,function (data){
+                        if (data === true){
+                            $('#frmCategory').off('submit').submit();
+                        }
+                        else {
+                            alert('Chuyên mục đã tồn tại');
+                        }
+                    });
+                }
+            });
+        </script>
+    </jsp:attribute>
     <jsp:body>
-        <form action="" method="post">
+        <form action="" method="post" id="frmCategory">
             <div class="card">
                 <h4 class="card-header ">
-                    Thêm danh mục chính
+                    Thêm chuyên mục chính
                 </h4>
                 <div class="card-body">
                         <div class="form-group">
-                            <label for="textCatName">Tên danh mục</label>
+                            <label for="textCatName">Tên chuyên mục</label>
                             <input type="text" class="form-control w-25" id="textCatName" name="name" autofocus>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="inputGroupSelect">Tên biên tập viên</label>
+                            <label for="inputGroupSelect">Tên biên tập viên phụ trách</label>
                             <select class="form-control w-25" id="inputGroupSelect" name="id" >
                                 <c:forEach items="${editors}" var="c">
                                     <option value="${c.id}">${c.name}</option>
