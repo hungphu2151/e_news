@@ -98,15 +98,17 @@ public class ArticleModel {
                     .executeUpdate();
         }
     }
-    public static void updatePremium (int id_article, int premium) {
-        String insertSql = "UPDATE articles SET premium =:premium WHERE id_article = :id_article \n";
-        try (Connection con = DbUtils.getConnection()) {
+
+    public static void updateReason (int id_article, String reason){
+        String insertSql = "UPDATE articles SET reason =:reason WHERE id_article = :id_article \n";
+        try (Connection con = DbUtils.getConnection()){
             con.createQuery(insertSql)
-                    .addParameter("id_article", id_article)
-                    .addParameter("premium", premium)
+                    .addParameter("id_article",id_article)
+                    .addParameter("reason",reason)
                     .executeUpdate();
         }
     }
+
     public static List<Article> find_da_duoc_duyet() {
         final String sql = "select *\n" +
                 "from articles\n" +
@@ -142,18 +144,6 @@ public class ArticleModel {
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .executeAndFetch(Article.class);
-        }
-    }
-
-    public static void updateTitle (int title, int category_id, int summary, int content){
-        String insertSql = "UPDATE articles SET title =:title, summary =:summary, content =:content WHERE category_id = :category_id \n";
-        try (Connection con = DbUtils.getConnection()){
-            con.createQuery(insertSql)
-                    .addParameter("category_id",category_id)
-                    .addParameter("title",title)
-                    .addParameter("summary",summary)
-                    .addParameter("content",content)
-                    .executeUpdate();
         }
     }
 }
