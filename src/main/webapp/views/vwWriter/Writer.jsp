@@ -33,7 +33,7 @@
                 </h4>
                         <div class="form-group">
                             <label for="txtUsernane">Title</label>
-                            <input type="text" class="form-control" id="txtUsernane" name="username">
+                            <input type="text" class="form-control" id="txtUsername" name="username">
                         </div>
                         <div class="form-group">
                             <label for="txtUsernane">Summary</label>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="form-group">
                             <label for="txtUsernane">Categories</label>
-                            <input type="text" class="form-control" id="txtUsernane" name="username">
+                            <input type="text" class="form-control" id="txtUsernae" name="username">
                         </div>
                     <div class="form-group">
                         <label for="txtArticle">Label</label>

@@ -144,4 +144,16 @@ public class ArticleModel {
                     .executeAndFetch(Article.class);
         }
     }
+
+    public static void updateTitle (int title, int category_id, int summary, int content){
+        String insertSql = "UPDATE articles SET title =:title, summary =:summary, content =:content WHERE category_id = :category_id \n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("category_id",category_id)
+                    .addParameter("title",title)
+                    .addParameter("summary",summary)
+                    .addParameter("content",content)
+                    .executeUpdate();
+        }
+    }
 }
