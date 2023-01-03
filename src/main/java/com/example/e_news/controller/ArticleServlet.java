@@ -24,6 +24,8 @@ import java.util.List;
 public class  ArticleServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    response.setCharacterEncoding("UTF-8");
+    request.setCharacterEncoding("UTF-8");
     String path = request.getPathInfo();
     switch (path) {
 
@@ -37,11 +39,13 @@ public class  ArticleServlet extends HttpServlet {
         break;
 
       case "/Detail":
+        HttpSession session = request.getSession();
+        boolean auth = (boolean) session.getAttribute("auth");
         int artID = Integer.parseInt(request.getParameter("id"));
         Article art = ArticleModel.findById(artID);
         List<Cmt> cmt = CmtModel.findByArtId(artID);
         List<User> users = UserModel.findAll();
-        List<Article> listSameCat = ArticleModel.findSameCat();
+        List<Article> listSameCat = ArticleModel.findSameCat(artID);
         if (art == null)
           ServletUtils.redirect("/Home", request, response);
         else {
@@ -49,7 +53,23 @@ public class  ArticleServlet extends HttpServlet {
           request.setAttribute("article", art);
           request.setAttribute("user", users);
           request.setAttribute("sameCat", listSameCat);
+          if ( art.getPremium()==1 && auth==false ){
+            ServletUtils.forward("/views/vwArticle/erro.jsp", request, response);
+            return;
+          }
           ServletUtils.forward("/views/vwArticle/Detail.jsp", request, response);
+        }
+        break;
+
+      case "/Search":
+        String  search = request.getParameter("txtResult");
+        System.out.println(search);
+        List<Article> search_result = ArticleModel.findSearch(search);
+        if (search_result==null)
+          ServletUtils.forward("/views/404.jsp", request, response);
+        else {
+          request.setAttribute("results",search_result);
+          ServletUtils.forward("/views/vwSearch/Search.jsp", request, response);
         }
         break;
 
@@ -61,6 +81,8 @@ public class  ArticleServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    response.setCharacterEncoding("UTF-8");
+    request.setCharacterEncoding("UTF-8");
     String path = request.getPathInfo();
     switch (path){
       case "/Detail":

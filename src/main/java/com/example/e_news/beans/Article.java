@@ -3,13 +3,14 @@ package com.example.e_news.beans;
 import java.time.LocalDateTime;
 
 public class Article {
-  private int id_article, category_id, tag_id, status, views, writer_id;
+  private int id_article, category_id, tag_id, status, views, writer_id, premium;
   private String title, sumary, content, reason;
   private LocalDateTime public_date;
 
-  public Article(int id_article, int category_id, int tag_id, int status, int views, int writer_id,
+  public Article(int id_article, int premium, int category_id, int tag_id, int status, int views, int writer_id,
                  String title, String sumary, String content, LocalDateTime public_date, String reason) {
     this.id_article = id_article;
+    this.premium = premium;
     this.category_id = category_id;
     this.tag_id = tag_id;
     this.status = status;
@@ -67,4 +68,5 @@ public class Article {
 
   public String getReason() { return reason; }
 
+  public int getPremium() { return premium; }
 }

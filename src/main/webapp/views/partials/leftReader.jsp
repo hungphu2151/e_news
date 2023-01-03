@@ -4,8 +4,8 @@
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
 
 <div>
-    <form class="form-inline">
-        <input class="form-control" type="search" placeholder="Search" aria-label="Search" style="width: 100%">
+    <form class="form-inline" action="">
+        <input id="txtSearch" name="txtResult" class="form-control" type="search" placeholder="Search" aria-label="Search" style="width: 100%">
         <button class="btn btn-light " type="submit">Search</button>
     </form>
 </div>

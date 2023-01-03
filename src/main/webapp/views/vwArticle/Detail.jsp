@@ -117,11 +117,17 @@
                         </div>
                       </div>
                       <div class="card-footer d-flex justify-content-md-between">
-                        <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${s.views}</div>
-                        <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${s.id_article}" role="button">
-                          Details
-                        </a>
-                      </div>
+                        <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${s.views}</div>
+                        <div class="d-flex flex-row">
+                          <div class="d-flex align-items-center text-warning mr-1">
+                            <c:if test="${s.premium==1}">
+                              Premium
+                            </c:if>
+                          </div>
+                          <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${s.id_article}" role="button">
+                            Details
+                          </a>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -131,7 +137,5 @@
         </c:otherwise>
       </c:choose>
     </div>
-
-
   </jsp:body>
 </t:main>

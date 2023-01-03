@@ -60,9 +60,16 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
                                             <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${count.views}</div>
-                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${count.id_article}" role="button">
-                                                Details
-                                            </a>
+                                            <div class="d-flex flex-row">
+                                                <div class="d-flex align-items-center text-warning mr-1">
+                                                    <c:if test="${a.premium==1}">
+                                                        Premium
+                                                    </c:if>
+                                                </div>
+                                                <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${count.id_article}" role="button">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -115,9 +122,16 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
                                             <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${v.views}</div>
-                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${v.id_article}" role="button">
-                                                Details
-                                            </a>
+                                            <div class="d-flex flex-row">
+                                                <div class="d-flex align-items-center text-warning mr-1">
+                                                    <c:if test="${v.premium==1}">
+                                                        Premium
+                                                    </c:if>
+                                                </div>
+                                                <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${v.id_article}" role="button">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -170,9 +184,16 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
                                             <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${d.views}</div>
-                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${d.id_article}" role="button">
-                                                Details
-                                            </a>
+                                            <div class="d-flex flex-row">
+                                                <div class="d-flex align-items-center text-warning mr-1">
+                                                    <c:if test="${d.premium==1}">
+                                                        Premium
+                                                    </c:if>
+                                                </div>
+                                                <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${d.id_article}" role="button">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -230,9 +251,16 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
                                             <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${t.views}</div>
-                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${t.id_article}" role="button">
-                                                Details
-                                            </a>
+                                            <div class="d-flex flex-row">
+                                                <div class="d-flex align-items-center text-warning mr-1">
+                                                    <c:if test="${t.premium==1}">
+                                                        Premium
+                                                    </c:if>
+                                                </div>
+                                                <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${t.id_article}" role="button">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

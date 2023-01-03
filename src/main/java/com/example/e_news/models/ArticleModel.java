@@ -79,16 +79,30 @@ public class ArticleModel {
         }
     }
 
-    public static List<Article> findSameCat() {
+    public static List<Article> findSameCat(int catId) {
         final String sql = "SELECT * FROM articles\n" +
-                "where category_id=4\n" +
+                "where category_id=4 and id_article!=:id_article\n" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 5";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .addParameter("id_article", catId)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
+    public static List<Article> findSearch(String search) {
+        final String sql = "SELECT *\n" +
+                "FROM articles\n" +
+                "WHERE\n" +
+                "    MATCH(title, sumary, content)\n" +
+                "          AGAINST('search');";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .executeAndFetch(Article.class);
         }
     }
+
     public static void updateStatus (int id_article, int status){
         String insertSql = "UPDATE articles SET status =:status WHERE id_article = :id_article \n";
         try (Connection con = DbUtils.getConnection()){
@@ -107,6 +121,16 @@ public class ArticleModel {
                     .addParameter("reason",reason)
                     .executeUpdate();
         }
+    }
+
+    public static void updatePremium (int id, int premium){
+//        String insertSql = "UPDATE articles SET reason =:reason WHERE id_article = :id_article \n";
+//        try (Connection con = DbUtils.getConnection()){
+//            con.createQuery(insertSql)
+//                    .addParameter("id_article",id_article)
+//                    .addParameter("reason",reason)
+//                    .executeUpdate();
+//        }
     }
 
     public static List<Article> find_da_duoc_duyet() {
