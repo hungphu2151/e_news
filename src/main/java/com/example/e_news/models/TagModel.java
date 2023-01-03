@@ -18,10 +18,10 @@ public class TagModel {
         }
     }
     public static Tag findById(int id) {
-        final String query = "SELECT id_tag, value, article_id FROM tags WHERE id_tag = :idTag \n";
+        final String query = "SELECT * FROM tags WHERE tag_id = :tag_id \n";
         try (Connection con = DbUtils.getConnection()) {
             List<Tag> list = con.createQuery(query)
-                    .addParameter("idTag", id)
+                    .addParameter("tag_id", id)
                     .executeAndFetch(Tag.class);
 
             if (list.size() == 0) {
@@ -32,31 +32,29 @@ public class TagModel {
         }
     }
     public static void add(Tag t){
-        String insertSql = "INSERT INTO tags (id_tag, value, article_id) VALUES (:idTag,:value,:articleId)\n";
+        String insertSql = "INSERT INTO tags (tag_id, value) VALUES (:tag_id,:value)\n";
         try (Connection con = DbUtils.getConnection()){
             con.createQuery(insertSql)
-                    .addParameter("idTag", t.getId_tag())
+                    .addParameter("tag_id", t.getId_tag())
                     .addParameter("value",t.getValue())
-                    .addParameter("articleId",t.getArticle_id())
                     .executeUpdate();
         }
     }
     public static void update(Tag t){
-        String insertSql = "UPDATE tags SET  value = :value, article_id = :articleId WHERE id_tag = :idTag \n";
+        String insertSql = "UPDATE tags SET  value = :value WHERE tag_id = :tag_id \n";
         try (Connection con = DbUtils.getConnection()){
             con.createQuery(insertSql)
-                    .addParameter("idTag", t.getId_tag())
+                    .addParameter("tag_id", t.getId_tag())
                     .addParameter("value",t.getValue())
-                    .addParameter("articleId",t.getArticle_id())
                     .executeUpdate();
         }
     }
 
     public static void delete (int id){
-        String insertSql = "DELETE FROM tags WHERE id_tag = :idTag \n";
+        String insertSql = "DELETE FROM tags WHERE tag_id = :tag_id \n";
         try (Connection con = DbUtils.getConnection()){
             con.createQuery(insertSql)
-                    .addParameter("idTag", id)
+                    .addParameter("tag_id", id)
                     .executeUpdate();
         }
     }

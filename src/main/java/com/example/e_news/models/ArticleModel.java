@@ -66,7 +66,7 @@ public class ArticleModel {
     }
 
     public static List<Article> findBycountCmt() {
-        final String sql = "select id_article, title, public_date, category_id, tag_id, sumary, content, status, views, writer_id\n" +
+        final String sql = "select id_article, title, public_date, category_id, sumary, content, status, views, writer_id\n" +
                 "from comments, articles\n" +
                 "where comments.article_id = articles.id_article\n" +
                 "group by article_id\n" +
@@ -131,15 +131,6 @@ public class ArticleModel {
         }
     }
 
-    public static void updatePremium (int id, int premium){
-//        String insertSql = "UPDATE articles SET reason =:reason WHERE id_article = :id_article \n";
-//        try (Connection con = DbUtils.getConnection()){
-//            con.createQuery(insertSql)
-//                    .addParameter("id_article",id_article)
-//                    .addParameter("reason",reason)
-//                    .executeUpdate();
-//        }
-    }
 
     public static List<Article> find_da_duoc_duyet() {
         final String sql = "select *\n" +

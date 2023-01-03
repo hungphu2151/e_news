@@ -33,7 +33,6 @@
                         <tr>
                             <th>STT</th>
                             <th>Tên</th>
-                            <th>ID bài báo</th>
                             <th>&nbsp;</th>
                         </tr>
                         </thead>
@@ -42,7 +41,6 @@
                             <tr>
                                 <td>${t.id_tag}</td>
                                 <td>${t.value}</td>
-                                <td>${t.article_id}</td>
                                 <td class="text-right">
                                     <a  class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Tag/EditTag?id=${t.id_tag}" role="button">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
