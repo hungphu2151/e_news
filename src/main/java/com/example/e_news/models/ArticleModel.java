@@ -1,6 +1,7 @@
 package com.example.e_news.models;
 
 import com.example.e_news.beans.Article;
+import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -145,14 +146,20 @@ public class ArticleModel {
         }
     }
 
-    public static void updateTitle (int title, int category_id, int summary, int content){
-        String insertSql = "UPDATE articles SET title =:title, summary =:summary, content =:content WHERE category_id = :category_id \n";
-        try (Connection con = DbUtils.getConnection()){
+    public static void add(Article a){
+        String insertSql = "INSERT INTO articles (id_article, title, public_date, category_id, sumary, content, status, views, writer_id, premium) VALUES (:id_article,:title,:public_date,:category_id,:sumary,:content,:status,:views,:writer_id,:premium)\n";
+        try (Connection con = DbUtils.getConnection()) {
             con.createQuery(insertSql)
-                    .addParameter("category_id",category_id)
-                    .addParameter("title",title)
-                    .addParameter("summary",summary)
-                    .addParameter("content",content)
+                    .addParameter("id_article", a.getId_article())
+                    .addParameter("title", a.getTitle())
+                    .addParameter("public_date", a.getPublic_date())
+                    .addParameter("category_id", a.getCategory_id())
+                    .addParameter("sumary", a.getSumary())
+                    .addParameter("content", a.getContent())
+                    .addParameter("status", a.getStatus())
+                    .addParameter("views", a.getViews())
+                    .addParameter("writer_id", a.getWriter_id())
+                    .addParameter("premium", a.getPremium())
                     .executeUpdate();
         }
     }
