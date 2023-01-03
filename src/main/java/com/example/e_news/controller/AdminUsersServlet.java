@@ -1,9 +1,7 @@
 package com.example.e_news.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.example.e_news.beans.DateTime;
 import com.example.e_news.beans.User;
-import com.example.e_news.models.DatetimeModel;
 import com.example.e_news.models.UserModel;
 import com.example.e_news.utils.ServletUtils;
 
@@ -31,7 +29,7 @@ public class AdminUsersServlet extends HttpServlet {
             case "/Index":
                 List<User> list = UserModel.findAll();
                 request.setAttribute("users",list);
-                DateTime now = DatetimeModel.datetime();
+                LocalDateTime now = LocalDateTime.now();
                 request.setAttribute("now",now);
                 ServletUtils.forward("/views/vwUser/Index.jsp", request, response);
                 break;
@@ -112,8 +110,6 @@ public class AdminUsersServlet extends HttpServlet {
         String name = request.getParameter("name");
         String pen_name = request.getParameter("pen_name");
         String username = request.getParameter("username");
-        String rawpassword = request.getParameter("rawpassword");
-        String bcryptHashString = BCrypt.withDefaults().hashToString(12,rawpassword.toCharArray());
         String email = request.getParameter("email");
         int role = Integer.parseInt(request.getParameter("role"));
         String StrDob = request.getParameter("dob");
@@ -121,9 +117,17 @@ public class AdminUsersServlet extends HttpServlet {
         LocalDate dob = LocalDate.parse(StrDob, df);
         LocalDateTime issue_at= LocalDateTime.parse(request.getParameter("issue_at"));
         LocalDateTime expriration = LocalDateTime.parse(request.getParameter("expriration"));
-        System.out.println(issue_at);
-        User u = new User(id,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
-        UserModel.update(u);
+        String rawpassword = request.getParameter("rawpassword");
+        User u = UserModel.findByUsername(0,username);
+        String bcryptHashString;
+        if(rawpassword.equals(u.getPassword())){
+            bcryptHashString = rawpassword;
+        }
+        else {
+            bcryptHashString = BCrypt.withDefaults().hashToString(12,rawpassword.toCharArray());
+        }
+        User user = new User(id,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
+        UserModel.update(user);
         ServletUtils.redirect("/Admin/User", request, response);
     }
 
