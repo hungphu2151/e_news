@@ -4,8 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="users" scope="request" type="java.util.List<com.example.e_news.beans.User>"/>
-<jsp:useBean id="now" scope="request" type="com.example.e_news.beans.DateTime"/>
-
 
 
 <t:main>
@@ -48,7 +46,7 @@
                         <tbody>
                         <c:forEach items="${users}" var="u">
                             <c:choose>
-                                <c:when test="${u.expriration.isBefore(now.now) == true}">
+                                <c:when test="${u.expriration.isBefore(now) == true}">
                                     <tr>
                                         <td>${u.id}</td>
                                         <td>${u.name}</td>
