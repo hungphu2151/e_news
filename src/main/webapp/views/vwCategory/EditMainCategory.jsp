@@ -10,11 +10,41 @@
     <jsp:attribute name="reader">
         <jsp:include page="../../views/partials/leftAdmin.jsp"/>
     </jsp:attribute>
+
+  <jsp:attribute name="js">
+        <script>
+          $("#delete").click(function () {
+            console.log("delete");
+            $("#frmCategory").attr("action", "${pageContext.request.contextPath}/Admin/Category/Delete");
+          });
+
+          $("#save").click(function (e) {
+            e.preventDefault();
+            console.log("save");
+            const id = $('#txtID').val();
+            const name = $('#textCatName').val();
+            if(name.length === 0){
+              alert('Vui lòng nhập đầy đủ!!!');
+            }else {
+              $.getJSON('${pageContext.request.contextPath}/Admin/Category/IsAvailable?id='+ id + '&name='+name, function (data){
+                if(data === true){
+                  $('#frmCategory').submit();
+                }else {
+                  alert('Chuyên mục đã tồn tại');
+                }
+              });
+            }
+            $("#frmCategory").attr("action", "${pageContext.request.contextPath}/Admin/Category/UpdateMainCategory");
+          });
+
+        </script>
+    </jsp:attribute>
+
   <jsp:body>
-    <form action="" method="post">
+    <form action="" method="post" id="frmCategory">
       <div class="card">
         <h4 class="card-header ">
-          Chỉnh sửa danh mục chính
+          Chỉnh sửa chuyên mục chính
         </h4>
         <div class="card-body">
           <div class="form-group">
@@ -22,11 +52,11 @@
             <input type="text" class="form-control w-25" id="txtID" name="id_category" value="${category.id_category}" readonly>
           </div>
           <div class="form-group">
-            <label for="textCatName">Tên danh mục</label>
+            <label for="textCatName">Tên chuyên mục</label>
             <input type="text" class="form-control w-25" id="textCatName" name="name" autofocus value="${category.name}">
           </div>
           <div class="form-group mb-3">
-            <label for="inputGroupSelect">Tên biên tập viên</label>
+            <label for="inputGroupSelect">Tên biên tập viên phụ trách</label>
             <select class="form-control w-25" id="inputGroupSelect" name="id_editor" >
               <c:forEach items="${editors}" var="c">
                 <c:choose>
@@ -46,12 +76,12 @@
             <i class="fa fa-backward" aria-hidden="true"></i>
             Quay lại
           </a>
-          <button type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/Admin/Category/UpdateMainCategory">
+          <button type="submit" class="btn btn-primary" id="save" formaction="${pageContext.request.contextPath}/Admin/Category/UpdateMainCategory">
             <i class="fa fa-check" aria-hidden="true"></i>
             Lưu
           </button>
-          <button type="submit" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/Category/Delete">
-            <i class="fa fa-check" aria-hidden="true"></i>
+          <button type="submit" class="btn btn-danger" id="delete" formaction="${pageContext.request.contextPath}/Admin/Category/Delete">
+            <i class="fa fa-times" aria-hidden="true"></i>
             Xóa
           </button>
         </div>

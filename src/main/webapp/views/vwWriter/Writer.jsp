@@ -15,8 +15,13 @@
         <script>
             tinymce.init({
                 selector: '#txtArticle',
-                // plugins: 'link',
-                toolbar: 'link'
+                height: 450,
+                plugins:    'lists paste image link autolink table',
+                menubar: false,
+                toolbar: [
+                    'undo redo | bold italic underline strikethrought | numlist bullíst | alignleft aligncenter alignright | forecolor backcolor | table link image'
+                ],
+                entity_encoding: "raw"
             });
         </script>
     </jsp:attribute>
@@ -26,14 +31,14 @@
                 <h4 class="card-header ">
                     Đăng bài viết
                 </h4>
-                <div class="form-group">
-                    <label for="txtUsernane">Title</label>
-                    <input type="text" class="form-control" id="txtUsernane" name="username">
-                </div>
-                <div class="form-group">
-                    <label for="txtUsernane">Summary</label>
-                    <input type="text" class="form-control" id="txtUsernane" name="username">
-                </div>
+                        <div class="form-group">
+                            <label for="txtUsernane">Title</label>
+                            <input type="text" class="form-control" id="txtUsername" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUsernane">Summary</label>
+                            <input type="text" class="form-control" id="txtUsernane" name="username">
+                        </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="txtArticle">Content</label>
@@ -41,7 +46,7 @@
                         </div>
                         <div class="form-group">
                             <label for="txtUsernane">Categories</label>
-                            <input type="text" class="form-control" id="txtUsernane" name="username">
+                            <input type="text" class="form-control" id="txtUsernae" name="username">
                         </div>
                     <div class="form-group">
                         <label for="txtArticle">Label</label>
@@ -50,7 +55,7 @@
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary" >
                         <i class="fa fa-check" aria-hidden="true"></i>
-                        Thêm
+                        Đăng bài viết
                     </button>
                 </div>
             </div>

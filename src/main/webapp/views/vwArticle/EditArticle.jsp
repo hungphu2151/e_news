@@ -15,18 +15,41 @@
     <jsp:body>
         <form action="" method="post" id="frmUser">
             <div class="card">
-                <h4 class="card-header ">
+                <h4 class="card-header d-flex justify-content-between">
                     Chỉnh sửa bài viết
                 </h4>
+
                 <div class="card-body">
-                    <h4 class="card-header">
+                    <h4 class="d-flex justify-content-between ">
                             ${article.title}
+                                <c:if test="${article.status==1}">
+                                    <c:choose>
+                                        <c:when test="${article.premium == 1}">
+                                            <button type="submit" class="btn bg-warning " formaction="${pageContext.request.contextPath}/Admin/Article/UpdatePremium">
+                                                <i class="fa fa-star " aria-hidden="true"></i>
+                                                Premium
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="submit"  class="btn bg-secondary" formaction="${pageContext.request.contextPath}/Admin/Article/UpdatePremium">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                Not Premium
+                                            </button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
                     </h4>
-                    <img src="${pageContext.request.contextPath}/public/imgs/articles/${article.id_article}/main.jpg" alt="${article.title}" title="${article.title}">
-                    <p class="card-text mt-3">${article.content}</p>
-                    <div class="d-flex justify-content-end">
-                            ${article.public_date}
+                    <p class="card-text mt-3"><i>${article.sumary}</i></p>
+                    <div class="mt-4 text-center">
+                        <img src="${pageContext.request.contextPath}/public/imgs/articles/${article.id_article}/main.jpg" alt="${article.title}" title="${article.title}" style="width: 80%">
                     </div>
+                    <p class="card-text mt-4">${article.content}</p>
+                    <c:if test="${article.public_date!=null}">
+                        <div class="d-flex justify-content-end">
+                            Ngày xuất bản: ${article.public_date.dayOfMonth}/${article.public_date.monthValue}/${article.public_date.year} ${article.public_date.hour}:${article.public_date.minute}:${article.public_date.second}
+                        </div>
+                    </c:if>
+
                     <c:choose>
                         <c:when test="${article.status == 1 }">
                             <div class="d-flex justify-content-end" style="color: #28a745">
@@ -53,18 +76,9 @@
                     <div class="form-group">
                         <input type="text" class="form-control w-25" id="txtID" name="id" value="${article.id_article}" hidden="hidden">
                     </div>
-                        <%--                    <select class="form-control w-25" id="inputGroupSelect" name="id_article" >--%>
-                        <%--                        <c:forEach items="${articles}" var="a">--%>
-                        <%--                            <c:choose>--%>
-                        <%--                                <c:when test="${a.id_article == tag.article_id}">--%>
-                        <%--                                    <option value="${a.id_article}" selected>${a.id_article}</option>--%>
-                        <%--                                </c:when>--%>
-                        <%--                                <c:otherwise>--%>
-                        <%--                                    <option value="${a.id_article}">${a.id_article}</option>--%>
-                        <%--                                </c:otherwise>--%>
-                        <%--                            </c:choose>--%>
-                        <%--                        </c:forEach>--%>
-                        <%--                    </select>--%>
+                    <div class="form-group">
+                        <input type="text" class="form-control w-25" id="" name="premium" value="${article.premium}" hidden="hidden">
+                    </div>
 
                 </div>
                 <div class="card-footer">
@@ -73,7 +87,7 @@
                         Quay lại
                     </a>
                     <c:if test="${article.status == 2}">
-                        <button type="submit" id="save" class="btn btn-primary" formaction="${pageContext.request.contextPath}/Admin/Article/UpdateStatus">
+                        <button type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/Admin/Article/UpdateStatus">
                             <i class="fa fa-check" aria-hidden="true"></i>
                             Xuất bản bài viết
                         </button>

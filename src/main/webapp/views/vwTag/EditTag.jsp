@@ -52,7 +52,7 @@
             Lưu
           </button>
           <button type="submit" id="delete" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/Tag/DeleteTag">
-            <i class="fa fa-check" aria-hidden="true"></i>
+            <i class="fa fa-times" aria-hidden="true"></i>
             Xóa
           </button>
 
