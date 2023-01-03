@@ -1,13 +1,7 @@
 package com.example.e_news.controller;
 
-import com.example.e_news.beans.Article;
-import com.example.e_news.beans.Category;
-import com.example.e_news.beans.Cmt;
-import com.example.e_news.beans.User;
-import com.example.e_news.models.ArticleModel;
-import com.example.e_news.models.CategoryModel;
-import com.example.e_news.models.CmtModel;
-import com.example.e_news.models.UserModel;
+import com.example.e_news.beans.*;
+import com.example.e_news.models.*;
 import com.example.e_news.utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -38,6 +32,15 @@ public class  ArticleServlet extends HttpServlet {
         ServletUtils.forward("/views/vwArticle/ByCat.jsp", request, response);
         break;
 
+      case "/ByTag":
+        int tagId = Integer.parseInt(request.getParameter("id"));
+        List<Article> listbytag = ArticleModel.findByTagId(tagId);
+        Tag tag = TagModel.findById(tagId);
+        request.setAttribute("tag", tag);
+        request.setAttribute("articles", listbytag);
+        ServletUtils.forward("/views/vwArticle/ByTag.jsp", request, response);
+        break;
+
       case "/Detail":
         HttpSession session = request.getSession();
         boolean auth = (boolean) session.getAttribute("auth");
@@ -46,6 +49,7 @@ public class  ArticleServlet extends HttpServlet {
         List<Cmt> cmt = CmtModel.findByArtId(artID);
         List<User> users = UserModel.findAll();
         List<Article> listSameCat = ArticleModel.findSameCat(artID);
+        List<Tag> listTagbyArt = TagModel.findByArtId(artID);
         if (art == null)
           ServletUtils.redirect("/Home", request, response);
         else {
@@ -53,6 +57,7 @@ public class  ArticleServlet extends HttpServlet {
           request.setAttribute("article", art);
           request.setAttribute("user", users);
           request.setAttribute("sameCat", listSameCat);
+          request.setAttribute("tagbyArt", listTagbyArt);
           if ( art.getPremium()==1 && auth==false ){
             ServletUtils.forward("/views/vwArticle/erro.jsp", request, response);
             return;

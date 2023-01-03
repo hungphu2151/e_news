@@ -7,6 +7,7 @@
 <jsp:useBean id="user" scope="request" type="java.util.List<com.example.e_news.beans.User>" />
 <jsp:useBean id="sameCat" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
+<jsp:useBean id="tagbyArt" scope="request" type="java.util.List<com.example.e_news.beans.Tag>"/>
 
 <t:main>
   <jsp:attribute name="reader">
@@ -30,6 +31,13 @@
                   ${c.name}
               </a>
             </c:if>
+          </c:forEach>
+        </div>
+        <div class="d-flex justify-content-end">
+          <c:forEach items="${tagbyArt}" var="t">
+              <a href="${pageContext.request.contextPath}/Article/ByTag?id=${t.id_tag}">
+                <div>#${t.value}</div>
+              </a>
           </c:forEach>
         </div>
       </div>

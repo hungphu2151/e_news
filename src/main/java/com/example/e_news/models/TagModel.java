@@ -1,5 +1,6 @@
 package com.example.e_news.models;
 
+import com.example.e_news.beans.Article;
 import com.example.e_news.beans.Category;
 import com.example.e_news.beans.Tag;
 import com.example.e_news.beans.User;
@@ -29,6 +30,16 @@ public class TagModel {
             }
 
             return list.get(0);
+        }
+    }
+    public static List<Tag> findByArtId(int ArtId) {
+        final String sql = "select tags.tag_id, value\n" +
+                "from tags_has_articles, tags, articles\n" +
+                "where articles.id_article=:id_article and tags_has_articles.article_id=articles.id_article and tags_has_articles.tag_id=tags.tag_id";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .addParameter("id_article", ArtId)
+                    .executeAndFetch(Tag.class);
         }
     }
     public static void add(Tag t){

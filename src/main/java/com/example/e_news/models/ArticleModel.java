@@ -24,6 +24,16 @@ public class ArticleModel {
         }
     }
 
+    public static List<Article> findByTagId(int tagId) {
+        final String sql = "select id_article, premium, title, public_date, category_id, sumary, content, status, views, writer_id from articles, tags_has_articles\n" +
+                "where tags_has_articles.tag_id = :tag_id and articles.id_article=tags_has_articles.article_id and status=1 order by premium desc";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .addParameter("tag_id", tagId)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
     public static Article findById(int artID) {
         String sql = "select * from articles where id_article = :id_article";
         try (Connection con = DbUtils.getConnection()) {
@@ -66,7 +76,7 @@ public class ArticleModel {
     }
 
     public static List<Article> findBycountCmt() {
-        final String sql = "select id_article, title, public_date, category_id, sumary, content, status, views, writer_id\n" +
+        final String sql = "select id_article, premium, title, public_date, category_id, sumary, content, status, views, writer_id\n" +
                 "from comments, articles\n" +
                 "where comments.article_id = articles.id_article\n" +
                 "group by article_id\n" +
