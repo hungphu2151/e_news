@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<jsp:useBean id="articles" scope="request" type="java.util.List<com.example.e_news.beans.Article>"/>
 
 <t:main>
     <jsp:attribute name="reader">
@@ -24,14 +23,7 @@
                         <label for="txtValue">Tên nhãn</label>
                         <input type="text" class="form-control w-25" id="txtValue" name="value">
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="inputGroupSelect">Thuộc bài báo</label>
-                        <select class="form-control w-25" id="inputGroupSelect" name="id_article" >
-                            <c:forEach items="${articles}" var="a">
-                                <option value="${a.id_article}">${a.id_article}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
+
 
                 </div>
                 <div class="card-footer">

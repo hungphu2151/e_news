@@ -5,7 +5,7 @@
 
 <jsp:useBean id="articles" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
-<jsp:useBean id="cat" scope="request" type="com.example.e_news.beans.Category" />
+<jsp:useBean id="tag" scope="request" type="com.example.e_news.beans.Tag" />
 <jsp:useBean id="authUser" scope="session" type="com.example.e_news.beans.User"/>
 
 <t:main>
@@ -26,7 +26,7 @@
         <c:otherwise>
           <div class="card">
             <div class="card-header">
-              <h5 class="">${cat.name}</h5>
+              <h5 class="">${tag.value}</h5>
             </div>
             <c:forEach items="${articles}" var="a">
               <div class="card-body">
@@ -49,6 +49,13 @@
                                   ${c.name}
                               </a>
                             </c:if>
+                          </c:forEach>
+                        </div>
+                        <div class="d-flex justify-content-end text-danger">
+                          <c:forEach items="${tagbyArt}" var="t">
+                            <a href="${pageContext.request.contextPath}/Article/ByTag?id=${t.id_tag}">
+                              <div>#${t.value}</div>
+                            </a>
                           </c:forEach>
                         </div>
                       </div>

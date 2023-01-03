@@ -1,7 +1,6 @@
 package com.example.e_news.models;
 
 import com.example.e_news.beans.Article;
-import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -21,6 +20,16 @@ public class ArticleModel {
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .addParameter("category_id", catId)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
+    public static List<Article> findByTagId(int tagId) {
+        final String sql = "select id_article, premium, title, public_date, category_id, sumary, content, status, views, writer_id from articles, tags_has_articles\n" +
+                "where tags_has_articles.tag_id = :tag_id and articles.id_article=tags_has_articles.article_id and status=1 order by premium desc";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .addParameter("tag_id", tagId)
                     .executeAndFetch(Article.class);
         }
     }
@@ -67,7 +76,7 @@ public class ArticleModel {
     }
 
     public static List<Article> findBycountCmt() {
-        final String sql = "select id_article, title, public_date, category_id, tag_id, sumary, content, status, views, writer_id\n" +
+        final String sql = "select id_article, premium, title, public_date, category_id, sumary, content, status, views, writer_id\n" +
                 "from comments, articles\n" +
                 "where comments.article_id = articles.id_article\n" +
                 "group by article_id\n" +
@@ -80,16 +89,30 @@ public class ArticleModel {
         }
     }
 
-    public static List<Article> findSameCat() {
+    public static List<Article> findSameCat(int catId) {
         final String sql = "SELECT * FROM articles\n" +
-                "where category_id=4\n" +
+                "where category_id=4 and id_article!=:id_article\n" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 5";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .addParameter("id_article", catId)
+                    .executeAndFetch(Article.class);
+        }
+    }
+
+    public static List<Article> findSearch(String search) {
+        final String sql = "SELECT *\n" +
+                "FROM articles\n" +
+                "WHERE\n" +
+                "    MATCH(title, sumary, content)\n" +
+                "          AGAINST('search');";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .executeAndFetch(Article.class);
         }
     }
+
     public static void updateStatus (int id_article, int status){
         String insertSql = "UPDATE articles SET status =:status WHERE id_article = :id_article \n";
         try (Connection con = DbUtils.getConnection()){
@@ -99,15 +122,26 @@ public class ArticleModel {
                     .executeUpdate();
         }
     }
-    public static void updatePremium (int id_article, int premium) {
+    public static void updatePremium (int id_article, int premium){
         String insertSql = "UPDATE articles SET premium =:premium WHERE id_article = :id_article \n";
-        try (Connection con = DbUtils.getConnection()) {
+        try (Connection con = DbUtils.getConnection()){
             con.createQuery(insertSql)
-                    .addParameter("id_article", id_article)
-                    .addParameter("premium", premium)
+                    .addParameter("id_article",id_article)
+                    .addParameter("premium",premium)
                     .executeUpdate();
         }
     }
+    public static void updateReason (int id_article, String reason){
+        String insertSql = "UPDATE articles SET reason =:reason WHERE id_article = :id_article \n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("id_article",id_article)
+                    .addParameter("reason",reason)
+                    .executeUpdate();
+        }
+    }
+
+
     public static List<Article> find_da_duoc_duyet() {
         final String sql = "select *\n" +
                 "from articles\n" +
@@ -143,24 +177,6 @@ public class ArticleModel {
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .executeAndFetch(Article.class);
-        }
-    }
-
-    public static void add(Article a){
-        String insertSql = "INSERT INTO articles (id_article, title, public_date, category_id, sumary, content, status, views, writer_id, premium) VALUES (:id_article,:title,:public_date,:category_id,:sumary,:content,:status,:views,:writer_id,:premium)\n";
-        try (Connection con = DbUtils.getConnection()) {
-            con.createQuery(insertSql)
-                    .addParameter("id_article", a.getId_article())
-                    .addParameter("title", a.getTitle())
-                    .addParameter("public_date", a.getPublic_date())
-                    .addParameter("category_id", a.getCategory_id())
-                    .addParameter("sumary", a.getSumary())
-                    .addParameter("content", a.getContent())
-                    .addParameter("status", a.getStatus())
-                    .addParameter("views", a.getViews())
-                    .addParameter("writer_id", a.getWriter_id())
-                    .addParameter("premium", a.getPremium())
-                    .executeUpdate();
         }
     }
 }

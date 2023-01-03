@@ -7,6 +7,7 @@
 <jsp:useBean id="user" scope="request" type="java.util.List<com.example.e_news.beans.User>" />
 <jsp:useBean id="sameCat" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
+<jsp:useBean id="tagbyArt" scope="request" type="java.util.List<com.example.e_news.beans.Tag>"/>
 
 <t:main>
   <jsp:attribute name="reader">
@@ -30,6 +31,13 @@
                   ${c.name}
               </a>
             </c:if>
+          </c:forEach>
+        </div>
+        <div class="d-flex justify-content-end">
+          <c:forEach items="${tagbyArt}" var="t">
+              <a href="${pageContext.request.contextPath}/Article/ByTag?id=${t.id_tag}">
+                <div>#${t.value}</div>
+              </a>
           </c:forEach>
         </div>
       </div>
@@ -117,11 +125,17 @@
                         </div>
                       </div>
                       <div class="card-footer d-flex justify-content-md-between">
-                        <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${s.views}</div>
-                        <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${s.id_article}" role="button">
-                          Details
-                        </a>
-                      </div>
+                        <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${s.views}</div>
+                        <div class="d-flex flex-row">
+                          <div class="d-flex align-items-center text-warning mr-1">
+                            <c:if test="${s.premium==1}">
+                              Premium
+                            </c:if>
+                          </div>
+                          <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${s.id_article}" role="button">
+                            Details
+                          </a>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -131,7 +145,5 @@
         </c:otherwise>
       </c:choose>
     </div>
-
-
   </jsp:body>
 </t:main>

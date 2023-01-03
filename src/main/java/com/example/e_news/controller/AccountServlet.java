@@ -21,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String path = request.getPathInfo();
         switch (path){
             case "/Register":
@@ -53,6 +55,8 @@ public class AccountServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String path = request.getPathInfo();
         switch (path){
             case "/Register":

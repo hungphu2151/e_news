@@ -1,13 +1,7 @@
 package com.example.e_news.controller;
 
-import com.example.e_news.beans.Article;
-import com.example.e_news.beans.Category;
-import com.example.e_news.beans.Cmt;
-import com.example.e_news.beans.User;
-import com.example.e_news.models.ArticleModel;
-import com.example.e_news.models.CategoryModel;
-import com.example.e_news.models.CmtModel;
-import com.example.e_news.models.UserModel;
+import com.example.e_news.beans.*;
+import com.example.e_news.models.*;
 import com.example.e_news.utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -24,6 +18,8 @@ import java.util.List;
 public class  ArticleServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    response.setCharacterEncoding("UTF-8");
+    request.setCharacterEncoding("UTF-8");
     String path = request.getPathInfo();
     switch (path) {
 
@@ -36,12 +32,24 @@ public class  ArticleServlet extends HttpServlet {
         ServletUtils.forward("/views/vwArticle/ByCat.jsp", request, response);
         break;
 
+      case "/ByTag":
+        int tagId = Integer.parseInt(request.getParameter("id"));
+        List<Article> listbytag = ArticleModel.findByTagId(tagId);
+        Tag tag = TagModel.findById(tagId);
+        request.setAttribute("tag", tag);
+        request.setAttribute("articles", listbytag);
+        ServletUtils.forward("/views/vwArticle/ByTag.jsp", request, response);
+        break;
+
       case "/Detail":
+        HttpSession session = request.getSession();
+        boolean auth = (boolean) session.getAttribute("auth");
         int artID = Integer.parseInt(request.getParameter("id"));
         Article art = ArticleModel.findById(artID);
         List<Cmt> cmt = CmtModel.findByArtId(artID);
         List<User> users = UserModel.findAll();
-        List<Article> listSameCat = ArticleModel.findSameCat();
+        List<Article> listSameCat = ArticleModel.findSameCat(artID);
+        List<Tag> listTagbyArt = TagModel.findByArtId(artID);
         if (art == null)
           ServletUtils.redirect("/Home", request, response);
         else {
@@ -49,7 +57,24 @@ public class  ArticleServlet extends HttpServlet {
           request.setAttribute("article", art);
           request.setAttribute("user", users);
           request.setAttribute("sameCat", listSameCat);
+          request.setAttribute("tagbyArt", listTagbyArt);
+          if ( art.getPremium()==1 && auth==false ){
+            ServletUtils.forward("/views/vwArticle/erro.jsp", request, response);
+            return;
+          }
           ServletUtils.forward("/views/vwArticle/Detail.jsp", request, response);
+        }
+        break;
+
+      case "/Search":
+        String  search = request.getParameter("txtResult");
+        System.out.println(search);
+        List<Article> search_result = ArticleModel.findSearch(search);
+        if (search_result==null)
+          ServletUtils.forward("/views/404.jsp", request, response);
+        else {
+          request.setAttribute("results",search_result);
+          ServletUtils.forward("/views/vwSearch/Search.jsp", request, response);
         }
         break;
 
@@ -61,6 +86,8 @@ public class  ArticleServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    response.setCharacterEncoding("UTF-8");
+    request.setCharacterEncoding("UTF-8");
     String path = request.getPathInfo();
     switch (path){
       case "/Detail":

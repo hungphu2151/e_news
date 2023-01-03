@@ -1,7 +1,5 @@
 package com.example.e_news.models;
 
-import com.example.e_news.beans.Article;
-import com.example.e_news.beans.Category;
 import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;

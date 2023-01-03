@@ -85,7 +85,7 @@
 
                     <div class="form-group">
                         <label for="txtPassword">Mật khẩu</label>
-                        <input type="password" class="form-control w-25" id="txtPassword" name="rawpassword">
+                        <input type="password" class="form-control w-25" id="txtPassword" name="rawpassword" value="${user.password}">
                     </div>
 
                     <div class="form-group">

@@ -29,8 +29,6 @@ public class AdminTagServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwTag/Index.jsp", request, response);
                 break;
             case "/AddTag":
-                List<Article> listArticle = ArticleModel.findAll();
-                request.setAttribute("articles",listArticle);
                 ServletUtils.forward("/views/vwTag/AddTag.jsp", request, response);
                 break;
 
@@ -38,8 +36,6 @@ public class AdminTagServlet extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Tag t = TagModel.findById(id);
                 if(t != null){
-                    List<Article> listAr = ArticleModel.findAll();
-                    request.setAttribute("articles",listAr);
                     request.setAttribute("tag",t);
                     ServletUtils.forward("/views/vwTag/EditTag.jsp", request, response);
                 }else {
@@ -74,8 +70,7 @@ public class AdminTagServlet extends HttpServlet {
     }
     private static void addTag(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String value = request.getParameter("value");
-        int id_article = Integer.parseInt(request.getParameter("id_article"));
-        Tag t= new Tag(0,id_article,value);
+        Tag t= new Tag(0,value);
         TagModel.add(t);
         ServletUtils.redirect("/Admin/Tag", request, response);
     }
@@ -83,8 +78,7 @@ public class AdminTagServlet extends HttpServlet {
     private static void updateTag(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String value = request.getParameter("value");
-        int id_article = Integer.parseInt(request.getParameter("id_article"));
-        Tag t= new Tag(id,id_article,value);
+        Tag t= new Tag(id,value);
         TagModel.update(t);
         ServletUtils.redirect("/Admin/Tag", request, response);
     }
