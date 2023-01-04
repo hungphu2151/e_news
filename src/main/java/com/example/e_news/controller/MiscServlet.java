@@ -3,9 +3,11 @@ package com.example.e_news.controller;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.e_news.beans.Article;
 import com.example.e_news.beans.Category;
+import com.example.e_news.beans.Tag;
 import com.example.e_news.beans.User;
 import com.example.e_news.models.ArticleModel;
 import com.example.e_news.models.CategoryModel;
+import com.example.e_news.models.TagModel;
 import com.example.e_news.models.UserModel;
 import com.example.e_news.utils.ServletUtils;
 
@@ -25,6 +27,10 @@ public class MiscServlet extends HttpServlet {
         String path = request.getPathInfo();
         switch (path){
             case "/Writer":
+                List<Category> categoryList = CategoryModel.findAll();
+                request.setAttribute("categories",categoryList);
+                List<Tag> listTag = TagModel.findAll();
+                request.setAttribute("tags",listTag);
                 ServletUtils.forward("/views/vwWriter/Writer.jsp", request, response);
                 break;
 
@@ -99,8 +105,23 @@ public class MiscServlet extends HttpServlet {
 
     private void postWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String desc = request.getParameter("FullDes");
-        System.out.println(desc);
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String title = request.getParameter("title");
+        String summary = request.getParameter("summary");
+        String content = request.getParameter("content");
+        int category_id = Integer.parseInt(request.getParameter("category_id"));
+        String [] tag_id =request.getParameterValues("tag_id");
+        Article a = new Article(0,0,category_id,3,0,id,title,summary,content,null,null);
+        ArticleModel.add(a);
+        Article article= ArticleModel.LatestArticleID();
+        for(String item: tag_id){
+            ArticleModel.addTags_Articles(Integer.parseInt(item),article.getId_article());
+        }
+        List<Category> listCategory = CategoryModel.findAll();
+        request.setAttribute("categories",listCategory);
+        List<Tag> listTag = TagModel.findAll();
+        request.setAttribute("tags",listTag);
         ServletUtils.forward("/views/vwWriter/Writer.jsp", request, response);
     }
 

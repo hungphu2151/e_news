@@ -4,7 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<%--<jsp:useBean id="editors" scope="request" type="java.util.List<com.example.e_news.beans.User>"/>--%>
+<jsp:useBean id="categories" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
+<jsp:useBean id="tags" scope="request" type="java.util.List<com.example.e_news.beans.Tag>"/>
+<jsp:useBean id="authUser" scope="session" type="com.example.e_news.beans.User"></jsp:useBean>
+
 
 <t:main>
     <jsp:attribute name="reader">
@@ -28,28 +31,41 @@
     <jsp:body>
         <form action="" method="post">
             <div class="card">
-                <h4 class="card-header ">
+                <h4 class="card-header">
                     Đăng bài viết
                 </h4>
-                        <div class="form-group">
-                            <label for="txtUsernane">Title</label>
-                            <input type="text" class="form-control" id="txtUsername" name="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="txtUsernane">Summary</label>
-                            <input type="text" class="form-control" id="txtUsernane" name="username">
-                        </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="txtArticle">Content</label>
-                            <textarea id="txtArticle"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtUsernane">Categories</label>
-                            <input type="text" class="form-control" id="txtUsernae" name="username">
-                        </div>
+                <div class="card-body">
                     <div class="form-group">
-                        <label for="txtArticle">Label</label>
+                        <label for="txtID">ID phóng viên</label>
+                        <input type="text" class="form-control" id="txtID" name="id" value="${authUser.id}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtTitle">Title</label>
+                        <input type="text" class="form-control" id="txtTitle" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtSummary">Summary</label>
+                        <input type="text" class="form-control" id="txtSummary" name="summary">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtArticle">Content</label>
+                        <textarea id="txtArticle" name="content"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inputGroupSelect">Thuộc chuyên mục</label>
+                        <select class="form-control w-25" id="inputGroupSelect" name="category_id">
+                            <c:forEach items="${categories}" var="c">
+                                <c:if test="${c.parent_id!=0}">
+                                    <option value="${c.id_category}">${c.name}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Nhãn:  &nbsp;
+                        <c:forEach items="${tags}" var="t">
+                            <input type="checkbox" name="tag_id" value="${t.id_tag}">  ${t.value} &nbsp; &nbsp;&nbsp;
+                        </c:forEach>
                     </div>
                 </div>
                 <div class="card-footer">

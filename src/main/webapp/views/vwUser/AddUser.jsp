@@ -81,8 +81,8 @@
                         <select class="form-control w-25" id="inputGroupSelect" name="role" >
                             <option value="1">Admin</option>
                             <option value="2">Biên tập viên</option>
-                            <option value="3">Nhà báo</option>
-                            <option value="4">Người đọc</option>
+                            <option value="3">Phóng viên</option>
+                            <option value="4">Đọc giả</option>
                         </select>
                     </div>
                     <div class="form-group">

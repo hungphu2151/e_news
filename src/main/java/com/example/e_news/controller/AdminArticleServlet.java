@@ -69,6 +69,9 @@ public class AdminArticleServlet extends HttpServlet {
             case "/UpdatePremium":
                 updatePremium(request, response);
                 break;
+            case "/Delete":
+                delete(request, response);
+                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -93,5 +96,10 @@ public class AdminArticleServlet extends HttpServlet {
         request.setAttribute("article",a);
         String url = "/Admin/Article/EditArticle?id=" + id;
         ServletUtils.redirect(url, request, response);
+    }
+    private static void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id =Integer.parseInt(request.getParameter("id"));
+        ArticleModel.delete(id);
+        ServletUtils.redirect("/Admin/Article", request, response);
     }
 }

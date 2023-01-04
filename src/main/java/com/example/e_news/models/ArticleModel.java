@@ -1,6 +1,8 @@
 package com.example.e_news.models;
 
 import com.example.e_news.beans.Article;
+import com.example.e_news.beans.Category;
+import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -112,6 +114,46 @@ public class ArticleModel {
                     .executeAndFetch(Article.class);
         }
     }
+    public static Article LatestArticleID(){
+        final String query = "Select id_article from articles  where id_article >= ALL (Select id_article from articles)";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Article> list = con.createQuery(query)
+                    .executeAndFetch(Article.class);
+            if (list.size()==0){
+                return null;
+            }
+            return list.get(0);
+        }
+    }
+
+    public static void add(Article a){
+        String insertSql = "INSERT INTO articles (id_article, title, public_date, category_id, sumary, content, status, views, writer_id, premium, reason)" +
+                "VALUES (:id_article,:title,:public_date,:category_id,:sumary,:content,:status,:views,:writer_id,:premium,:reason)\n";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(insertSql)
+                    .addParameter("id_article", a.getId_article())
+                    .addParameter("title", a.getTitle())
+                    .addParameter("public_date", a.getPublic_date())
+                    .addParameter("category_id", a.getCategory_id())
+                    .addParameter("sumary", a.getSumary())
+                    .addParameter("content", a.getContent())
+                    .addParameter("status", a.getStatus())
+                    .addParameter("views", a.getViews())
+                    .addParameter("writer_id", a.getWriter_id())
+                    .addParameter("premium", a.getPremium())
+                    .addParameter("reason", a.getReason())
+                    .executeUpdate();
+        }
+    }
+    public static void addTags_Articles(int tag_id,int article_id){
+        String insertSql = "INSERT INTO tags_has_articles (tag_id, article_id) VALUES (:tag_id,:article_id)\n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("tag_id",tag_id)
+                    .addParameter("article_id",article_id)
+                    .executeUpdate();
+        }
+    }
 
     public static void updateStatus (int id_article, int status){
         String insertSql = "UPDATE articles SET status =:status WHERE id_article = :id_article \n";
@@ -137,6 +179,14 @@ public class ArticleModel {
             con.createQuery(insertSql)
                     .addParameter("id_article",id_article)
                     .addParameter("reason",reason)
+                    .executeUpdate();
+        }
+    }
+    public static void delete (int id){
+        String insertSql = "DELETE FROM articles WHERE id_article = :id_article \n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("id_article", id)
                     .executeUpdate();
         }
     }
