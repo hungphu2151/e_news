@@ -7,6 +7,8 @@
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
 <jsp:useBean id="cat" scope="request" type="com.example.e_news.beans.Category" />
 <jsp:useBean id="authUser" scope="session" type="com.example.e_news.beans.User"/>
+<jsp:useBean id="list_tag" scope="request" type="java.util.List<com.example.e_news.beans.Tag>" />
+<jsp:useBean id="list_tags_has_articles" scope="request" type="java.util.List<com.example.e_news.beans.Tags_has_articles>" />
 
 <t:main>
   <jsp:attribute name="reader">
@@ -48,6 +50,19 @@
                               <a href="${pageContext.request.contextPath}/Article/ByCat?id=${a.category_id}">
                                   ${c.name}
                               </a>
+                            </c:if>
+                          </c:forEach>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                          <c:forEach items="${list_tags_has_articles}" var="t_h_a">
+                            <c:if test="${a.id_article==t_h_a.article_id}">
+                              <c:forEach items="${list_tag}" var="t">
+                                <c:if test="${t_h_a.tag_id==t.id_tag}">
+                                  <a href="${pageContext.request.contextPath}/Article/ByTag?id=${t.id_tag}">
+                                    <div>#${t.value}</div>
+                                  </a>
+                                </c:if>
+                              </c:forEach>
                             </c:if>
                           </c:forEach>
                         </div>

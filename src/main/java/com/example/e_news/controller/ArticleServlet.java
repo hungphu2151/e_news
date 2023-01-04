@@ -27,8 +27,12 @@ public class  ArticleServlet extends HttpServlet {
         int catId = Integer.parseInt(request.getParameter("id"));
         List<Article> list = ArticleModel.findByCatId(catId);
         Category cat = CategoryModel.findByIdforArt(catId);
+        List<Tag> list_tag = TagModel.findAll();
+        List<Tags_has_articles> list_tags_has_articles = Tags_has_articleModel.findAll();
         request.setAttribute("cat", cat);
         request.setAttribute("articles", list);
+        request.setAttribute("list_tag", list_tag);
+        request.setAttribute("list_tags_has_articles", list_tags_has_articles);
         ServletUtils.forward("/views/vwArticle/ByCat.jsp", request, response);
         break;
 
@@ -36,6 +40,10 @@ public class  ArticleServlet extends HttpServlet {
         int tagId = Integer.parseInt(request.getParameter("id"));
         List<Article> listbytag = ArticleModel.findByTagId(tagId);
         Tag tag = TagModel.findById(tagId);
+        List<Tag> list_tag1 = TagModel.findAll();
+        List<Tags_has_articles> list_tags_has_articles1 = Tags_has_articleModel.findAll();
+        request.setAttribute("list_tag", list_tag1);
+        request.setAttribute("list_tags_has_articles", list_tags_has_articles1);
         request.setAttribute("tag", tag);
         request.setAttribute("articles", listbytag);
         ServletUtils.forward("/views/vwArticle/ByTag.jsp", request, response);
@@ -50,6 +58,8 @@ public class  ArticleServlet extends HttpServlet {
         List<User> users = UserModel.findAll();
         List<Article> listSameCat = ArticleModel.findSameCat(artID);
         List<Tag> listTagbyArt = TagModel.findByArtId(artID);
+        List<Tag> list_tag2 = TagModel.findAll();
+        List<Tags_has_articles> list_tags_has_articles2 = Tags_has_articleModel.findAll();
         if (art == null)
           ServletUtils.redirect("/Home", request, response);
         else {
@@ -58,6 +68,8 @@ public class  ArticleServlet extends HttpServlet {
           request.setAttribute("user", users);
           request.setAttribute("sameCat", listSameCat);
           request.setAttribute("tagbyArt", listTagbyArt);
+          request.setAttribute("list_tag", list_tag2);
+          request.setAttribute("list_tags_has_articles", list_tags_has_articles2);
           if ( art.getPremium()==1 && auth==false ){
             ServletUtils.forward("/views/vwArticle/erro.jsp", request, response);
             return;
