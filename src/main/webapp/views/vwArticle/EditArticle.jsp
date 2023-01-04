@@ -92,6 +92,10 @@
                             Xuất bản bài viết
                         </button>
                     </c:if>
+                    <button type="submit" id="delete" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/Article/Delete">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                        Xóa
+                    </button>
                 </div>
             </div>
         </form>

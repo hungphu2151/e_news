@@ -55,7 +55,7 @@
                                         <td>${u.email}</td>
                                         <td>${u.issue_at.dayOfMonth}/${u.issue_at.monthValue}/${u.issue_at.year}  ${u.issue_at.hour}:${u.issue_at.minute}:${u.issue_at.second}</td>
                                         <td style="color: red">Hết hạn</td>
-                                        <td>${u.role == 1 ? "Admin" :u.role ==2 ? "Biên tập viên" : u.role == 3? "Nhà báo": "Người đọc" }</td>
+                                        <td>${u.role == 1 ? "Admin" :u.role ==2 ? "Biên tập viên" : u.role == 3? "Phóng viên": "Đọc giả" }</td>
                                         <td><fmt:formatDate value="${u.dob}" pattern="dd/MM/yyyy"/></td>
                                         <td class="text-right">
                                             <a  class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Admin/User/EditUser?username=${u.username}" role="button">
@@ -73,7 +73,7 @@
                                         <td>${u.email}</td>
                                         <td>${u.issue_at.dayOfMonth}/${u.issue_at.monthValue}/${u.issue_at.year}  ${u.issue_at.hour}:${u.issue_at.minute}:${u.issue_at.second}</td>
                                         <td>${u.expriration.dayOfMonth}/${u.expriration.monthValue}/${u.expriration.year}  ${u.expriration.hour}:${u.expriration.minute}:${u.expriration.second}</td>
-                                        <td>${u.role == 1 ? "Admin" :u.role ==2 ? "Biên tập viên" : u.role == 3? "Nhà báo": "Người đọc" }</td>
+                                        <td>${u.role == 1 ? "Admin" :u.role ==2 ? "Biên tập viên" : u.role == 3? "Phóng viên": "Đọc giả" }</td>
                                         <td><fmt:formatDate value="${u.dob}" pattern="dd/MM/yyyy"/></td>
                                         <td class="text-right">
                                             <a  class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Admin/User/EditUser?username=${u.username}" role="button">
