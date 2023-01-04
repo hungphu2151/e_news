@@ -133,9 +133,9 @@ public class MiscServlet extends HttpServlet {
 //        LocalDate dob = LocalDate.parse(StrDob, df);
 //        LocalDateTime issue_at= LocalDateTime.now();
 //        LocalDateTime expriration = issue_at.plusDays(7);
-        Article a = new Article(0,category ,3,1,4,title,summary,content,null,0);
+//        Article a = new Article(0,category ,3,1,4,title,summary,content,null,0);
 //        int id_article, int category_id, int status, int views, int writer_id, String title, String sumary, String content, LocalDateTime public_date, int premium
-        ArticleModel.add(a);
+//        ArticleModel.add(a);
 //        ServletUtils.redirect("/Admin/User", request, response);
     }
 }
