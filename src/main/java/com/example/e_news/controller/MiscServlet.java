@@ -1,5 +1,6 @@
 package com.example.e_news.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.e_news.beans.Article;
 import com.example.e_news.beans.Category;
 import com.example.e_news.beans.Tag;
@@ -14,6 +15,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet(name = "MiscServlet", value = "/Misc/*")
@@ -137,5 +141,22 @@ public class MiscServlet extends HttpServlet {
     }
 
     private void postAccept(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private static void addWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String title = request.getParameter("title");
+        String summary = request.getParameter("summary");
+        String content = request.getParameter("content");
+        String category = request.getParameter("category");
+//        int role = Integer.parseInt(request.getParameter("role"));
+//        String StrDob = request.getParameter("dob");
+//        DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
+//        LocalDate dob = LocalDate.parse(StrDob, df);
+//        LocalDateTime issue_at= LocalDateTime.now();
+//        LocalDateTime expriration = issue_at.plusDays(7);
+//        Article a = new Article(0,category ,3,1,4,title,summary,content,null,0);
+//        int id_article, int category_id, int status, int views, int writer_id, String title, String sumary, String content, LocalDateTime public_date, int premium
+//        ArticleModel.add(a);
+//        ServletUtils.redirect("/Admin/User", request, response);
     }
 }
