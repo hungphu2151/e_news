@@ -1,0 +1,71 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
+<%--<jsp:useBean id="article" scope="request" type="com.example.e_news.beans.Article" />--%>
+<%--<jsp:useBean id="cmts" scope="request" type="java.util.List<com.example.e_news.beans.Cmt>" />--%>
+<%--<jsp:useBean id="user" scope="request" type="java.util.List<com.example.e_news.beans.User>" />--%>
+<%--<jsp:useBean id="sameCat" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />--%>
+<%--<jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>--%>
+
+<t:main>
+    <jsp:attribute name="js">
+        <script src='https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js'></script>
+        <script>
+            tinymce.init({
+                selector: '#txtArticle',
+                height: 450,
+                plugins:    'lists paste image link autolink table',
+                menubar: false,
+                toolbar: [
+                    'undo redo | bold italic underline strikethrought | numlist bullíst | alignleft aligncenter alignright | forecolor backcolor | table link image'
+                ],
+                entity_encoding: "raw"
+            });
+        </script>
+    </jsp:attribute>
+  <jsp:attribute name="reader">
+        <jsp:include page="../../views/partials/leftWriter.jsp"/>
+  </jsp:attribute>
+    <jsp:body>
+        <form action="" method="post">
+            <div class="card">
+                <h4 class="card-header ">
+                    Sửa bài viết
+                </h4>
+                <div class="form-group">
+                    <label for="txtUsernane">Title</label>
+                    <input type="text" class="form-control" id="txtUsername" name="username">
+                </div>
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+                    <label for="txtUsernane">Summary</label>
+                    <input type="text" class="form-control" id="txtUsernane" name="username">
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="txtArticle">Content</label>
+                        <textarea id="txtArticle"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtUsernane">Categories</label>
+                        <input type="text" class="form-control" id="txtUsernae" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtArticle">Label</label>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary" >
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        Gửi
+                    </button>
+                </div>
+            </div>
+        </form>
+    </jsp:body>
+</t:main>
