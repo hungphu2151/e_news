@@ -12,8 +12,16 @@
 <t:main>
     <jsp:attribute name="reader">
         <jsp:include page="../../views/partials/leftWriter.jsp"/>
-  </jsp:attribute>
+    </jsp:attribute>
+
+    <jsp:attribute name="css">
+        <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    </jsp:attribute>
+
     <jsp:attribute name="js">
+        <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/fileinput.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/js/locales/vi.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/themes/fa/theme.min.js"></script>
         <script src='https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js'></script>
         <script>
             tinymce.init({
@@ -26,10 +34,16 @@
                 ],
                 entity_encoding: "raw"
             });
+            $("#fuMain").fileinput({
+                theme:"fa",
+                language:"vi",
+                dropZoneEnabled:false,
+                allowFileExtensions:['jpg','png','gif']
+            });
         </script>
     </jsp:attribute>
     <jsp:body>
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             <div class="card">
                 <h4 class="card-header">
                     Đăng bài viết
@@ -50,6 +64,9 @@
                     <div class="form-group">
                         <label for="txtArticle">Content</label>
                         <textarea id="txtArticle" name="content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="file" id="fuMain" name="fuMain">
                     </div>
                     <div class="form-group mb-3">
                         <label for="inputGroupSelect">Thuộc chuyên mục</label>

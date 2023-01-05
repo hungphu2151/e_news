@@ -14,6 +14,7 @@ import com.example.e_news.utils.ServletUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +22,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet(name = "MiscServlet", value = "/Misc/*")
+@MultipartConfig(
+        fileSizeThreshold = 2 * 1024 * 1024,
+        maxFileSize = 50 * 1024 * 1024,
+        maxRequestSize = 50 * 1024 * 1024
+)
 public class MiscServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -115,6 +121,17 @@ public class MiscServlet extends HttpServlet {
         Article a = new Article(0,0,category_id,3,0,id,title,summary,content,null,null);
         ArticleModel.add(a);
         Article article= ArticleModel.LatestArticleID();
+        for (Part part :request.getParts()){
+            if(part.getName().equals("fuMain")){
+                String targetDir= this.getServletContext().getRealPath("public/imgs/articles/"+article.getId_article());
+                File dir= new File(targetDir);
+                if(!dir.exists()){
+                    dir.mkdir();
+                }
+                String destination = targetDir+"/main.jpg" ;
+                part.write(destination);
+            }
+        }
         for(String item: tag_id){
             ArticleModel.addTags_Articles(Integer.parseInt(item),article.getId_article());
         }
