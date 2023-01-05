@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.example.e_news.models.ArticleModel.updateView;
+
 @WebServlet(name = "ArticleServlet", value = "/Article/*")
 public class  ArticleServlet extends HttpServlet {
   @Override
@@ -60,6 +62,7 @@ public class  ArticleServlet extends HttpServlet {
         List<Tag> listTagbyArt = TagModel.findByArtId(artID);
         List<Tag> list_tag2 = TagModel.findAll();
         List<Tags_has_articles> list_tags_has_articles2 = Tags_has_articleModel.findAll();
+        int count_view = art.getViews();
         if (art == null)
           ServletUtils.redirect("/Home", request, response);
         else {
@@ -74,6 +77,8 @@ public class  ArticleServlet extends HttpServlet {
             ServletUtils.forward("/views/vwArticle/erro.jsp", request, response);
             return;
           }
+          count_view=count_view+1;
+          updateView(artID, count_view);
           ServletUtils.forward("/views/vwArticle/Detail.jsp", request, response);
         }
         break;

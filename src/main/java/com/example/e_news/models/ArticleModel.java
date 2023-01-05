@@ -173,6 +173,15 @@ public class ArticleModel {
                     .executeUpdate();
         }
     }
+    public static void updateView (int id_article, int views){
+        String insertSql = "UPDATE articles SET views =:views WHERE id_article = :id_article \n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("id_article",id_article)
+                    .addParameter("views",views)
+                    .executeUpdate();
+        }
+    }
     public static void updateReason (int id_article, String reason){
         String insertSql = "UPDATE articles SET reason =:reason WHERE id_article = :id_article \n";
         try (Connection con = DbUtils.getConnection()){

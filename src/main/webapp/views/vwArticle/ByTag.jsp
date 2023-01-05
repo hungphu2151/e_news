@@ -27,12 +27,12 @@
             </div>
           </c:when>
           <c:otherwise>
-            <div class="card">
+            <div class="card ">
               <div class="card-header">
                 <h5 class="">${tag.value}</h5>
               </div>
               <c:forEach items="${articles}" var="a">
-                <div class="card-body">
+                <div class="card-body ">
                   <div class="row">
                     <div class="col-sm-12 mb-2 mt-2 d-flex justify-content-around">
                       <div class="col-sm-3 mb-2 mt-2 align-self-center">
