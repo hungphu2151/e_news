@@ -2,8 +2,10 @@ package com.example.e_news.controller;
 
 import com.example.e_news.beans.Article;
 import com.example.e_news.beans.Tag;
+import com.example.e_news.beans.User;
 import com.example.e_news.models.ArticleModel;
 import com.example.e_news.models.TagModel;
+import com.example.e_news.models.UserModel;
 import com.example.e_news.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -24,7 +26,22 @@ public class AdminTagServlet extends HttpServlet {
         }
         switch (path){
             case "/Index":
-                List<Tag> list = TagModel.findAll();
+                List<Tag> listTag = TagModel.findAll();
+                int totalPage = listTag.size()/5;
+                if (listTag.size()%5 !=0){
+                    totalPage++;
+                }
+                List<Tag> list;
+                int page;
+                if(request.getParameter("page") == null || Integer.parseInt(request.getParameter("page"))<1 || Integer.parseInt(request.getParameter("page"))> totalPage){
+                    page=1;
+                    list = TagModel.pagingTag(1);
+                }else {
+                    page = Integer.parseInt(request.getParameter("page"));
+                    list = TagModel.pagingTag(page);
+                }
+                request.setAttribute("currentPage",page);
+                request.setAttribute("totalPage",totalPage);
                 request.setAttribute("tags",list);
                 ServletUtils.forward("/views/vwTag/Index.jsp", request, response);
                 break;

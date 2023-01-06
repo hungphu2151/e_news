@@ -53,6 +53,47 @@
                 </div>
             </c:otherwise>
         </c:choose>
+        <ul class="pagination justify-content-center mt-4">
+            <li class="page-item ${currentPage==1? "disabled":''}">
+                <a class="page-link" href="${pageContext.request.contextPath}/Admin/Tag?page=${currentPage-1}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <c:choose>
+                <c:when test="${totalPage>5}">
+                    <li class="page-item ${currentPage==1 ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Tag?page=1">1</a></li>
+
+                    <c:if test="${currentPage>3}">
+                        <li class="page-item"><a class="page-link">...</a></li>
+                    </c:if>
+
+                    <c:forEach begin="${currentPage==1? 2:currentPage-2}" end="${currentPage+2}" var="u">
+                        <c:if test="${u>1 && u <totalPage}">
+                            <li class="page-item ${currentPage==u ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Tag?page=${u}">${u}</a></li>
+                        </c:if>
+                    </c:forEach>
+
+                    <c:if test="${currentPage<totalPage-2}">
+                        <li class="page-item"><a class="page-link">...</a></li>
+                    </c:if>
+
+                    <li class="page-item ${currentPage==totalPage ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Tag?page=${totalPage}">${totalPage}</a></li>
+
+                </c:when>
+                <c:otherwise>
+                    <c:forEach begin="1" end="${totalPage}" var="u">
+                        <li class="page-item ${currentPage==u ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Tag?page=${u}">${u}</a></li>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+
+            <li class="page-item ${currentPage==totalPage? "disabled":''}">
+                <a class="page-link" href="${pageContext.request.contextPath}/Admin/Tag?page=${currentPage+1}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
         </div>
 
     </jsp:body>

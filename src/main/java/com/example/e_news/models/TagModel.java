@@ -42,6 +42,18 @@ public class TagModel {
                     .executeAndFetch(Tag.class);
         }
     }
+
+    public static List<Tag> pagingTag(int page){
+        final String query = "Select *\n" +
+                "from tags\n" +
+                "ORDER BY tag_id\n" +
+                "LIMIT 5 OFFSET :index ";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("index",(page-1)*5)
+                    .executeAndFetch(Tag.class);
+        }
+    }
     public static void add(Tag t){
         String insertSql = "INSERT INTO tags (tag_id, value) VALUES (:tag_id,:value)\n";
         try (Connection con = DbUtils.getConnection()){
@@ -69,4 +81,5 @@ public class TagModel {
                     .executeUpdate();
         }
     }
+
 }
