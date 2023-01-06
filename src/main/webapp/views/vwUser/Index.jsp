@@ -11,6 +11,18 @@
         <jsp:include page="../../views/partials/leftAdmin.jsp"/>
     </jsp:attribute>
 
+    <jsp:attribute name="js">
+        <script>
+            $(document).ready(function () {
+                const loc = window.location.href;
+                $("div a").each(function() {
+                    if (loc.indexOf($(this).attr("href")) != -1) {
+                        $(this).addClass("list-group-item-primary");
+                    }
+                });
+            });
+        </script>
+    </jsp:attribute>
     <jsp:body>
         <div class="card">
         <h4 class="card-header d-flex justify-content-between">
