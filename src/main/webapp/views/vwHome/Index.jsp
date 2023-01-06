@@ -17,13 +17,10 @@
         <jsp:include page="../../views/partials/leftHome.jsp"/>
     </jsp:attribute>
     <jsp:body>
-        <div class="card mb-3">
-            <div class="card-header">
-                    <h5>Xem nhiều</h5>
-            </div>
-            <div class="card-body d-flex justify-content-center">
-                <div style="width: 50%">
-                    <div id="carouselExampleCaptions1" class="carousel slide" data-ride="carousel">
+        <div>
+            <div class="card-body d-flex justify-content-center container-pluid h-100 pt-0 pb-0 pr-0 pl-0 mb-3">
+                <div style="width: 100%">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
                             <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
@@ -31,25 +28,13 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="${pageContext.request.contextPath}/public/imgs/articles/1/main.jpg" class="d-block w-100" alt="..." >
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>First slide label</h5>
-                                    <p>Some representative placeholder content for the first slide.</p>
-                                </div>
+                                <img src="${pageContext.request.contextPath}/public/imgs/articles/1/main.jpg" class="d-block w-100 container-pluid h-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="${pageContext.request.contextPath}/public/imgs/articles/2/main.jpg" class="d-block w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Second slide label</h5>
-                                    <p>Some representative placeholder content for the second slide.</p>
-                                </div>
+                                <img src="${pageContext.request.contextPath}/public/imgs/articles/2/main.jpg" class="d-block w-100 container-pluid h-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="${pageContext.request.contextPath}/public/imgs/articles/3/main.jpg" class="d-block w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Third slide label</h5>
-                                    <p>Some representative placeholder content for the third slide.</p>
-                                </div>
+                                <img src="${pageContext.request.contextPath}/public/imgs/articles/3/main.jpg" class="d-block w-100 container-pluid h-100" alt="...">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-target="#carouselExampleCaptions" data-slide="prev">

@@ -16,7 +16,7 @@
 </head>
 <body>
 <jsp:include page="../../views/partials/nav.jsp"/>
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-3">
     <div class="row">
         <div class="col-sm-2">
             <jsp:invoke fragment="reader"/>
