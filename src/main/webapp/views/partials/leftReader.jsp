@@ -5,9 +5,10 @@
 <jsp:useBean id="tagWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Tag>"/>
 
 <div>
-    <form class="form-inline" action="">
+    <form class="form-inline" action="${pageContext.request.contextPath}/Article/Search">
         <input id="txtSearch" name="txtResult" class="form-control" type="search" placeholder="Search" aria-label="Search" style="width: 100%">
-        <button class="btn btn-light " type="submit">Search</button>
+        <button class="btn btn-light mt-1" type="submit">Search</button>
+<%--        <a class="btn btn-primary" href="${pageContext.request.contextPath}/Article/Search" role="button"> Search</a>--%>
     </form>
 </div>
 <div class="card mt-3">

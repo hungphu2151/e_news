@@ -88,7 +88,7 @@ public class AccountServlet extends HttpServlet {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dob = LocalDate.parse(StrDob, df);
         LocalDateTime issue_at = LocalDateTime.now();
-        LocalDateTime expriration = issue_at.minusMinutes(10080);
+        LocalDateTime expriration = issue_at.plusMinutes(10080);
         int role = 4;
         User c = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
         UserModel.add(c);

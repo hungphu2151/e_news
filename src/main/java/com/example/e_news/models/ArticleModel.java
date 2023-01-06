@@ -1,8 +1,6 @@
 package com.example.e_news.models;
 
 import com.example.e_news.beans.Article;
-import com.example.e_news.beans.Category;
-import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -17,8 +15,17 @@ public class ArticleModel {
         }
     }
 
-    public static List<Article> findByCatId(int catId) {
-        final String sql = "select * from articles where category_id = :category_id and status=1 order by premium desc ";
+//    public static List<Article> findByCatId(int catId) {
+//        final String sql = "select * from articles where category_id = :category_id and status=1 order by premium desc ";
+//        try (Connection con = DbUtils.getConnection()) {
+//            return con.createQuery(sql)
+//                    .addParameter("category_id", catId)
+//                    .executeAndFetch(Article.class);
+//        }
+//    }
+
+    public static List<Article> findByCatId(int catId, int page, int record) {
+        final String sql = "select * from articles WHERE category_id = :category_id and status=1 order by premium desc LIMIT " + (page-1)*record + ", " + record;
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .addParameter("category_id", catId)
@@ -26,13 +33,52 @@ public class ArticleModel {
         }
     }
 
-    public static List<Article> findByTagId(int tagId) {
-        final String sql = "select id_article, premium, title, public_date, category_id, sumary, content, status, views, writer_id from articles, tags_has_articles\n" +
-                "where tags_has_articles.tag_id = :tag_id and articles.id_article=tags_has_articles.article_id and status=1 order by premium desc";
+    public static int countByCatId(int catId) {
+        String sql = "select * from articles WHERE category_id = :category_id and status=1";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Article> list = con.createQuery(sql)
+                    .addParameter("category_id", catId)
+                    .executeAndFetch(Article.class);
+            return list.size();
+        }
+    }
+
+    public static List<Article> findSearch(String search, int page, int record) {
+        final String sql = "SELECT * FROM articles WHERE status=1 and MATCH(title,sumary,content) AGAINST(:title) LIMIT " + (page-1)*record + ", " + record;
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .addParameter("title", "%"+search+"%")
+                    .executeAndFetch(Article.class);
+        }
+    }
+
+    public static int countSearch(String search) {
+        String sql = "SELECT * FROM articles WHERE status=1 and MATCH(title,sumary,content) AGAINST(:title)";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Article> list = con.createQuery(sql)
+                    .addParameter("title", search)
+                    .executeAndFetch(Article.class);
+            return list.size();
+        }
+    }
+
+    public static List<Article> findByTagId(int tagId, int page, int record) {
+        final String sql = "select id_article, premium, title, public_date, category_id, sumary, content, status, views, writer_id from articles, tags_has_articles where tags_has_articles.tag_id = :tag_id and articles.id_article=tags_has_articles.article_id and status=1 LIMIT " + (page-1)*record + ", " + record;
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .addParameter("tag_id", tagId)
                     .executeAndFetch(Article.class);
+        }
+    }
+
+    public static int countByTagId(int tagId) {
+        String sql = "select id_article, premium, title, public_date, category_id, sumary, content, status, views, writer_id from articles, tags_has_articles\n" +
+                "where tags_has_articles.tag_id = :tag_id and articles.id_article=tags_has_articles.article_id and status=1";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Article> list = con.createQuery(sql)
+                    .addParameter("tag_id", tagId)
+                    .executeAndFetch(Article.class);
+            return list.size();
         }
     }
 
@@ -103,17 +149,6 @@ public class ArticleModel {
         }
     }
 
-    public static List<Article> findSearch(String search) {
-        final String sql = "SELECT *\n" +
-                "FROM articles\n" +
-                "WHERE\n" +
-                "    MATCH(title, sumary, content)\n" +
-                "          AGAINST('search');";
-        try (Connection con = DbUtils.getConnection()) {
-            return con.createQuery(sql)
-                    .executeAndFetch(Article.class);
-        }
-    }
     public static Article LatestArticleID(){
         final String query = "Select id_article from articles  where id_article >= ALL (Select id_article from articles)";
         try (Connection con = DbUtils.getConnection()) {

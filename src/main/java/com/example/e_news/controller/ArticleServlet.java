@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.example.e_news.models.ArticleModel.updateView;
+import static com.example.e_news.models.ArticleModel.*;
 
 @WebServlet(name = "ArticleServlet", value = "/Article/*")
 public class  ArticleServlet extends HttpServlet {
@@ -27,7 +27,17 @@ public class  ArticleServlet extends HttpServlet {
 
       case "/ByCat":
         int catId = Integer.parseInt(request.getParameter("id"));
-        List<Article> list = ArticleModel.findByCatId(catId);
+        String strPage = request.getParameter("page");
+        int page = strPage == null ? 1 : Integer.parseInt(strPage);
+        int record = 2;
+        int amount = countByCatId(catId) / record;
+        if (countByCatId(catId) % record != 0) {
+          amount++;
+        }
+        request.setAttribute("record", record);
+        request.setAttribute("amount", amount);
+        request.setAttribute("page", page);
+        List<Article> list = ArticleModel.findByCatId(catId,page,record);
         Category cat = CategoryModel.findByIdforArt(catId);
         List<Tag> list_tag = TagModel.findAll();
         List<Tags_has_articles> list_tags_has_articles = Tags_has_articleModel.findAll();
@@ -40,7 +50,17 @@ public class  ArticleServlet extends HttpServlet {
 
       case "/ByTag":
         int tagId = Integer.parseInt(request.getParameter("id"));
-        List<Article> listbytag = ArticleModel.findByTagId(tagId);
+        strPage = request.getParameter("page");
+        page = strPage == null ? 1 : Integer.parseInt(strPage);
+        record = 2;
+        amount = countByTagId(tagId) / record;
+        if (countByTagId(tagId) % record != 0) {
+          amount++;
+        }
+        request.setAttribute("record", record);
+        request.setAttribute("amount", amount);
+        request.setAttribute("page", page);
+        List<Article> listbytag = ArticleModel.findByTagId(tagId, page, record);
         Tag tag = TagModel.findById(tagId);
         List<Tag> list_tag1 = TagModel.findAll();
         List<Tags_has_articles> list_tags_has_articles1 = Tags_has_articleModel.findAll();
@@ -53,7 +73,6 @@ public class  ArticleServlet extends HttpServlet {
 
       case "/Detail":
         HttpSession session = request.getSession();
-        boolean auth = (boolean) session.getAttribute("auth");
         int artID = Integer.parseInt(request.getParameter("id"));
         Article art = ArticleModel.findById(artID);
         List<Cmt> cmt = CmtModel.findByArtId(artID);
@@ -73,7 +92,10 @@ public class  ArticleServlet extends HttpServlet {
           request.setAttribute("tagbyArt", listTagbyArt);
           request.setAttribute("list_tag", list_tag2);
           request.setAttribute("list_tags_has_articles", list_tags_has_articles2);
-          if ( art.getPremium()==1 && auth==false ){
+          boolean auth = (boolean) session.getAttribute("auth");
+          User a = (User) session.getAttribute("authUser");
+          LocalDateTime now = LocalDateTime.now();
+          if ( art.getPremium()==1 && (auth==false || a.getExpriration().isBefore(now) )){
             ServletUtils.forward("/views/vwArticle/erro.jsp", request, response);
             return;
           }
@@ -85,13 +107,27 @@ public class  ArticleServlet extends HttpServlet {
 
       case "/Search":
         String  search = request.getParameter("txtResult");
-        System.out.println(search);
-        List<Article> search_result = ArticleModel.findSearch(search);
+        request.setAttribute("txtresult",search);
+        strPage = request.getParameter("page");
+        page = strPage == null ? 1 : Integer.parseInt(strPage);
+        record = 4;
+        amount = countSearch(search) / record;
+        if (countSearch(search) % record != 0) {
+          amount++;
+        }
+        request.setAttribute("record", record);
+        request.setAttribute("amount", amount);
+        request.setAttribute("page", page);
+        List<Article> search_result = ArticleModel.findSearch(search, page, record);
+        List<Tag> list_tag3 = TagModel.findAll();
+        List<Tags_has_articles> list_tags_has_articles3 = Tags_has_articleModel.findAll();
         if (search_result==null)
           ServletUtils.forward("/views/404.jsp", request, response);
         else {
+          request.setAttribute("list_tag", list_tag3);
+          request.setAttribute("list_tags_has_articles", list_tags_has_articles3);
           request.setAttribute("results",search_result);
-          ServletUtils.forward("/views/vwSearch/Search.jsp", request, response);
+          ServletUtils.forward("/views/vwArticle/Search.jsp", request, response);
         }
         break;
 

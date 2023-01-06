@@ -87,6 +87,30 @@
                 </div>
               </c:forEach>
             </div>
+            <ul class="pagination justify-content-center mt-2">
+              <c:if test="${page > 1 }">
+                <li class="page-item"><a class="page-link  ${page == 1 ? 'disabled' : '' }"
+                href="${pageContext.request.contextPath}/Article/ByTag?id=${tag.id_tag}">Pre</a></li>
+              </c:if>
+              <c:forEach begin="1" end="${amount }" var="value">
+                <c:choose>
+                  <c:when test="${value == 1}">
+                    <li class="page-item ${value == page ? 'active' : '' }"><a class="page-link"
+                    href="${pageContext.request.contextPath}/Article/ByTag?id=${tag.id_tag}">${value}</a>
+                    </li>
+                  </c:when>
+                  <c:otherwise>
+                    <li class="page-item ${value == page ? 'active' : '' }"><a class="page-link"
+                    href="${pageContext.request.contextPath}/Article/ByTag?id=${tag.id_tag}&page=${value}">${value}</a>
+                    </li>
+                  </c:otherwise>
+                </c:choose>
+              </c:forEach>
+              <c:if test="${page < amount }">
+                <li class="page-item"><a class="page-link ${page == amount ? 'disabled' : '' }"
+                href="${pageContext.request.contextPath}/Article/ByTag?id=${tag.id_tag}&page=${amount }">Next</a></li>
+              </c:if>
+            </ul>
           </c:otherwise>
         </c:choose>
       </div>

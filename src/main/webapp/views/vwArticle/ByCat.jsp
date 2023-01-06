@@ -15,8 +15,6 @@
         <jsp:include page="../../views/partials/leftReader.jsp"/>
   </jsp:attribute>
   <jsp:attribute name="js">
-    <script>
-    </script>
   </jsp:attribute>
   <jsp:body>
       <c:choose>
@@ -86,6 +84,30 @@
               </div>
             </c:forEach>
           </div>
+          <ul class="pagination justify-content-center mt-2">
+            <c:if test="${page > 1 }">
+              <li class="page-item"><a class="page-link  ${page == 1 ? 'disabled' : '' }"
+              href="${pageContext.request.contextPath}/Article/ByCat?id=${cat.id_category}">Pre</a></li>
+            </c:if>
+            <c:forEach begin="1" end="${amount }" var="value">
+              <c:choose>
+                <c:when test="${value == 1}">
+                  <li class="page-item ${value == page ? 'active' : '' }"><a class="page-link"
+                  href="${pageContext.request.contextPath}/Article/ByCat?id=${cat.id_category}">${value}</a>
+                  </li>
+                </c:when>
+                <c:otherwise>
+                  <li class="page-item ${value == page ? 'active' : '' }"><a class="page-link"
+                  href="${pageContext.request.contextPath}/Article/ByCat?id=${cat.id_category}&page=${value}">${value}</a>
+                  </li>
+                </c:otherwise>
+              </c:choose>
+            </c:forEach>
+            <c:if test="${page < amount }">
+              <li class="page-item"><a class="page-link ${page == amount ? 'disabled' : '' }"
+              href="${pageContext.request.contextPath}/Article/ByCat?id=${cat.id_category}&page=${amount }">Next</a></li>
+            </c:if>
+          </ul>
         </c:otherwise>
       </c:choose>
   </jsp:body>
