@@ -26,6 +26,7 @@
             $("#save").click(function (e) {
                 e.preventDefault();
                 console.log("save");
+                const validemail =/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/;
                 const id = $('#txtID').val();
                 const username = $('#txtUsername').val();
                 const name = $('#txtname').val();
@@ -33,7 +34,7 @@
                 const psw = $('#txtPassword').val();
                 const email = $('#txtEmail').val();
                 const dob =$('#txtDOB').val();
-                if(username.length===0 || name.length===0 || penname.length===0 || psw.length === 0 || email.length===0 || dob.length===0){
+                if(username.length===0 || name.length===0 || penname.length===0 || psw.length === 0 || dob.length===0 || email.length === 0 || !(validemail.test(email))){
                     alert('Vui lòng nhập đầy đủ!!!');
                 }else {
                     $.getJSON('${pageContext.request.contextPath}/Admin/User/IsAvailable?user='+ username + '&id='+id, function (data){

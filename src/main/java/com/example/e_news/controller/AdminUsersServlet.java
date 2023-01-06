@@ -27,7 +27,22 @@ public class AdminUsersServlet extends HttpServlet {
         }
         switch (path){
             case "/Index":
-                List<User> list = UserModel.findAll();
+                List<User> listUser = UserModel.findAll();
+                int totalPage = listUser.size()/5;
+                if (listUser.size()%5 !=0){
+                    totalPage++;
+                }
+                List<User> list;
+                int page;
+                if(request.getParameter("page") == null || Integer.parseInt(request.getParameter("page"))<1 || Integer.parseInt(request.getParameter("page"))> totalPage){
+                    page=1;
+                     list = UserModel.pagingUser(1);
+                }else {
+                    page = Integer.parseInt(request.getParameter("page"));
+                    list = UserModel.pagingUser(page);
+                }
+                request.setAttribute("currentPage",page);
+                request.setAttribute("totalPage",totalPage);
                 request.setAttribute("users",list);
                 LocalDateTime now = LocalDateTime.now();
                 request.setAttribute("now",now);

@@ -100,4 +100,16 @@ public class UserModel {
                     .executeAndFetch(User.class);
         }
     }
+
+    public static List<User> pagingUser(int page){
+        final String query = "Select *\n" +
+                "from users\n" +
+                "ORDER BY id\n" +
+                "LIMIT 5 OFFSET :index ";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("index",(page-1)*5)
+                    .executeAndFetch(User.class);
+        }
+    }
 }

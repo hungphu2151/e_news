@@ -273,4 +273,16 @@ public class ArticleModel {
                     .executeAndFetch(Article.class);
         }
     }
+
+    public static List<Article> pagingArticle(int page){
+        final String query = "Select *\n" +
+                "from articles\n" +
+                "ORDER BY id_article\n" +
+                "LIMIT 6 OFFSET :index ";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("index",(page-1)*6)
+                    .executeAndFetch(Article.class);
+        }
+    }
 }
