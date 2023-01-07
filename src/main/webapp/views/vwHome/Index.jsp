@@ -17,6 +17,38 @@
         <jsp:include page="../../views/partials/leftHome.jsp"/>
     </jsp:attribute>
     <jsp:body>
+        <div>
+            <div class="card-body d-flex justify-content-center container-pluid h-100 pt-0 pb-0 pr-0 pl-0 mb-3">
+                <div style="width: 100%">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="${pageContext.request.contextPath}/public/imgs/articles/1/main.jpg" class="d-block w-100 container-pluid h-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="${pageContext.request.contextPath}/public/imgs/articles/2/main.jpg" class="d-block w-100 container-pluid h-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="${pageContext.request.contextPath}/public/imgs/articles/3/main.jpg" class="d-block w-100 container-pluid h-100" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-target="#carouselExampleCaptions" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-target="#carouselExampleCaptions" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <c:choose>
             <c:when test="${countCmt.size() == 0}">
                 <div class="card mb-3">
@@ -60,9 +92,16 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
                                             <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${count.views}</div>
-                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${count.id_article}" role="button">
-                                                Details
-                                            </a>
+                                            <div class="d-flex flex-row">
+                                                <div class="d-flex align-items-center text-warning mr-1">
+                                                    <c:if test="${a.premium==1}">
+                                                        Premium
+                                                    </c:if>
+                                                </div>
+                                                <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${count.id_article}" role="button">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -115,9 +154,16 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
                                             <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${v.views}</div>
-                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${v.id_article}" role="button">
-                                                Details
-                                            </a>
+                                            <div class="d-flex flex-row">
+                                                <div class="d-flex align-items-center text-warning mr-1">
+                                                    <c:if test="${v.premium==1}">
+                                                        Premium
+                                                    </c:if>
+                                                </div>
+                                                <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${v.id_article}" role="button">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -170,9 +216,16 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
                                             <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${d.views}</div>
-                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${d.id_article}" role="button">
-                                                Details
-                                            </a>
+                                            <div class="d-flex flex-row">
+                                                <div class="d-flex align-items-center text-warning mr-1">
+                                                    <c:if test="${d.premium==1}">
+                                                        Premium
+                                                    </c:if>
+                                                </div>
+                                                <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${d.id_article}" role="button">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -230,9 +283,16 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-md-between">
                                             <div class="d-flex align-items-center"><i class="fa fa-eye" aria-hidden="true"></i>${t.views}</div>
-                                            <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${t.id_article}" role="button">
-                                                Details
-                                            </a>
+                                            <div class="d-flex flex-row">
+                                                <div class="d-flex align-items-center text-warning mr-1">
+                                                    <c:if test="${t.premium==1}">
+                                                        Premium
+                                                    </c:if>
+                                                </div>
+                                                <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Article/Detail?id=${t.id_article}" role="button">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -71,4 +71,19 @@ public class User {
     public LocalDateTime getExpriration() {
         return expriration;
     }
+
+    public int getCategory() {
+        return(0);
+    }
+    public int getTitle() {
+        return(0);
+    }
+
+    public int getSummary() {
+        return(0);
+    }
+
+    public int getContent() {
+        return(0);
+    }
 }

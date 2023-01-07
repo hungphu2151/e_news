@@ -3,9 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<jsp:useBean id="articles" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
+<jsp:useBean id="results" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
-<jsp:useBean id="cat" scope="request" type="com.example.e_news.beans.Category" />
 <jsp:useBean id="authUser" scope="session" type="com.example.e_news.beans.User"/>
 <jsp:useBean id="list_tag" scope="request" type="java.util.List<com.example.e_news.beans.Tag>" />
 <jsp:useBean id="list_tags_has_articles" scope="request" type="java.util.List<com.example.e_news.beans.Tags_has_articles>" />
@@ -15,10 +14,12 @@
         <jsp:include page="../../views/partials/leftReader.jsp"/>
   </jsp:attribute>
   <jsp:attribute name="js">
+    <script>
+    </script>
   </jsp:attribute>
   <jsp:body>
       <c:choose>
-        <c:when test="${articles.size() == 0}">
+        <c:when test="${results.size() == 0}">
           <div class="card-body">
             <p class="card-text">Không có dữ liệu phù hợp!</p>
           </div>
@@ -26,9 +27,9 @@
         <c:otherwise>
           <div class="card">
             <div class="card-header">
-              <h5 class="">${cat.name}</h5>
+              <h5>Kết quả tìm kiếm</h5>
             </div>
-            <c:forEach items="${articles}" var="a">
+            <c:forEach items="${results}" var="a">
               <div class="card-body">
                 <div class="row">
                   <div class="col-sm-12 mb-2 mt-2 d-flex justify-content-around">
@@ -87,25 +88,25 @@
           <ul class="pagination justify-content-center mt-2">
             <c:if test="${page > 1 }">
               <li class="page-item"><a class="page-link  ${page == 1 ? 'disabled' : '' }"
-              href="${pageContext.request.contextPath}/Article/ByCat?id=${cat.id_category}">Pre</a></li>
+              href="${pageContext.request.contextPath}/Article/Search?txtResult=${txtresult}">Pre</a></li>
             </c:if>
             <c:forEach begin="1" end="${amount }" var="value">
               <c:choose>
                 <c:when test="${value == 1}">
                   <li class="page-item ${value == page ? 'active' : '' }"><a class="page-link"
-                  href="${pageContext.request.contextPath}/Article/ByCat?id=${cat.id_category}">${value}</a>
+                  href="${pageContext.request.contextPath}/Article/Search?txtResult=${txtresult}">${value}</a>
                   </li>
                 </c:when>
                 <c:otherwise>
                   <li class="page-item ${value == page ? 'active' : '' }"><a class="page-link"
-                  href="${pageContext.request.contextPath}/Article/ByCat?id=${cat.id_category}&page=${value}">${value}</a>
+                  href="${pageContext.request.contextPath}/Article/Search?txtResult=${txtresult}&page=${value}">${value}</a>
                   </li>
                 </c:otherwise>
               </c:choose>
             </c:forEach>
             <c:if test="${page < amount }">
-              <li class="page-item"><a class="page-link ${page == amount ? 'disabled' : '' }"
-              href="${pageContext.request.contextPath}/Article/ByCat?id=${cat.id_category}&page=${amount }">Next</a></li>
+              <li class="page-item"><a class="page-link ${page == amount1 ? 'disabled' : '' }"
+              href="${pageContext.request.contextPath}/Article/Search?txtResult=${txtresult}&page=${amount}">Next</a></li>
             </c:if>
           </ul>
         </c:otherwise>

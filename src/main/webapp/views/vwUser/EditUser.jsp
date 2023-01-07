@@ -26,6 +26,7 @@
             $("#save").click(function (e) {
                 e.preventDefault();
                 console.log("save");
+                const validemail =/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/;
                 const id = $('#txtID').val();
                 const username = $('#txtUsername').val();
                 const name = $('#txtname').val();
@@ -33,7 +34,7 @@
                 const psw = $('#txtPassword').val();
                 const email = $('#txtEmail').val();
                 const dob =$('#txtDOB').val();
-                if(username.length===0 || name.length===0 || penname.length===0 || psw.length === 0 || email.length===0 || dob.length===0){
+                if(username.length===0 || name.length===0 || penname.length===0 || psw.length === 0 || dob.length===0 || email.length === 0 || !(validemail.test(email))){
                     alert('Vui lòng nhập đầy đủ!!!');
                 }else {
                     $.getJSON('${pageContext.request.contextPath}/Admin/User/IsAvailable?user='+ username + '&id='+id, function (data){
@@ -85,7 +86,7 @@
 
                     <div class="form-group">
                         <label for="txtPassword">Mật khẩu</label>
-                        <input type="password" class="form-control w-25" id="txtPassword" name="rawpassword">
+                        <input type="password" class="form-control w-25" id="txtPassword" name="rawpassword" value="${user.password}">
                     </div>
 
                     <div class="form-group">
@@ -99,26 +100,26 @@
                             <c:if test="${user.role==1}">
                                 <option value="1" selected>Admin</option>
                                 <option value="2">Biên tập viên</option>
-                                <option value="3">Nhà báo</option>
-                                <option value="4">Người đọc</option>
+                                <option value="3">Phóng viên</option>
+                                <option value="4">Đọc giả</option>
                             </c:if>
                             <c:if test="${user.role==2}">
                                 <option value="1" >Admin</option>
                                 <option value="2"selected>Biên tập viên</option>
-                                <option value="3">Nhà báo</option>
-                                <option value="4">Người đọc</option>
+                                <option value="3">Phóng viên</option>
+                                <option value="4">Đọc giả</option>
                             </c:if>
                             <c:if test="${user.role==3}">
                                 <option value="1" >Admin</option>
                                 <option value="2">Biên tập viên</option>
-                                <option value="3" selected>Nhà báo</option>
-                                <option value="4">Người đọc</option>
+                                <option value="3" selected>Phóng viên</option>
+                                <option value="4">Đọc giả</option>
                             </c:if>
                             <c:if test="${user.role==4}">
                                 <option value="1" >Admin</option>
                                 <option value="2">Biên tập viên</option>
-                                <option value="3">Nhà báo</option>
-                                <option value="4" selected>Người đọc</option>
+                                <option value="3">Phóng viên</option>
+                                <option value="4" selected>Đọc giả</option>
                             </c:if>
                         </select>
                     </div>

@@ -1,26 +1,42 @@
 package com.example.e_news.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.e_news.beans.Article;
 import com.example.e_news.beans.Category;
+import com.example.e_news.beans.Tag;
 import com.example.e_news.beans.User;
 import com.example.e_news.models.ArticleModel;
 import com.example.e_news.models.CategoryModel;
+import com.example.e_news.models.TagModel;
 import com.example.e_news.models.UserModel;
 import com.example.e_news.utils.ServletUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet(name = "MiscServlet", value = "/Misc/*")
+@MultipartConfig(
+        fileSizeThreshold = 2 * 1024 * 1024,
+        maxFileSize = 50 * 1024 * 1024,
+        maxRequestSize = 50 * 1024 * 1024
+)
 public class MiscServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         switch (path){
             case "/Writer":
+                List<Category> categoryList = CategoryModel.findAll();
+                request.setAttribute("categories",categoryList);
+                List<Tag> listTag = TagModel.findAll();
+                request.setAttribute("tags",listTag);
                 ServletUtils.forward("/views/vwWriter/Writer.jsp", request, response);
                 break;
 
@@ -95,8 +111,34 @@ public class MiscServlet extends HttpServlet {
 
     private void postWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String desc = request.getParameter("FullDes");
-        System.out.println(desc);
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String title = request.getParameter("title");
+        String summary = request.getParameter("summary");
+        String content = request.getParameter("content");
+        int category_id = Integer.parseInt(request.getParameter("category_id"));
+        String [] tag_id =request.getParameterValues("tag_id");
+        Article a = new Article(0,0,category_id,3,0,id,title,summary,content,null,null);
+        ArticleModel.add(a);
+        Article article= ArticleModel.LatestArticleID();
+        for (Part part :request.getParts()){
+            if(part.getName().equals("fuMain")){
+                String targetDir= this.getServletContext().getRealPath("public/imgs/articles/"+article.getId_article());
+                File dir= new File(targetDir);
+                if(!dir.exists()){
+                    dir.mkdir();
+                }
+                String destination = targetDir+"/main.jpg" ;
+                part.write(destination);
+            }
+        }
+        for(String item: tag_id){
+            ArticleModel.addTags_Articles(Integer.parseInt(item),article.getId_article());
+        }
+        List<Category> listCategory = CategoryModel.findAll();
+        request.setAttribute("categories",listCategory);
+        List<Tag> listTag = TagModel.findAll();
+        request.setAttribute("tags",listTag);
         ServletUtils.forward("/views/vwWriter/Writer.jsp", request, response);
     }
 
@@ -116,5 +158,22 @@ public class MiscServlet extends HttpServlet {
     }
 
     private void postAccept(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private static void addWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String title = request.getParameter("title");
+        String summary = request.getParameter("summary");
+        String content = request.getParameter("content");
+        String category = request.getParameter("category");
+//        int role = Integer.parseInt(request.getParameter("role"));
+//        String StrDob = request.getParameter("dob");
+//        DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
+//        LocalDate dob = LocalDate.parse(StrDob, df);
+//        LocalDateTime issue_at= LocalDateTime.now();
+//        LocalDateTime expriration = issue_at.plusDays(7);
+//        Article a = new Article(0,category ,3,1,4,title,summary,content,null,0);
+//        int id_article, int category_id, int status, int views, int writer_id, String title, String sumary, String content, LocalDateTime public_date, int premium
+//        ArticleModel.add(a);
+//        ServletUtils.redirect("/Admin/User", request, response);
     }
 }

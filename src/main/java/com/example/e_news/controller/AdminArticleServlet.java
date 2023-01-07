@@ -31,7 +31,23 @@ public class AdminArticleServlet extends HttpServlet {
         switch (path){
             case "/Index":
                 List<Article> listArticle = ArticleModel.findAll();
-                request.setAttribute("articles",listArticle);
+                int totalPage = listArticle.size()/6;
+                if (listArticle.size()%6 !=0){
+                    totalPage++;
+                }
+                List<Article> list;
+                int page;
+                if(request.getParameter("page") == null || Integer.parseInt(request.getParameter("page"))<1 || Integer.parseInt(request.getParameter("page"))> totalPage){
+                    page=1;
+                    list = ArticleModel.pagingArticle(1);
+                }else {
+                    page = Integer.parseInt(request.getParameter("page"));
+                    list = ArticleModel.pagingArticle(page);
+                }
+                request.setAttribute("currentPage",page);
+                request.setAttribute("totalPage",totalPage);
+                request.setAttribute("articles",list);
+
                 int roleWriter = 3;
                 List<User> listWriter = UserModel.findByRole(roleWriter);
                 request.setAttribute("writers",listWriter);
@@ -69,6 +85,9 @@ public class AdminArticleServlet extends HttpServlet {
             case "/UpdatePremium":
                 updatePremium(request, response);
                 break;
+            case "/Delete":
+                delete(request, response);
+                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -93,5 +112,10 @@ public class AdminArticleServlet extends HttpServlet {
         request.setAttribute("article",a);
         String url = "/Admin/Article/EditArticle?id=" + id;
         ServletUtils.redirect(url, request, response);
+    }
+    private static void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id =Integer.parseInt(request.getParameter("id"));
+        ArticleModel.delete(id);
+        ServletUtils.redirect("/Admin/Article", request, response);
     }
 }

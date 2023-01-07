@@ -3,7 +3,7 @@
 
 <jsp:useBean id="authUser" scope="session" type="com.example.e_news.beans.User"></jsp:useBean>
 
-<nav class="navbar navbar-expand-lg navbar-light shadow" style="background-color: aquamarine">
+<nav class="navbar navbar-expand-lg navbar-light shadow sticky-top" style="background-color: aquamarine">
   <a class="navbar-brand" href="">
     <i class="fa fa-newspaper-o" aria-hidden="true"></i>
   </a>

@@ -5,7 +5,6 @@
 
 
 <jsp:useBean id="tag" scope="request" type="com.example.e_news.beans.Tag"/>
-<jsp:useBean id="articles" scope="request" type="java.util.List<com.example.e_news.beans.Article>"/>
 
 
 <t:main>
@@ -28,18 +27,6 @@
             <label for="txtname">Tên nhãn</label>
             <input type="text" class="form-control w-25" id="txtname" name="value" value="${tag.value}" autofocus>
           </div>
-          <select class="form-control w-25" id="inputGroupSelect" name="id_article" >
-            <c:forEach items="${articles}" var="a">
-              <c:choose>
-                <c:when test="${a.id_article == tag.article_id}">
-                  <option value="${a.id_article}" selected>${a.id_article}</option>
-                </c:when>
-                <c:otherwise>
-                  <option value="${a.id_article}">${a.id_article}</option>
-                </c:otherwise>
-              </c:choose>
-            </c:forEach>
-          </select>
 
         </div>
         <div class="card-footer">

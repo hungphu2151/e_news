@@ -1,7 +1,5 @@
 package com.example.e_news.models;
 
-import com.example.e_news.beans.Article;
-import com.example.e_news.beans.Category;
 import com.example.e_news.beans.User;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
@@ -99,6 +97,18 @@ public class UserModel {
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(query)
                     .addParameter("role",role)
+                    .executeAndFetch(User.class);
+        }
+    }
+
+    public static List<User> pagingUser(int page){
+        final String query = "Select *\n" +
+                "from users\n" +
+                "ORDER BY id\n" +
+                "LIMIT 5 OFFSET :index ";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("index",(page-1)*5)
                     .executeAndFetch(User.class);
         }
     }
