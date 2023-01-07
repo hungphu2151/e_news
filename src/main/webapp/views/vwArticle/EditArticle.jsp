@@ -86,7 +86,7 @@
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         Quay lại
                     </a>
-                    <c:if test="${article.status == 2}">
+                    <c:if test="${article.status == 2 || article.status == 3}">
                         <button type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/Admin/Article/UpdateStatus">
                             <i class="fa fa-check" aria-hidden="true"></i>
                             Xuất bản bài viết

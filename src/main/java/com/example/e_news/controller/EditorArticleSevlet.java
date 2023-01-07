@@ -99,13 +99,13 @@ public class EditorArticleSevlet extends HttpServlet {
 
     private static void acceptArticle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id =Integer.parseInt(request.getParameter("id"));
-        ArticleModel.updateStatus(id,2);
+        ArticleModel.updateStatus(id,2,null);
         ServletUtils.redirect("/Editor/Article", request, response);
     }
 
     private static void refuseArticle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id =Integer.parseInt(request.getParameter("id"));
-        ArticleModel.updateStatus(id,4);
+        ArticleModel.updateStatus(id,4,null);
         ServletUtils.redirect("/Editor/Article/Reason?id="+id, request, response);
     }
 

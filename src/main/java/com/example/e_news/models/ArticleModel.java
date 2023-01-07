@@ -4,6 +4,7 @@ import com.example.e_news.beans.Article;
 import com.example.e_news.utils.DbUtils;
 import org.sql2o.Connection;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ArticleModel {
@@ -52,6 +53,7 @@ public class ArticleModel {
         }
     }
 
+
     public static int countSearch(String search) {
         String sql = "SELECT * FROM articles WHERE status=1 and MATCH(title,sumary,content) AGAINST(:title)";
         try (Connection con = DbUtils.getConnection()) {
@@ -93,6 +95,15 @@ public class ArticleModel {
                 return null;
 
             return list.get(0);
+        }
+    }
+
+    public static List<Article> findByStatus(int status) {
+        String sql = "select * from articles where status = :status";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(sql)
+                    .addParameter("status", status)
+                    .executeAndFetch(Article.class);
         }
     }
 
@@ -190,12 +201,13 @@ public class ArticleModel {
         }
     }
 
-    public static void updateStatus (int id_article, int status){
-        String insertSql = "UPDATE articles SET status =:status WHERE id_article = :id_article \n";
+    public static void updateStatus (int id_article, int status, LocalDateTime public_date){
+        String insertSql = "UPDATE articles SET status =:status,public_date=:public_date WHERE id_article = :id_article \n";
         try (Connection con = DbUtils.getConnection()){
             con.createQuery(insertSql)
                     .addParameter("id_article",id_article)
                     .addParameter("status",status)
+                    .addParameter("public_date",public_date)
                     .executeUpdate();
         }
     }
@@ -282,6 +294,19 @@ public class ArticleModel {
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(query)
                     .addParameter("index",(page-1)*6)
+                    .executeAndFetch(Article.class);
+        }
+    }
+    public static List<Article> pagingArticleByStatus(int page, int status){
+        final String query = "Select *\n" +
+                "from articles\n" +
+                "WHERE status = :status\n" +
+                "ORDER BY id_article\n" +
+                "LIMIT 6 OFFSET :index ";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("index",(page-1)*6)
+                    .addParameter("status",status)
                     .executeAndFetch(Article.class);
         }
     }

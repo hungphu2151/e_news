@@ -30,21 +30,40 @@ public class AdminArticleServlet extends HttpServlet {
         }
         switch (path){
             case "/Index":
-                List<Article> listArticle = ArticleModel.findAll();
-                int totalPage = listArticle.size()/6;
-                if (listArticle.size()%6 !=0){
-                    totalPage++;
-                }
-                List<Article> list;
+                int status=0;
                 int page;
-                if(request.getParameter("page") == null || Integer.parseInt(request.getParameter("page"))<1 || Integer.parseInt(request.getParameter("page"))> totalPage){
-                    page=1;
-                    list = ArticleModel.pagingArticle(1);
+                int totalPage;
+                List<Article> list;
+                if(request.getParameter("status")!=null && Integer.parseInt(request.getParameter("status"))>0 && Integer.parseInt(request.getParameter("status"))<5){
+                    status =Integer.parseInt(request.getParameter("status"));
+                    List<Article> listArticle = ArticleModel.findByStatus(status);
+                    totalPage = listArticle.size()/6;
+                    if (listArticle.size()%6 !=0){
+                        totalPage++;
+                    }
+                    if(request.getParameter("page") == null || Integer.parseInt(request.getParameter("page"))<1 || Integer.parseInt(request.getParameter("page"))> totalPage){
+                        page=1;
+                        list = ArticleModel.pagingArticleByStatus(1,status);
+                    }else {
+                        page = Integer.parseInt(request.getParameter("page"));
+                        list = ArticleModel.pagingArticleByStatus(page,status);
+                    }
                 }else {
-                    page = Integer.parseInt(request.getParameter("page"));
-                    list = ArticleModel.pagingArticle(page);
+                    List<Article> listArticle = ArticleModel.findAll();
+                    totalPage = listArticle.size()/6;
+                    if (listArticle.size()%6 !=0){
+                        totalPage++;
+                    }
+                    if(request.getParameter("page") == null || Integer.parseInt(request.getParameter("page"))<1 || Integer.parseInt(request.getParameter("page"))> totalPage){
+                        page=1;
+                        list = ArticleModel.pagingArticle(1);
+                    }else {
+                        page = Integer.parseInt(request.getParameter("page"));
+                        list = ArticleModel.pagingArticle(page);
+                    }
                 }
                 request.setAttribute("currentPage",page);
+                request.setAttribute("status",status);
                 request.setAttribute("totalPage",totalPage);
                 request.setAttribute("articles",list);
 
@@ -95,7 +114,14 @@ public class AdminArticleServlet extends HttpServlet {
     }
     private static void updateStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id =Integer.parseInt(request.getParameter("id"));
-        ArticleModel.updateStatus(id,1);
+        Article a = ArticleModel.findById(id);
+        LocalDateTime public_date;
+        if(a.getStatus()==3){
+             public_date = LocalDateTime.now();
+        }else {
+            public_date= a.getPublic_date();
+        }
+        ArticleModel.updateStatus(id,1,public_date);
         ServletUtils.redirect("/Admin/Article", request, response);
     }
 

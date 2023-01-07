@@ -12,6 +12,46 @@
     <jsp:attribute name="reader">
         <jsp:include page="../../views/partials/leftAdmin.jsp"/>
     </jsp:attribute>
+    <jsp:attribute name="css">
+        <style>
+            .select-input {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                min-width: 200px;
+                height: 34px;
+                padding: 0 12px;
+                background-color: white;
+                font-size: 1rem;
+            }
+            .select-input:hover .select-input-list {
+                display: block;
+                z-index: 10;
+            }
+            .select-input-list {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 35px;
+                background-color: white;
+                padding: 12px 12px;
+                border-radius: 2px;
+                display: none;
+                list-style-type: none;
+            }
+            .select-input-link {
+                font-size: 1rem;
+                display: block;
+                padding: 10px;
+                width: 100%;
+                color: black;
+            }
+            .select-input-link:hover {
+                text-decoration: none;
+             }
+        </style>
+    </jsp:attribute>
     <jsp:attribute name="js">
         <script>
             $(document).ready(function () {
@@ -28,6 +68,26 @@
         <div class="card">
         <h4 class="card-header d-flex justify-content-between">
             Danh sách bài báo
+            <div class="select-input">
+                <span class="select-input-label">Trạng thái bài viết</span>
+                <ul class="select-input-list">
+                    <li class="select-input-item">
+                        <a class="select-input-link" href="${pageContext.request.contextPath}/Admin/Article?page=1&status=0">Tất cả</a>
+                    </li>
+                    <li class="select-input-item">
+                        <a class="select-input-link" href="${pageContext.request.contextPath}/Admin/Article?page=1&status=1">Đã xuất bản</a>
+                    </li>
+                    <li class="select-input-item">
+                        <a class="select-input-link" href="${pageContext.request.contextPath}/Admin/Article?page=1&status=2">Đã duyệt và chưa xuất bản</a>
+                    </li>
+                    <li class="select-input-item">
+                        <a class="select-input-link" href="${pageContext.request.contextPath}/Admin/Article?page=1&status=3">Chưa được duyệt</a>
+                    </li>
+                    <li class="select-input-item">
+                        <a class="select-input-link" href="${pageContext.request.contextPath}/Admin/Article?page=1&status=4">Bị từ chối</a>
+                    </li>
+                </ul>
+            </div>
         </h4>
         <c:choose>
             <c:when test="${articles.size() == 0}">
@@ -111,47 +171,94 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <ul class="pagination justify-content-center mt-4">
-            <li class="page-item ${currentPage==1? "disabled":''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${currentPage-1}">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
+        <c:choose>
+            <c:when test="${status==0}">
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item ${currentPage==1? "disabled":''}">
+                        <a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${currentPage-1}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
 
-            <c:choose>
-                <c:when test="${totalPage>5}">
-                    <li class="page-item ${currentPage==1 ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=1">1</a></li>
+                    <c:choose>
+                        <c:when test="${totalPage>5}">
+                            <li class="page-item ${currentPage==1 ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=1">1</a></li>
 
-                    <c:if test="${currentPage>3}">
-                        <li class="page-item"><a class="page-link">...</a></li>
-                    </c:if>
+                            <c:if test="${currentPage>3}">
+                                <li class="page-item"><a class="page-link">...</a></li>
+                            </c:if>
 
-                    <c:forEach begin="${currentPage==1? 2:currentPage-2}" end="${currentPage+2}" var="u">
-                        <c:if test="${u>1 && u <totalPage}">
-                            <li class="page-item ${currentPage==u ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${u}">${u}</a></li>
-                        </c:if>
-                    </c:forEach>
+                            <c:forEach begin="${currentPage==1? 2:currentPage-2}" end="${currentPage+2}" var="u">
+                                <c:if test="${u>1 && u <totalPage}">
+                                    <li class="page-item ${currentPage==u ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${u}">${u}</a></li>
+                                </c:if>
+                            </c:forEach>
 
-                    <c:if test="${currentPage<totalPage-2}">
-                        <li class="page-item"><a class="page-link">...</a></li>
-                    </c:if>
+                            <c:if test="${currentPage<totalPage-2}">
+                                <li class="page-item"><a class="page-link">...</a></li>
+                            </c:if>
 
-                    <li class="page-item ${currentPage==totalPage ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${totalPage}">${totalPage}</a></li>
+                            <li class="page-item ${currentPage==totalPage ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${totalPage}">${totalPage}</a></li>
 
-                </c:when>
-                <c:otherwise>
-                    <c:forEach begin="1" end="${totalPage}" var="u">
-                        <li class="page-item ${currentPage==u ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/User?page=${u}">${u}</a></li>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach begin="1" end="${totalPage}" var="u">
+                                <li class="page-item ${currentPage==u ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${u}">${u}</a></li>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
 
-            <li class="page-item ${currentPage==totalPage? "disabled":''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${currentPage+1}">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
+                    <li class="page-item ${currentPage==totalPage? "disabled":''}">
+                        <a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${currentPage+1}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item ${currentPage==1? "disabled":''}">
+                        <a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${currentPage-1}&status=${status}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <c:choose>
+                        <c:when test="${totalPage>5}">
+                            <li class="page-item ${currentPage==1 ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=1&status=${status}">1</a></li>
+
+                            <c:if test="${currentPage>3}">
+                                <li class="page-item"><a class="page-link">...</a></li>
+                            </c:if>
+
+                            <c:forEach begin="${currentPage==1? 2:currentPage-2}" end="${currentPage+2}" var="u">
+                                <c:if test="${u>1 && u <totalPage}">
+                                    <li class="page-item ${currentPage==u ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${u}&status=${status}">${u}</a></li>
+                                </c:if>
+                            </c:forEach>
+
+                            <c:if test="${currentPage<totalPage-2}">
+                                <li class="page-item"><a class="page-link">...</a></li>
+                            </c:if>
+
+                            <li class="page-item ${currentPage==totalPage ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${totalPage}&status=${status}">${totalPage}</a></li>
+
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach begin="1" end="${totalPage}" var="u">
+                                <li class="page-item ${currentPage==u ? "active":''}" ><a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${u}&status=${status}">${u}</a></li>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <li class="page-item ${currentPage==totalPage? "disabled":''}">
+                        <a class="page-link" href="${pageContext.request.contextPath}/Admin/Article?page=${currentPage+1}&status=${status}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </c:otherwise>
+        </c:choose>
         </div>
 
     </jsp:body>
