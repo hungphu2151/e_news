@@ -2,8 +2,12 @@ package com.example.e_news.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.e_news.beans.Article;
+import com.example.e_news.beans.Category;
+import com.example.e_news.beans.Tag;
 import com.example.e_news.beans.User;
 import com.example.e_news.models.ArticleModel;
+import com.example.e_news.models.CategoryModel;
+import com.example.e_news.models.TagModel;
 import com.example.e_news.models.UserModel;
 import com.example.e_news.utils.ServletUtils;
 
@@ -80,7 +84,11 @@ public class AdminArticleServlet extends HttpServlet {
                 int id =Integer.parseInt(request.getParameter("id"));
                 Article a = ArticleModel.findById(id);
                 if(a != null){
+                    Category c= CategoryModel.findById(a.getCategory_id());
+                    List<Tag> listTagbyArt = TagModel.findByArtId(id);
+                    request.setAttribute("tagbyArt", listTagbyArt);
                     request.setAttribute("article",a);
+                    request.setAttribute("category",c);
                     ServletUtils.forward("/views/vwArticle/EditArticle.jsp", request, response);
                 }else {
                     ServletUtils.redirect("/Admin/Article", request, response);

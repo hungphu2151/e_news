@@ -17,6 +17,18 @@
     <jsp:attribute name="js">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
+            $('#frmProfile').on('submit', function (e){
+                e.preventDefault();
+                const name = $('#name').val();
+                const penname = $('#pen_name').val();
+                const email = $('#email').val();
+                const dob = $('#txtDOB').val();
+                if(name.length===0 || penname.length===0 || email.length===0 || dob.length===0){
+                    alert('Vui lòng nhập đầy đủ!!!');
+                    return;
+                }
+                $('#frmProfile').off('submit').submit();
+            });
             $('#txtDOB').datetimepicker({
                 format:'d/m/Y',
                 timepicker: false,

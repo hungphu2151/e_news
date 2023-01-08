@@ -143,6 +143,9 @@ public class AccountServlet extends HttpServlet {
         String email = request.getParameter("email");
         User u = new  User(username, name, email, pen_name, dob);
         UserModel.updateProfile(u);
+        User user= UserModel.findByUsername(0,u.getUsername());
+        HttpSession session = request.getSession();
+        session.setAttribute("authUser", user);
         ServletUtils.redirect("/Account/Profile", request, response);
     }
 }

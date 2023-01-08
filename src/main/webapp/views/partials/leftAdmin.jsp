@@ -15,7 +15,7 @@
             <i class="fa fa-tag mr-2" aria-hidden="true"></i>
             Quản lí nhãn
         </a>
-        <a class="list-group-item list-group-item-action" href="${pageContext.request.contextPath}/Admin/Article?status=0">
+        <a class="list-group-item list-group-item-action" href="${pageContext.request.contextPath}/Admin/Article">
             <i class="fa fa-newspaper-o mr-2" aria-hidden="true"></i>
             Quản lí bài viết
         </a>
