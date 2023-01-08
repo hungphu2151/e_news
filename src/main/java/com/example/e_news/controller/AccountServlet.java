@@ -47,6 +47,18 @@ public class AccountServlet extends HttpServlet {
                 out.print(isAvailable);
                 out.flush();
                 break;
+            case "/IsAvailableUser":
+                username = request.getParameter("user");
+                int role = Integer.parseInt(request.getParameter("role"));
+                user = UserModel.findRoleByUsername(username,0);
+                int roleUser = user.getRole();
+                isAvailable = (role == roleUser);
+                out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                out.print(isAvailable);
+                out.flush();
+                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -98,8 +110,8 @@ public class AccountServlet extends HttpServlet {
     private static void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
         User user = UserModel.findByUsername(0,username);
+        String role = request.getParameter("role");
         if (user != null) {
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
             if (result.verified){
@@ -107,6 +119,9 @@ public class AccountServlet extends HttpServlet {
                 session.setAttribute("auth", true);
                 session.setAttribute("authUser", user);
                 String url = (String) session.getAttribute("reUrl");
+                if (role.equals("1")) url = "/Admin/Article";
+                    else if (role.equals("2")) url = "/Editor/Article";
+                        else if (role.equals("3")) url = "/Misc/Writer";
                 if (url == null) url="/Home";
                 ServletUtils.redirect(url, request, response);
             }
@@ -127,7 +142,6 @@ public class AccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("auth", false);
         session.setAttribute("authUser", new User());
-
         String url = request.getHeader("referer");
         if (url == null) url = "/Home";
         ServletUtils.redirect(url, request, response);
