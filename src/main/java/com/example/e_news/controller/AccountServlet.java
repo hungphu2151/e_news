@@ -94,13 +94,13 @@ public class AccountServlet extends HttpServlet {
         String rawpwd = request.getParameter("rawpwd");
         String bcryptHashString = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
         String name = request.getParameter("name");
-        String pen_name = request.getParameter("pen_name");
         String email = request.getParameter("email");
         String StrDob = request.getParameter("dob");
         DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dob = LocalDate.parse(StrDob, df);
         LocalDateTime issue_at = LocalDateTime.now();
         LocalDateTime expriration = issue_at.plusMinutes(10080);
+        String pen_name = "";
         int role = 4;
         User c = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
         UserModel.add(c);

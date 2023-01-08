@@ -47,56 +47,110 @@
                 }
             }
         </script>
+        <style>
+            body {
+                margin: 0;
+                font-family: 'Lato', sans-serif;
+                font-size: 12px;
+                line-height: 1.8em;
+                text-transform: none;
+                letter-spacing: .075em;
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                color: #e7bd74;
+                display: block;
+            }
+            .form-control {
+                border-radius: 1.5rem;
+            }
+            .btnSubmit
+            {
+                border: none;
+                border-radius: 1.5rem;
+                padding: 1%;
+                width: 20%;
+                cursor: pointer;
+                background: #0062cc;
+                color: #fff;
+            }
+            h1 {
+                font-family: sans-serif;
+                display: block;
+                font-size: 1rem;
+                font-weight: bold;
+                text-align: center;
+                letter-spacing: 3px;
+                color: hotpink;
+                text-transform: uppercase;
+                padding-top: 20px;
+            }
+            a {
+                text-decoration: none;
+                color: #fff;
+            }
+            a:hover {
+                text-decoration: none;
+                color: #fff;
+            }
+        </style>
     </jsp:attribute>
     <jsp:body>
         <form action="" method="post" id="frmRegister">
-            <div class="card">
-                <h4 class="card-header">
-                    Accout Registration
-                </h4>
-                <div class="card-body">
-                    <h5>Account</h5>
-                    <div class="form-group">
-                        <label for="txtUsernane">User name</label>
-                        <input type="text" class="form-control" id="txtUsernane" name="username">
+            <div class="container register-form">
+                <div class="card">
+                    <div class="card-header">
+                        <h1> Accout Registration </h1>
                     </div>
-                    <div class="form-group">
-                        <label for="txtPassword" >Password</label>
-                        <input type="password" class="form-control" id="txtPassword" name="rawpwd" onkeyup="check()" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtConfirm">Confirm Password</label>
-                        <input type="password" class="form-control" id="txtConfirm" onkeyup="check()" required>
-                        <span id='message'></span>
-                    </div>
+                    <div class="card-body">
+                        <h3>Account</h3>
+                        <div class="row">
 
-                    <h5 class="mt-5">Personal Information</h5>
-                    <div class="form-row">
-                        <div class="col">
-                            <label for="txtName">Name</label>
-                            <input type="text" class="form-control" id="txtName" name="name" required>
-
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="txtUsernane">User name</label>
+                                        <input type="text" class="form-control" id="txtUsernane" name="username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txtName">Name</label>
+                                        <input type="text" class="form-control" id="txtName" name="name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="txtPassword">Password</label>
+                                    <input type="password" class="form-control" id="txtPassword" name="rawpwd" onkeyup="check()" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtConfirm">Confirm Password</label>
+                                    <input type="password" class="form-control" id="txtConfirm" onkeyup="check()" required>
+                                    <span id='message'></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label for="txtPenName">Pen Name</label>
-                            <input type="text" class="form-control" id="txtPenName" name="pen_name" required>
+                        <h3 class="mt-5">Personal Information</h3>
+                        <div class="row align-items-center mt-4">
+                            <div class="col">
+                                <label for="txtEmail">Email</label>
+                                <input type="text" class="form-control" id="txtEmail" name="email">
+                            </div>
+                        </div>
+                        <div class="row align-items-center mt-4">
+                            <div class="col">
+                                <label for="txtDOB">Date of Birth</label>
+                                <input type="text" class="form-control" id="txtDOB" name="dob">
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btnSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Register
+                            </button>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="txtEmail">Email</label>
-                        <input type="text" class="form-control" id="txtEmail" name="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="txtDOB">Date of Birth</label>
-                        <input type="text" class="form-control" id="txtDOB" name="dob">
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                        Register
-                    </button>
-                </div>
+            </div>
             </div>
         </form>
     </jsp:body>
