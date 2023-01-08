@@ -25,6 +25,7 @@
                         alert('Tên đã tồn tại');
                     }
                 });
+
             });
 
             $('#txtDOB').datetimepicker({
@@ -34,6 +35,17 @@
             });
 
             $('#txtUsernane').select();
+
+            var check = function() {
+                if (document.getElementById('txtPassword').value ==
+                    document.getElementById('txtConfirm').value) {
+                    document.getElementById('message').style.color = 'green';
+                    document.getElementById('message').innerHTML = 'Mật khẩu trùng khớp';
+                } else {
+                    document.getElementById('message').style.color = 'red';
+                    document.getElementById('message').innerHTML = 'Mật khẩu không trùng khớp';
+                }
+            }
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -49,12 +61,13 @@
                         <input type="text" class="form-control" id="txtUsernane" name="username">
                     </div>
                     <div class="form-group">
-                        <label for="txtPassword">Password</label>
-                        <input type="password" class="form-control" id="txtPassword" name="rawpwd">
+                        <label for="txtPassword" >Password</label>
+                        <input type="password" class="form-control" id="txtPassword" name="rawpwd" onkeyup="check()" required>
                     </div>
                     <div class="form-group">
                         <label for="txtConfirm">Confirm Password</label>
-                        <input type="password" class="form-control" id="txtConfirm">
+                        <input type="password" class="form-control" id="txtConfirm" onkeyup="check()" required>
+                        <span id='message'></span>
                     </div>
 
                     <h5 class="mt-5">Personal Information</h5>
