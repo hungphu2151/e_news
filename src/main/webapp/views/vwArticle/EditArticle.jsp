@@ -5,6 +5,8 @@
 
 
 <jsp:useBean id="article" scope="request" type="com.example.e_news.beans.Article"/>
+<jsp:useBean id="category" scope="request" type="com.example.e_news.beans.Category"/>
+<jsp:useBean id="tagbyArt" scope="request" type="java.util.List<com.example.e_news.beans.Tag>"/>
 
 
 <t:main>
@@ -44,10 +46,22 @@
                         <img src="${pageContext.request.contextPath}/public/imgs/articles/${article.id_article}/main.jpg" alt="${article.title}" title="${article.title}" style="width: 80%">
                     </div>
                     <p class="card-text mt-4">${article.content}</p>
+                    <div class="d-flex justify-content-end">
+                        Thuộc chuyên mục:&nbsp; <b> <i>${category.name}</i></b>
+                    </div>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                        <i class="fa fa-tags" aria-hidden="true" style="transform: rotate(90deg);margin-right: 5px"></i>
+                        <c:forEach items="${tagbyArt}" var="t">
+                            <div style="padding: 3px; background: #ff9800; border-radius: 5px; margin-right: 5px">
+                                <div style="border: 1px solid white; border-radius: 5px;font-size: 14px;font-weight: 600"># ${t.value}</div>
+                            </div>
+                        </c:forEach>
+                    </div>
+
                     <c:if test="${article.public_date!=null}">
                         <div class="d-flex justify-content-end">
-                            Ngày xuất bản: ${article.public_date.dayOfMonth}/${article.public_date.monthValue}/${article.public_date.year} ${article.public_date.hour}:${article.public_date.minute}:${article.public_date.second}
-                        </div>
+                            Ngày xuất bản:&nbsp; <b><i>${article.public_date.dayOfMonth}/${article.public_date.monthValue}/${article.public_date.year} ${article.public_date.hour}:${article.public_date.minute}:${article.public_date.second}</i></b></div>
                     </c:if>
 
                     <c:choose>

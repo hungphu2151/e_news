@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<nav class="navbar navbar-expand-lg navbar-light shadow mt-3" style="background-color: aquamarine">
+<nav class="navbar navbar-expand-lg navbar-light shadow mt-3 " style="background-color: aquamarine; position: sticky; top: 100%">
   <div class="collapse navbar-collapse d-flex justify-content-center">
     Theo dõi E_news tại:
     <div class="d-flex flex-row">

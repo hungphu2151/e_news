@@ -24,8 +24,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/themes/fa/theme.min.js"></script>
         <script src='https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js'></script>
         <script>
+            $('#frmAddArticle').on('submit', function (e){
+                e.preventDefault();
+                const title = $('#txtTitle').val();
+                const summary = $('#txtSummary').val();
+                const content = $('#txtContent').val();
+                const tagID = $('#txtTagID').val();
+                if(title.length===0 || summary.length===0 || content.length===0 || tagID.length===0){
+                    alert('Vui lòng nhập đầy đủ!!!');
+                    return;
+                }
+                $('#frmAddArticle').off('submit').submit();
+            });
             tinymce.init({
-                selector: '#txtArticle',
+                selector: '#txtContent',
                 height: 450,
                 plugins:    'lists paste image link autolink table',
                 menubar: false,
@@ -43,7 +55,7 @@
         </script>
     </jsp:attribute>
     <jsp:body>
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data" id="frmAddArticle">
             <div class="card">
                 <h4 class="card-header">
                     Đăng bài viết
@@ -62,8 +74,8 @@
                         <input type="text" class="form-control" id="txtSummary" name="summary">
                     </div>
                     <div class="form-group">
-                        <label for="txtArticle">Content</label>
-                        <textarea id="txtArticle" name="content"></textarea>
+                        <label for="txtContent">Content</label>
+                        <textarea id="txtContent" name="content"></textarea>
                     </div>
                     <div class="form-group">
                         <input type="file" id="fuMain" name="fuMain">
@@ -81,7 +93,7 @@
                     <div class="form-group">
                         Nhãn:  &nbsp;
                         <c:forEach items="${tags}" var="t">
-                            <input type="checkbox" name="tag_id" value="${t.id_tag}">  ${t.value} &nbsp; &nbsp;&nbsp;
+                            <input type="checkbox" id="txtTagID" name="tag_id" value="${t.id_tag}">  ${t.value} &nbsp; &nbsp;&nbsp;
                         </c:forEach>
                     </div>
                 </div>
