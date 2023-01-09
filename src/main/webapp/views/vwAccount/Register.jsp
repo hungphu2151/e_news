@@ -95,36 +95,36 @@
             <div class="container register-form">
                 <div class="card">
                     <div class="card-header">
-                        <h1> Accout Registration </h1>
+                        <h1>ĐĂNG KÝ TÀI KHOẢN</h1>
                     </div>
                     <div class="card-body">
-                        <h3>Account</h3>
+                        <h3>Tài khoản</h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <label for="txtUsernane">User name</label>
+                                        <label for="txtUsernane">Tên tài khoản</label>
                                         <input type="text" class="form-control" id="txtUsernane" name="username">
                                     </div>
                                     <div class="form-group">
-                                        <label for="txtName">Name</label>
+                                        <label for="txtName">Tên người dùng</label>
                                         <input type="text" class="form-control" id="txtName" name="name" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="txtPassword">Password</label>
+                                    <label for="txtPassword">Mật khẩu</label>
                                     <input type="password" class="form-control" id="txtPassword" name="rawpwd" onkeyup="check()" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtConfirm">Confirm Password</label>
+                                    <label for="txtConfirm">Xác nhận mật khẩu</label>
                                     <input type="password" class="form-control" id="txtConfirm" onkeyup="check()" required>
                                     <span id='message'></span>
                                 </div>
                             </div>
                         </div>
-                        <h3 class="mt-5">Personal Information</h3>
+                        <h3 class="mt-5">Thông tin cá nhân</h3>
                         <div class="row align-items-center mt-4">
                             <div class="col">
                                 <label for="txtEmail">Email</label>
@@ -133,7 +133,7 @@
                         </div>
                         <div class="row align-items-center mt-4">
                             <div class="col">
-                                <label for="txtDOB">Date of Birth</label>
+                                <label for="txtDOB">Ngày sinh</label>
                                 <input type="text" class="form-control" id="txtDOB" name="dob">
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                     <div class="card-footer">
                         <button type="submit" class="btnSubmit">
                             <i class="fa fa-check" aria-hidden="true"></i>
-                            Register
+                            Đăng ký
                         </button>
                     </div>
             </div>

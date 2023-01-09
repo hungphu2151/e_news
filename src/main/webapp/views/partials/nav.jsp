@@ -37,10 +37,10 @@
         </c:when>
         <c:otherwise>
           <li class="nav-item active">
-            <a class="nav-link" href="${pageContext.request.contextPath}/Account/Register">Register</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/Account/Register">Đăng ký</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="${pageContext.request.contextPath}/Account/Login">Login</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/Account/Login">Đăng nhập</a>
           </li>
         </c:otherwise>
       </c:choose>
