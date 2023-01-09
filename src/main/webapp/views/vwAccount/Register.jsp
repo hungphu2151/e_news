@@ -6,6 +6,48 @@
 <t:main>
     <jsp:attribute name="css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+                    body {
+                        margin: 0;
+                        line-height: 1.8em;
+                        text-transform: none;
+                        letter-spacing: .075em;
+                        font-weight: bold;
+                        font-style: normal;
+                        text-decoration: none;
+                        display: block;
+                    }
+                    .form-control {
+                        border-radius: 1.5rem;
+                    }
+                    .btnSubmit
+                    {
+                        border: none;
+                        border-radius: 1.5rem;
+                        padding: 1%;
+                        width: 20%;
+                        cursor: pointer;
+                        background: #0062cc;
+                        color: #fff;
+                    }
+                    h1 {
+                        display: block;
+                        font-size: 1rem;
+                        font-weight: bold;
+                        text-align: center;
+                        letter-spacing: 3px;
+                        text-transform: uppercase;
+                        padding-top: 20px;
+                    }
+                    a {
+                        text-decoration: none;
+                        color: #fff;
+                    }
+                    a:hover {
+                        text-decoration: none;
+                        color: #fff;
+                    }
+                </style>
     </jsp:attribute>
     <jsp:attribute name="js">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -47,53 +89,6 @@
                 }
             }
         </script>
-        <style>
-            body {
-                margin: 0;
-                font-family: 'Lato', sans-serif;
-                font-size: 12px;
-                line-height: 1.8em;
-                text-transform: none;
-                letter-spacing: .075em;
-                font-weight: bold;
-                font-style: normal;
-                text-decoration: none;
-                color: #e7bd74;
-                display: block;
-            }
-            .form-control {
-                border-radius: 1.5rem;
-            }
-            .btnSubmit
-            {
-                border: none;
-                border-radius: 1.5rem;
-                padding: 1%;
-                width: 20%;
-                cursor: pointer;
-                background: #0062cc;
-                color: #fff;
-            }
-            h1 {
-                font-family: sans-serif;
-                display: block;
-                font-size: 1rem;
-                font-weight: bold;
-                text-align: center;
-                letter-spacing: 3px;
-                color: hotpink;
-                text-transform: uppercase;
-                padding-top: 20px;
-            }
-            a {
-                text-decoration: none;
-                color: #fff;
-            }
-            a:hover {
-                text-decoration: none;
-                color: #fff;
-            }
-        </style>
     </jsp:attribute>
     <jsp:body>
         <form action="" method="post" id="frmRegister">
@@ -105,7 +100,6 @@
                     <div class="card-body">
                         <h3>Account</h3>
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="form-group">
@@ -143,12 +137,19 @@
                                 <input type="text" class="form-control" id="txtDOB" name="dob">
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btnSubmit">
-                                <i class="fa fa-check" aria-hidden="true"></i>
-                                Register
-                            </button>
+                        <div class="row align-items-center mt-4">
+                            <div class="col">
+                                <label>Captcha</label>
+                                <img src="${pageContext.request.contextPath}/captcha-image.jpg"/>
+                                <input type="text" name="captcha">
+                            </div>
                         </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btnSubmit">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            Register
+                        </button>
                     </div>
             </div>
             </div>

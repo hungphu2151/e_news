@@ -78,21 +78,30 @@ public class AccountServlet extends HttpServlet {
     }
 
     private static void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String rawpwd = request.getParameter("rawpwd");
-        String bcryptHashString = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String StrDob = request.getParameter("dob");
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
-        LocalDate dob = LocalDate.parse(StrDob, df);
-        LocalDateTime issue_at = LocalDateTime.now();
-        LocalDateTime expriration = issue_at.plusMinutes(10080);
-        String pen_name = "";
-        int role = 4;
-        User c = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
-        UserModel.add(c);
-        ServletUtils.forward("/views/vwAccount/Register.jsp", request, response);
+        HttpSession session =request.getSession();
+        String captcha =session.getAttribute("dns_security_code").toString();
+        System.out.println(captcha);
+        String verifyCaptcha = request.getParameter("captcha");
+        if(captcha.equals(verifyCaptcha)){
+            String username = request.getParameter("username");
+            String rawpwd = request.getParameter("rawpwd");
+            String bcryptHashString = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String StrDob = request.getParameter("dob");
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
+            LocalDate dob = LocalDate.parse(StrDob, df);
+            LocalDateTime issue_at = LocalDateTime.now();
+            LocalDateTime expriration = issue_at.plusMinutes(10080);
+            String pen_name = "";
+            int role = 4;
+            User c = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
+            UserModel.add(c);
+            ServletUtils.forward("/views/vwAccount/Register.jsp", request, response);
+        }else {
+            request.setAttribute("error","Captcha Invalid");
+            ServletUtils.forward("/views/vwAccount/Register.jsp", request, response);
+        }
     }
 
     private static void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
