@@ -78,28 +78,34 @@ public class AccountServlet extends HttpServlet {
     }
 
     private static void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String rawpwd = request.getParameter("rawpwd");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String StrDob = request.getParameter("dob");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate dob = LocalDate.parse(StrDob, df);
         HttpSession session =request.getSession();
         String captcha =session.getAttribute("dns_security_code").toString();
-        System.out.println(captcha);
         String verifyCaptcha = request.getParameter("captcha");
+
         if(captcha.equals(verifyCaptcha)){
-            String username = request.getParameter("username");
-            String rawpwd = request.getParameter("rawpwd");
             String bcryptHashString = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            String StrDob = request.getParameter("dob");
-            DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy");
-            LocalDate dob = LocalDate.parse(StrDob, df);
             LocalDateTime issue_at = LocalDateTime.now();
-            LocalDateTime expriration = issue_at.plusMinutes(10080);
+            LocalDateTime expriration =LocalDateTime.now().plusDays(7);
             String pen_name = "";
             int role = 4;
             User c = new User(0,role,username, bcryptHashString, name, email, pen_name, dob, issue_at, expriration);
             UserModel.add(c);
+            request.setAttribute("success",true);
             ServletUtils.forward("/views/vwAccount/Register.jsp", request, response);
         }else {
-            request.setAttribute("error","Captcha Invalid");
+            request.setAttribute("error","Mã Captcha không trùng khớp");
+            request.setAttribute("username",username);
+            request.setAttribute("rawpwd",rawpwd);
+            request.setAttribute("name",name);
+            request.setAttribute("email",email);
+            request.setAttribute("dob",StrDob);
             ServletUtils.forward("/views/vwAccount/Register.jsp", request, response);
         }
     }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <t:main>
@@ -52,6 +53,9 @@
     <jsp:attribute name="js">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
+            if(${success == 'true'}){
+                alert("Đăng ký thành công");
+            }
             $('#frmRegister').on('submit', function (e){
                 e.preventDefault();
                 const username = $('#txtUsernane').val();
@@ -75,10 +79,9 @@
                 timepicker: false,
                 mask: true
             });
-
             $('#txtUsernane').select();
 
-            var check = function() {
+            const check = function() {
                 if (document.getElementById('txtPassword').value ==
                     document.getElementById('txtConfirm').value) {
                     document.getElementById('message').style.color = 'green';
@@ -88,6 +91,7 @@
                     document.getElementById('message').innerHTML = 'Mật khẩu không trùng khớp';
                 }
             }
+
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -95,60 +99,60 @@
             <div class="container register-form">
                 <div class="card">
                     <div class="card-header">
-                        <h1>ĐĂNG KÝ TÀI KHOẢN</h1>
+                        <h1> Accout Registration </h1>
                     </div>
                     <div class="card-body">
-                        <h3>Tài khoản</h3>
+                        <h3>Account</h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <label for="txtUsernane">Tên tài khoản</label>
-                                        <input type="text" class="form-control" id="txtUsernane" name="username">
+                                        <label for="txtUsernane">User name</label>
+                                        <input type="text" class="form-control" id="txtUsernane" name="username" value="${username}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="txtName">Tên người dùng</label>
-                                        <input type="text" class="form-control" id="txtName" name="name" required>
+                                        <label for="txtName">Name</label>
+                                        <input type="text" class="form-control" id="txtName" name="name" required value="${name}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="txtPassword">Mật khẩu</label>
-                                    <input type="password" class="form-control" id="txtPassword" name="rawpwd" onkeyup="check()" required>
+                                    <label for="txtPassword">Password</label>
+                                    <input type="password" class="form-control" id="txtPassword" name="rawpwd" onkeyup="check()" required value="${rawpwd}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtConfirm">Xác nhận mật khẩu</label>
-                                    <input type="password" class="form-control" id="txtConfirm" onkeyup="check()" required>
+                                    <label for="txtConfirm">Confirm Password</label>
+                                    <input type="password" class="form-control" id="txtConfirm" onkeyup="check()" required value="${rawpwd}">
                                     <span id='message'></span>
                                 </div>
                             </div>
                         </div>
-                        <h3 class="mt-5">Thông tin cá nhân</h3>
+                        <h3 class="mt-5">Personal Information</h3>
                         <div class="row align-items-center mt-4">
                             <div class="col">
                                 <label for="txtEmail">Email</label>
-                                <input type="text" class="form-control" id="txtEmail" name="email">
+                                <input type="text" class="form-control" id="txtEmail" name="email" value="${email}">
                             </div>
                         </div>
                         <div class="row align-items-center mt-4">
                             <div class="col">
-                                <label for="txtDOB">Ngày sinh</label>
-                                <input type="text" class="form-control" id="txtDOB" name="dob">
+                                <label for="txtDOB">Date of Birth</label>
+                                <input type="text" class="form-control" id="txtDOB" name="dob" value="${dob}">
                             </div>
                         </div>
-                        <div class="row align-items-center mt-4">
+                        <div class="row align-items-center mt-4 d-flex">
                             <div class="col">
                                 <label>Captcha</label>
                                 <img src="${pageContext.request.contextPath}/captcha-image.jpg"/>
-                                <input type="text" name="captcha">
+                                <input type="text" name="captcha" id="txtCaptcha" onfocus="$('#txtError').addClass('d-none')"> <i id="txtError" style="color: red">${error}</i>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btnSubmit">
                             <i class="fa fa-check" aria-hidden="true"></i>
-                            Đăng ký
+                            Register
                         </button>
                     </div>
             </div>

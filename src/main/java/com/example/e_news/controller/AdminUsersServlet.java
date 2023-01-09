@@ -56,6 +56,7 @@ public class AdminUsersServlet extends HttpServlet {
                 String username =request.getParameter("username");
                 User u = UserModel.findByUsername(0,username);
                 if(u != null){
+                    System.out.println(u.getDob());
                     request.setAttribute("user",u);
                     ServletUtils.forward("/views/vwUser/EditUser.jsp", request, response);
                 }else {
@@ -160,7 +161,15 @@ public class AdminUsersServlet extends HttpServlet {
 
     private static void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username =request.getParameter("username");
-        UserModel.delete(username);
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("authUser");
+        if (u.getUsername().equals(username)){
+            session.setAttribute("auth", false);
+            session.setAttribute("authUser", new User());
+            UserModel.delete(username);
+        }else {
+            UserModel.delete(username);
+        }
         ServletUtils.redirect("/Admin/User", request, response);
     }
 }
