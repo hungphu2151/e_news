@@ -47,18 +47,6 @@ public class AccountServlet extends HttpServlet {
                 out.print(isAvailable);
                 out.flush();
                 break;
-            case "/IsAvailableUser":
-                username = request.getParameter("user");
-                int role = Integer.parseInt(request.getParameter("role"));
-                user = UserModel.findRoleByUsername(username,0);
-                int roleUser = user.getRole();
-                isAvailable = (role == roleUser);
-                out = response.getWriter();
-                response.setContentType("application/json");
-                response.setCharacterEncoding("utf-8");
-                out.print(isAvailable);
-                out.flush();
-                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
