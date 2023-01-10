@@ -4,18 +4,39 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<%--<jsp:useBean id="article" scope="request" type="com.example.e_news.beans.Article" />--%>
-<%--<jsp:useBean id="cmts" scope="request" type="java.util.List<com.example.e_news.beans.Cmt>" />--%>
-<%--<jsp:useBean id="user" scope="request" type="java.util.List<com.example.e_news.beans.User>" />--%>
-<%--<jsp:useBean id="sameCat" scope="request" type="java.util.List<com.example.e_news.beans.Article>" />--%>
-<%--<jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>--%>
+<%--<jsp:useBean id="categories" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>--%>
+<%--<jsp:useBean id="tags" scope="request" type="java.util.List<com.example.e_news.beans.Tag>"/>--%>
+<jsp:useBean id="authUser" scope="session" type="com.example.e_news.beans.User"></jsp:useBean>
 
 <t:main>
+    <jsp:attribute name="reader">
+        <jsp:include page="../../views/partials/leftWriter.jsp"/>
+    </jsp:attribute>
+
+    <jsp:attribute name="css">
+        <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    </jsp:attribute>
+
     <jsp:attribute name="js">
+        <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/fileinput.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/js/locales/vi.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/themes/fa/theme.min.js"></script>
         <script src='https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js'></script>
         <script>
+            $('#frmAddArticle').on('submit', function (e){
+                e.preventDefault();
+                const title = $('#txtTitle').val();
+                const summary = $('#txtSummary').val();
+                const content = $('#txtContent').val();
+                const tagID = $('#txtTagID').val();
+                if(title.length===0 || summary.length===0 || content.length===0 || tagID.length===0){
+                    alert('Vui lòng nhập đầy đủ!!!');
+                    return;
+                }
+                $('#frmAddArticle').off('submit').submit();
+            });
             tinymce.init({
-                selector: '#txtArticle',
+                selector: '#txtContent',
                 height: 450,
                 plugins:    'lists paste image link autolink table',
                 menubar: false,
@@ -24,43 +45,70 @@
                 ],
                 entity_encoding: "raw"
             });
+            $("#fuMain").fileinput({
+                theme:"fa",
+                language:"vi",
+                dropZoneEnabled:false,
+                allowFileExtensions:['jpg','png','gif']
+            });
         </script>
     </jsp:attribute>
-  <jsp:attribute name="reader">
-        <jsp:include page="../../views/partials/leftWriter.jsp"/>
-  </jsp:attribute>
     <jsp:body>
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data" id="frmAddArticle">
             <div class="card">
-                <h4 class="card-header ">
+                <h4 class="card-header">
                     Sửa bài viết
                 </h4>
-                <div class="form-group">
-                    <label for="txtUsernane">Title</label>
-                    <input type="text" class="form-control" id="txtUsername" name="username">
-                </div>
-                <div class="form-group">
-
-                </div>
-                <div class="form-group">
-                    <label for="txtUsernane">Summary</label>
-                    <input type="text" class="form-control" id="txtUsernane" name="username">
-                </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="txtArticle">Content</label>
-                        <textarea id="txtArticle"></textarea>
+                        <label for="txtID">ID phóng viên</label>
+                        <input type="text" class="form-control" id="txtID" name="id" value="${authUser.id}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="txtUsernane">Categories</label>
-                        <input type="text" class="form-control" id="txtUsernae" name="username">
+                        <label for="txtTitle">Title</label>
+                        <input type="text" class="form-control" id="txtTitle" name="title" autofocus>
                     </div>
                     <div class="form-group">
-                        <label for="txtArticle">Label</label>
+                        <label for="txtSummary">Summary</label>
+                        <input type="text" class="form-control" id="txtSummary" name="summary" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtContent">Content</label>
+                        <textarea id="txtContent" name="content" autofocus></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="file" id="fuMain" name="fuMain">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inputGroupSelect">Thuộc chuyên mục</label>
+                        <select class="form-control w-25" id="inputGroupSelect" name="category_id">
+                            <c:forEach items="${categories}" var="c">
+                                <c:if test="${c.parent_id!=0}">
+                                    <option value="${c.id_category}">${c.name}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Nhãn:  &nbsp;
+                        <c:forEach items="${tags}" var="t">
+                            <input type="checkbox" id="txtTagID" name="tag_id" value="${t.id_tag}">  ${t.value} &nbsp; &nbsp;&nbsp;
+                        </c:forEach>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary" >
+
+                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/views/vwWriter/Writer.jsp">
+                        <i class="fa fa-backward" aria-hidden="true"></i>
+                        List
+                    </a>
+
+                    <button type="submit" class="btn btn-danger" formaction="${pageContext.request.contextPath}/views/vwWriter/Delete">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        Xóa bài
+                    </button>
+
+                    <button type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/views/vwWriter/Writer">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Gửi
                     </button>
