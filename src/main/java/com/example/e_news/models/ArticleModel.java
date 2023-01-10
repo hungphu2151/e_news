@@ -142,7 +142,7 @@ public class ArticleModel {
 
     public static List<Article> findSameCat(int catId) {
         final String sql = "SELECT * FROM articles\n" +
-                "where category_id=4 and id_article!=:id_article status=1\n" +
+                "where category_id=4 and id_article!=:id_article and status=1\n" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 5";
         try (Connection con = DbUtils.getConnection()) {
