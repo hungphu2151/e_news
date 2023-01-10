@@ -10,17 +10,17 @@
         <jsp:include page="../../views/partials/leftWriter.jsp"/>
   </jsp:attribute>
     <jsp:body>
-        <c:choose>
-            <c:when test="${bi_tu_choi.size() == 0}">
-                <div class="card-body">
-                    <p class="card-text">Không có dữ liệu phù hợp!</p>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="">Những bài viết bị từ chối</h5>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="">Những bài viết bị từ chối</h5>
+            </div>
+            <c:choose>
+                <c:when test="${bi_tu_choi.size() == 0}">
+                    <div class="card-body">
+                        <p class="card-text">Không có bài báo nào!</p>
                     </div>
+                </c:when>
+                <c:otherwise>
                     <c:forEach items="${bi_tu_choi}" var="a">
                         <div class="card-body">
                             <div class="row">
@@ -32,9 +32,7 @@
                                         <div class="card-body">
                                             <h5 class="card-title">${a.title}</h5>
                                             <p class="card-text">${a.sumary}</p>
-                                            <div class="d-flex justify-content-end">
-                                                    ${a.public_date}
-                                            </div>
+                                            <p><b>Lí do từ chối:</b> ${a.reason} </p>
                                             <div class="d-flex justify-content-end text-danger">
                                                 <c:forEach items="${categoriesWithDetails}" var="c">
                                                     <c:if test="${a.category_id==c.id_category}">
@@ -43,9 +41,8 @@
                                                 </c:forEach>
                                             </div>
                                         </div>
-                                        <div class="card-footer d-flex justify-content-md-between">
-                                            <div mr-3><i class="fa fa-eye" aria-hidden="true"></i>${a.views}</div>
-                                            <a id="btn_detail" class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/views/vwWriter/Upload.jsp" role="button">
+                                        <div class="card-footer d-flex justify-content-end">
+                                            <a id="btn_detail" class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Misc/Upload?id=${a.id_article}" role="button">
                                                 Chỉnh sửa
                                             </a>
                                         </div>
@@ -54,9 +51,9 @@
                             </div>
                         </div>
                     </c:forEach>
-                </div>
-            </c:otherwise>
-        </c:choose>
+                </c:otherwise>
+            </c:choose>
+        </div>
     </jsp:body>
 </t:main>
 

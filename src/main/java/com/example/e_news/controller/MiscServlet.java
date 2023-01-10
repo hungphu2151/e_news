@@ -5,10 +5,7 @@ import com.example.e_news.beans.Article;
 import com.example.e_news.beans.Category;
 import com.example.e_news.beans.Tag;
 import com.example.e_news.beans.User;
-import com.example.e_news.models.ArticleModel;
-import com.example.e_news.models.CategoryModel;
-import com.example.e_news.models.TagModel;
-import com.example.e_news.models.UserModel;
+import com.example.e_news.models.*;
 import com.example.e_news.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -31,53 +28,66 @@ public class MiscServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("authUser");
+        List<Category> categoryList = CategoryModel.findAll();
+        List<Tag> listTag = TagModel.findAll();
         switch (path){
             case "/Writer":
-                List<Category> categoryList = CategoryModel.findAll();
                 request.setAttribute("categories",categoryList);
-                List<Tag> listTag = TagModel.findAll();
                 request.setAttribute("tags",listTag);
                 ServletUtils.forward("/views/vwWriter/Writer.jsp", request, response);
                 break;
 
 
             case "/Publish":
-                List<Article> Da_xuat_ban = ArticleModel.find_da_xuat_ban();
+                List<Article> Da_xuat_ban = ArticleModel.find_da_xuat_ban(u.getId());
                 request.setAttribute("da_xuat_ban", Da_xuat_ban);
                 ServletUtils.forward("/views/vwWriter/Publish.jsp", request, response);
                 break;
 
             case "/Accept":
-                List<Article> Da_duoc_duyet = ArticleModel.find_da_duoc_duyet();
+                List<Article> Da_duoc_duyet = ArticleModel.find_da_duoc_duyet(u.getId());
                 request.setAttribute("da_duoc_duyet", Da_duoc_duyet);
                 ServletUtils.forward("/views/vwWriter/Accept.jsp", request, response);
                 break;
 
             case "/Deny":
-                List<Article> Bi_tu_choi = ArticleModel.find_bi_tu_choi();
+                List<Article> Bi_tu_choi = ArticleModel.find_bi_tu_choi(u.getId());
                 request.setAttribute("bi_tu_choi", Bi_tu_choi);
                 ServletUtils.forward("/views/vwWriter/Deny.jsp", request, response);
                 break;
 
             case "/Unapproved":
-                List<Article> Chua_duoc_duyet = ArticleModel.find_chua_duoc_duyet();
+                List<Article> Chua_duoc_duyet = ArticleModel.find_chua_duoc_duyet(u.getId());
                 request.setAttribute("chua_duoc_duyet", Chua_duoc_duyet);
                 ServletUtils.forward("/views/vwWriter/Unapproved.jsp", request, response);
                 break;
+            case "/Detail":
+                int id =Integer.parseInt(request.getParameter("id"));
+                Article a = ArticleModel.findById(id);
+                if(a != null){
+                    Category c= CategoryModel.findById(a.getCategory_id());
+                    List<Tag> listTagbyArt = TagModel.findByArtId(id);
+                    request.setAttribute("tagbyArt", listTagbyArt);
+                    request.setAttribute("article",a);
+                    request.setAttribute("category",c);
+                    ServletUtils.forward("/views/vwWriter/Detail.jsp", request, response);
+                }else {
+                    ServletUtils.redirect("/Misc/Writer", request, response);
+                }
+                break;
 
             case "/Upload":
-                int id = 10;
-                try {
-                    id = Integer.parseInt(request.getParameter("id"));
-                }catch (NumberFormatException e) {
-                }
-                Article v = ArticleModel.findById(id);
-
-                if(v!=null) {
+                int id_article =Integer.parseInt(request.getParameter("id"));
+                Article v = ArticleModel.findById(id_article);
+                if(v!=null && (v.getStatus()==3 || v.getStatus()==4) && v.getWriter_id()==u.getId()) {
                     request.setAttribute("article", v);
-                    ServletUtils.forward("views/vwWriter/Upload.jsp", request, response);
+                    request.setAttribute("categories",categoryList);
+                    request.setAttribute("tags",listTag);
+                    ServletUtils.forward("/views/vwWriter/Upload.jsp", request, response);
                 } else {
-                    ServletUtils.redirect("", request, response);
+                    ServletUtils.redirect("/Misc/Publish", request, response);
                 }
                 break;
 
@@ -124,7 +134,6 @@ public class MiscServlet extends HttpServlet {
     private void postWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
         String title = request.getParameter("title");
         String summary = request.getParameter("summary");
         String content = request.getParameter("content");
@@ -145,7 +154,7 @@ public class MiscServlet extends HttpServlet {
             }
         }
         for(String item: tag_id){
-            ArticleModel.addTags_Articles(Integer.parseInt(item),article.getId_article());
+            Tags_has_articleModel.addTags_Articles(Integer.parseInt(item),article.getId_article());
         }
         List<Category> listCategory = CategoryModel.findAll();
         request.setAttribute("categories",listCategory);
@@ -154,7 +163,32 @@ public class MiscServlet extends HttpServlet {
         ServletUtils.forward("/views/vwWriter/Writer.jsp", request, response);
     }
 
-    private void postUpload(HttpServletRequest request, HttpServletResponse response) {
+    private void postUpload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id_writer = Integer.parseInt(request.getParameter("id_writer"));
+        int id_article = Integer.parseInt(request.getParameter("id_article"));
+        String title = request.getParameter("title");
+        String summary = request.getParameter("summary");
+        String content = request.getParameter("content");
+        int category_id = Integer.parseInt(request.getParameter("category_id"));
+        String [] tag_id =request.getParameterValues("tag_id");
+        Article a = new Article(id_article,0,category_id,3,0,id_writer,title,summary,content,null,null);
+        ArticleModel.update(a);
+        for (Part part :request.getParts()){
+            if(part.getName().equals("fuMain")){
+                String targetDir= this.getServletContext().getRealPath("public/imgs/articles/"+id_article);
+                File dir= new File(targetDir);
+                if(!dir.exists()){
+                    dir.mkdir();
+                }
+                String destination = targetDir+"/main.jpg" ;
+                part.write(destination);
+            }
+        }
+        Tags_has_articleModel.deleteTagByIDArticle(id_article);
+        for(String item: tag_id){
+            Tags_has_articleModel.addTags_Articles(Integer.parseInt(item),id_article);
+        }
+        ServletUtils.redirect("/Misc/Unapproved", request, response);
     }
 
     private void postUnapproved(HttpServletRequest request, HttpServletResponse response) {

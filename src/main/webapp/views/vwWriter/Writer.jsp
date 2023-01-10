@@ -28,9 +28,14 @@
                 e.preventDefault();
                 const title = $('#txtTitle').val();
                 const summary = $('#txtSummary').val();
-                const content = $('#txtContent').val();
-                const tagID = $('#txtTagID').val();
-                if(title.length===0 || summary.length===0 || content.length===0 || tagID.length===0){
+                const tagID = document.getElementsByName('tag_id');
+                let result = "";
+                for (let i = 0; i < tagID.length; i++){
+                    if (tagID[i].checked === true){
+                        result += ' [' + tagID[i].value + ']';
+                    }
+                }
+                if(title.length===0 || summary.length===0 || result === ""){
                     alert('Vui lòng nhập đầy đủ!!!');
                     return;
                 }

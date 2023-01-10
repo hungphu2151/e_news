@@ -16,14 +16,6 @@ public class ArticleModel {
         }
     }
 
-//    public static List<Article> findByCatId(int catId) {
-//        final String sql = "select * from articles where category_id = :category_id and status=1 order by premium desc ";
-//        try (Connection con = DbUtils.getConnection()) {
-//            return con.createQuery(sql)
-//                    .addParameter("category_id", catId)
-//                    .executeAndFetch(Article.class);
-//        }
-//    }
 
     public static List<Article> findByCatId(int catId, int page, int record) {
         final String sql = "select * from articles WHERE category_id = :category_id and status=1 order by premium desc LIMIT " + (page-1)*record + ", " + record;
@@ -191,12 +183,23 @@ public class ArticleModel {
                     .executeUpdate();
         }
     }
-    public static void addTags_Articles(int tag_id,int article_id){
-        String insertSql = "INSERT INTO tags_has_articles (tag_id, article_id) VALUES (:tag_id,:article_id)\n";
-        try (Connection con = DbUtils.getConnection()){
+
+    public static void update(Article a){
+        String insertSql = "UPDATE articles SET  title = :title, public_date = :public_date, category_id = :category_id, " +
+                "sumary = :sumary, content = :content, status = :status, views = :views, writer_id = :writer_id, premium = :premium, reason = :reason WHERE id_article = :id_article \n";
+        try (Connection con = DbUtils.getConnection()) {
             con.createQuery(insertSql)
-                    .addParameter("tag_id",tag_id)
-                    .addParameter("article_id",article_id)
+                    .addParameter("id_article", a.getId_article())
+                    .addParameter("title", a.getTitle())
+                    .addParameter("public_date", a.getPublic_date())
+                    .addParameter("category_id", a.getCategory_id())
+                    .addParameter("sumary", a.getSumary())
+                    .addParameter("content", a.getContent())
+                    .addParameter("status", a.getStatus())
+                    .addParameter("views", a.getViews())
+                    .addParameter("writer_id", a.getWriter_id())
+                    .addParameter("premium", a.getPremium())
+                    .addParameter("reason", a.getReason())
                     .executeUpdate();
         }
     }
@@ -248,40 +251,44 @@ public class ArticleModel {
     }
 
 
-    public static List<Article> find_da_duoc_duyet() {
+    public static List<Article> find_da_duoc_duyet(int writer_id) {
         final String sql = "select *\n" +
                 "from articles\n" +
-                "where status = 2";
+                "where status = 2 and writer_id=:writer_id";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
+                    .addParameter("writer_id",writer_id)
                     .executeAndFetch(Article.class);
         }
     }
 
-    public static List<Article> find_da_xuat_ban() {
+    public static List<Article> find_da_xuat_ban(int writer_id) {
         final String sql = "select *\n" +
                 "from articles\n" +
-                "where status = 1";
+                "where status = 1 and writer_id=:writer_id";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
+                    .addParameter("writer_id",writer_id)
                     .executeAndFetch(Article.class);
         }
     }
-    public static List<Article> find_bi_tu_choi() {
+    public static List<Article> find_bi_tu_choi(int writer_id) {
         final String sql = "select *\n" +
                 "from articles\n" +
-                "where status = 4";
+                "where status = 4 and writer_id=:writer_id";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
+                    .addParameter("writer_id",writer_id)
                     .executeAndFetch(Article.class);
         }
     }
-    public static List<Article> find_chua_duoc_duyet() {
+    public static List<Article> find_chua_duoc_duyet(int writer_id) {
         final String sql = "select *\n" +
                 "from articles\n" +
-                "where status = 3";
+                "where status = 3 and writer_id=:writer_id";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
+                    .addParameter("writer_id",writer_id)
                     .executeAndFetch(Article.class);
         }
     }

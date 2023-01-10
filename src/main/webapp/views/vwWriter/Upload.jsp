@@ -4,9 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<%--<jsp:useBean id="categories" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>--%>
-<%--<jsp:useBean id="tags" scope="request" type="java.util.List<com.example.e_news.beans.Tag>"/>--%>
+<jsp:useBean id="categories" scope="request" type="java.util.List<com.example.e_news.beans.Category>"/>
+<jsp:useBean id="tags" scope="request" type="java.util.List<com.example.e_news.beans.Tag>"/>
+<jsp:useBean id="article" scope="request" type="com.example.e_news.beans.Article"/>
 <jsp:useBean id="authUser" scope="session" type="com.example.e_news.beans.User"></jsp:useBean>
+
 
 <t:main>
     <jsp:attribute name="reader">
@@ -27,9 +29,14 @@
                 e.preventDefault();
                 const title = $('#txtTitle').val();
                 const summary = $('#txtSummary').val();
-                const content = $('#txtContent').val();
-                const tagID = $('#txtTagID').val();
-                if(title.length===0 || summary.length===0 || content.length===0 || tagID.length===0){
+                const tagID = document.getElementsByName('tag_id');
+                let result = "";
+                for (let i = 0; i < tagID.length; i++){
+                    if (tagID[i].checked === true){
+                        result += ' [' + tagID[i].value + ']';
+                    }
+                }
+                if(title.length===0 || summary.length===0 || result === ""){
                     alert('Vui lòng nhập đầy đủ!!!');
                     return;
                 }
@@ -43,8 +50,9 @@
                 toolbar: [
                     'undo redo | bold italic underline strikethrought | numlist bullíst | alignleft aligncenter alignright | forecolor backcolor | table link image'
                 ],
-                entity_encoding: "raw"
+                entity_encoding: "raw",
             });
+
             $("#fuMain").fileinput({
                 theme:"fa",
                 language:"vi",
@@ -57,24 +65,24 @@
         <form action="" method="post" enctype="multipart/form-data" id="frmAddArticle">
             <div class="card">
                 <h4 class="card-header">
-                    Sửa bài viết
+                    Hiệu chỉnh bài viết
                 </h4>
                 <div class="card-body">
                     <div class="form-group">
                         <label for="txtID">ID phóng viên</label>
-                        <input type="text" class="form-control" id="txtID" name="id" value="${authUser.id}" readonly>
+                        <input type="text" class="form-control" id="txtID" name="id_writer" value="${authUser.id}" readonly>
                     </div>
                     <div class="form-group">
                         <label for="txtTitle">Title</label>
-                        <input type="text" class="form-control" id="txtTitle" name="title" autofocus>
+                        <input type="text" class="form-control" id="txtTitle" name="title" value="${article.title}">
                     </div>
                     <div class="form-group">
                         <label for="txtSummary">Summary</label>
-                        <input type="text" class="form-control" id="txtSummary" name="summary" autofocus>
+                        <input type="text" class="form-control" id="txtSummary" name="summary" value="${article.sumary}">
                     </div>
                     <div class="form-group">
                         <label for="txtContent">Content</label>
-                        <textarea id="txtContent" name="content" autofocus></textarea>
+                        <textarea id="txtContent" name="content">${article.content}</textarea>
                     </div>
                     <div class="form-group">
                         <input type="file" id="fuMain" name="fuMain">
@@ -95,25 +103,19 @@
                             <input type="checkbox" id="txtTagID" name="tag_id" value="${t.id_tag}">  ${t.value} &nbsp; &nbsp;&nbsp;
                         </c:forEach>
                     </div>
+                    <div class="form-group">
+                        <input type="text" name="id_article" value="${article.id_article}" hidden="hidden">
+                    </div>
                 </div>
                 <div class="card-footer">
-
-                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/views/vwWriter/Writer.jsp">
-                        <i class="fa fa-backward" aria-hidden="true"></i>
-                        List
-                    </a>
-
-                    <button type="submit" class="btn btn-danger" formaction="${pageContext.request.contextPath}/views/vwWriter/Delete">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        Xóa bài
-                    </button>
-
-                    <button type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/views/vwWriter/Writer">
+                    <button type="submit" class="btn btn-primary" >
                         <i class="fa fa-check" aria-hidden="true"></i>
-                        Gửi
+                        Lưu
                     </button>
                 </div>
             </div>
         </form>
     </jsp:body>
 </t:main>
+
+

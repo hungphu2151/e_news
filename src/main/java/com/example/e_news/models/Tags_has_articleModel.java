@@ -15,4 +15,21 @@ public class Tags_has_articleModel {
                     .executeAndFetch(Tags_has_articles.class);
         }
     }
+    public static void addTags_Articles(int tag_id,int article_id){
+        String insertSql = "INSERT INTO tags_has_articles (tag_id, article_id) VALUES (:tag_id,:article_id)\n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("tag_id",tag_id)
+                    .addParameter("article_id",article_id)
+                    .executeUpdate();
+        }
+    }
+    public static void deleteTagByIDArticle(int article_id) {
+        String insertSql = "delete from tags_has_articles WHERE article_id = :article_id";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("article_id", article_id)
+                    .executeUpdate();
+        }
+    }
 }
