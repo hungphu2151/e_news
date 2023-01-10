@@ -60,9 +60,6 @@
                                         <c:if test="${u.id==c.editor_id}">
                                             <th>${u.name}</th>
                                         </c:if>
-                                        <c:if test="${u.id!=c.editor_id}">
-                                            <th></th>
-                                        </c:if>
                                     </c:forEach>
                                     <th class="text-right">
                                         <a  class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Category/EditMainCategory?id=${c.id_category}" role="button">
