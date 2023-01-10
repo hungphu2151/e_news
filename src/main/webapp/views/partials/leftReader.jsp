@@ -6,9 +6,12 @@
 
 <div>
     <form class="form-inline" action="${pageContext.request.contextPath}/Article/Search">
-        <input id="txtSearch" name="txtResult" class="form-control" type="search" placeholder="Search" aria-label="Search" style="width: 100%">
-        <button class="btn btn-light mt-1" type="submit">Search</button>
-<%--        <a class="btn btn-primary" href="${pageContext.request.contextPath}/Article/Search" role="button"> Search</a>--%>
+        <div class="d-flex justify-content-start align-items-center">
+            <input id="txtSearch" name="txtResult" class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search" style="width: 100%">
+            <button class="btn btn-light " type="submit">
+                <i class="fa fa-search " aria-hidden="true"></i>
+            </button>
+        </div>
     </form>
 </div>
 <div class="card mt-3">
