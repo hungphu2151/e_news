@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -108,7 +110,10 @@ public class EditorArticleSevlet extends HttpServlet {
 
     private static void acceptArticle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id =Integer.parseInt(request.getParameter("id"));
-        ArticleModel.updateStatus(id,2,null);
+        String StrPublic_date = request.getParameter("public_date");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("d/M/yyyy H:00:00");
+        LocalDateTime public_date = LocalDateTime.parse(StrPublic_date, df);
+        ArticleModel.updateStatus(id,2,public_date);
         ServletUtils.redirect("/Editor/Article", request, response);
     }
 

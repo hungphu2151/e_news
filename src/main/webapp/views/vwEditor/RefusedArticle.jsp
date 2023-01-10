@@ -51,6 +51,11 @@
                               <td>${a.title}</td>
                               <td>${a.sumary}</td>
                               <td>${"Bị từ chối"}</td>
+                              <c:forEach items="${writers}" var="w">
+                                <c:if test="${w.id == a.writer_id}">
+                                  <td>${w.pen_name}</td>
+                                </c:if>
+                              </c:forEach>
                               <td class="text-right">
                                 <a  class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Editor/Article/Edit?id=${a.id_article}" role="button">
                                   <i class="fa fa-eye" aria-hidden="true"></i>

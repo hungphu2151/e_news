@@ -12,6 +12,21 @@
         <jsp:include page="../../views/partials/leftEditor.jsp"/>
     </jsp:attribute>
 
+  <jsp:attribute name="css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </jsp:attribute>
+  <jsp:attribute name="js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+
+          $('#txtPublicDate').datetimepicker({
+            format:'d/m/Y H:00:00',
+            mask: true,
+          });
+
+        </script>
+    </jsp:attribute>
+
   <jsp:body>
     <form action="" method="post" id="frmUser">
       <div class="card">
@@ -34,10 +49,18 @@
               <div class="d-flex justify-content-end" style="color: blue">
                 Đã được duyệt
               </div>
+              <div class="d-flex justify-content-end">
+                Ngày xuất bản:&nbsp; <b><i>${article.public_date.dayOfMonth}/${article.public_date.monthValue}/${article.public_date.year} ${article.public_date.hour}:${article.public_date.minute}:${article.public_date.second}</i></b>
+              </div>
+
             </c:when>
             <c:when test="${article.status == 3}">
               <div class="d-flex justify-content-end" style="color: sandybrown">
                 Chưa được duyệt
+              </div>
+              <div class="form-group">
+                <label for="txtPublicDate">Ngày xuất bản</label>
+                <input type="text" class="form-control" id="txtPublicDate" name="public_date">
               </div>
             </c:when>
             <c:otherwise >
@@ -52,6 +75,11 @@
 
             </c:otherwise>
           </c:choose>
+
+<%--          <div class="form-group">--%>
+<%--            <label for="txtPublicDate">Ngày xuất bản</label>--%>
+<%--            <input type="text" class="form-control" id="txtPublicDate" name="public_date">--%>
+<%--          </div>--%>
 
           <div class="form-group">
             <input type="text" class="form-control w-25" id="txtID" name="id" value="${article.id_article}" hidden="hidden">
