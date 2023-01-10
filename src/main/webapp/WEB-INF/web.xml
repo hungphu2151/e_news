@@ -38,6 +38,21 @@
         <url-pattern>/Misc/*</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/Admin/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>EditorFilter</filter-name>
+        <url-pattern>/Editor/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>WriterFilter</filter-name>
+        <url-pattern>/Misc/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>CaptchaServlet</servlet-name>
         <servlet-class>com.example.e_news.controller.CaptchaServlet</servlet-class>

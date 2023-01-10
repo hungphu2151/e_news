@@ -75,9 +75,6 @@
         .links a{
             margin-left: 4px;
         }
-        .role-login{
-            color: white;
-        }
     </style>
 
 
@@ -87,15 +84,12 @@
             <div class="d-flex justify-content-center h-100">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Sign In</h3>
-                        <div class="d-flex justify-content-end social_icon">
-                            <span><i class="fab fa-google-plus-square"></i></span>
-                        </div>
+                        <h3>Đăng nhập</h3>
                     </div>
                     <div class="card-body">
                         <c:if test="${hasError}">
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong>Login failed!</strong> ${errorMassage}
+                                <strong>Đăng nhập thất bại</strong> ${errorMassage}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -110,29 +104,23 @@
                                 <input type="text" class="form-control" id="txtUsername" name="username" autofocus placeholder="Username">
                             </div>
                             <div class="input-group form-group">
-                                <label class="sr-only" for="txtPassword">Password</label>
+                                <label class="sr-only" for="txtPassword">Mật khẩu</label>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                                <input type="password" class="form-control" id="txtPassword" name="password" placeholder="Password">
+                                <input type="password" class="form-control" id="txtPassword" name="password" placeholder="Mật khẩu">
                             </div>
-                            <select class="role-user" name="role">
-                                <option value="1">Administrator</option>
-                                <option value="2">Editor</option>
-                                <option value="3">Writer</option>
-                                <option value="4">Subscriber</option>
-                            </select>
                             <div class="form-group">
-                                <button type="submit" class="btn float-right login_btn">Sign In</button>
+                                <button type="submit" class="w-100 p-2 login_btn">Đăng nhập</button>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-center links">
-                            Don't have an account?<a href="${pageContext.request.contextPath}/Account/Register">Sign Up</a>
+                            Bạn chưa có tài khoản ?<a href="${pageContext.request.contextPath}/Account/Register">Đăng ký</a>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <a href="#">Forgot your password?</a>
+                            <a href="#">Quên mật khẩu ?</a>
                         </div>
                     </div>
                 </div>
