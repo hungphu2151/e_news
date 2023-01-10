@@ -1,8 +1,10 @@
 package com.example.e_news.controller;
 
 import com.example.e_news.beans.Article;
+import com.example.e_news.beans.Category;
 import com.example.e_news.beans.User;
 import com.example.e_news.models.ArticleModel;
+import com.example.e_news.models.CategoryModel;
 import com.example.e_news.models.UserModel;
 import com.example.e_news.utils.ServletUtils;
 
@@ -11,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,8 +33,11 @@ public class EditorArticleSevlet extends HttpServlet {
                 List<Article> listArticle = ArticleModel.findAll();
                 request.setAttribute("articles",listArticle);
                 int roleWriter = 3;
+                roleWriter = 3;
                 List<User> listWriter = UserModel.findByRole(roleWriter);
                 request.setAttribute("writers",listWriter);
+                List<Category> listCategory = CategoryModel.findAll();
+                request.setAttribute("categories",listCategory);
                 ServletUtils.forward("/views/vwEditor/Index.jsp", request, response);
                 break;
             case "/AcceptedArticle":
