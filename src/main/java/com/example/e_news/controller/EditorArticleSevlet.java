@@ -33,7 +33,6 @@ public class EditorArticleSevlet extends HttpServlet {
                 List<Article> listArticle = ArticleModel.findAll();
                 request.setAttribute("articles",listArticle);
                 int roleWriter = 3;
-                roleWriter = 3;
                 List<User> listWriter = UserModel.findByRole(roleWriter);
                 request.setAttribute("writers",listWriter);
                 List<Category> listCategory = CategoryModel.findAll();
@@ -46,6 +45,8 @@ public class EditorArticleSevlet extends HttpServlet {
                 roleWriter = 3;
                 listWriter = UserModel.findByRole(roleWriter);
                 request.setAttribute("writers",listWriter);
+                listCategory = CategoryModel.findAll();
+                request.setAttribute("categories",listCategory);
                 ServletUtils.forward("/views/vwEditor/AcceptedArticle.jsp", request, response);
                 break;
             case "/RefusedArticle":
@@ -54,6 +55,8 @@ public class EditorArticleSevlet extends HttpServlet {
                 roleWriter = 3;
                 listWriter = UserModel.findByRole(roleWriter);
                 request.setAttribute("writers",listWriter);
+                listCategory = CategoryModel.findAll();
+                request.setAttribute("categories",listCategory);
                 ServletUtils.forward("/views/vwEditor/RefusedArticle.jsp", request, response);
                 break;
             case "/Edit":
