@@ -25,12 +25,33 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="${pageContext.request.contextPath}/Account/Profile">
                 <i class="fa fa-user" aria-hidden="true"></i>
-                Profile
+                Hồ sơ
               </a>
+              <c:if test="${authUser.role==1}">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/Admin/Category">
+                  <i class="fa fa-dashboard" aria-hidden="true"></i>
+                  Dashboard
+                </a>
+              </c:if>
+              <c:if test="${authUser.role==2}">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/Editor/Article">
+                  <i class="fa fa-edit" aria-hidden="true"></i>
+                  Duyệt bài viết
+                </a>
+              </c:if>
+              <c:if test="${authUser.role==3}">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/Misc/Writer">
+                  <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                  Đăng bài viết
+                </a>
+              </c:if>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="javascript: $('#formLogout').submit()">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
-                Sign Out
+                Thoát
               </a>
             </div>
           </li>

@@ -114,19 +114,13 @@ public class AccountServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         User user = UserModel.findByUsername(0,username);
-        String role = request.getParameter("role");
         if (user != null) {
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
             if (result.verified){
                 HttpSession session = request.getSession();
                 session.setAttribute("auth", true);
                 session.setAttribute("authUser", user);
-                String url = (String) session.getAttribute("reUrl");
-                if (role.equals("1")) url = "/Admin/Article";
-                    else if (role.equals("2")) url = "/Editor/Article";
-                        else if (role.equals("3")) url = "/Misc/Writer";
-                if (url == null) url="/Home";
-                ServletUtils.redirect(url, request, response);
+                ServletUtils.redirect("/Home", request, response);
             }
             else {
                 request.setAttribute("hasError", true);

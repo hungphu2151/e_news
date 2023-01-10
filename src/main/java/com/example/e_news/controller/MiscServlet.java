@@ -40,9 +40,6 @@ public class MiscServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwWriter/Writer.jsp", request, response);
                 break;
 
-            case "/Upload":
-                ServletUtils.forward("/views/vwWriter/Upload.jsp", request, response);
-                break;
 
             case "/Publish":
                 List<Article> Da_xuat_ban = ArticleModel.find_da_xuat_ban();
@@ -68,6 +65,21 @@ public class MiscServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwWriter/Unapproved.jsp", request, response);
                 break;
 
+            case "/Upload":
+                int id = 10;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                }catch (NumberFormatException e) {
+                }
+                Article v = ArticleModel.findById(id);
+
+                if(v!=null) {
+                    request.setAttribute("article", v);
+                    ServletUtils.forward("views/vwWriter/Upload.jsp", request, response);
+                } else {
+                    ServletUtils.redirect("", request, response);
+                }
+                break;
 
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
