@@ -19,7 +19,7 @@
     <jsp:body>
         <div>
             <div class="card-body d-flex justify-content-center container-pluid h-100 pt-0 pb-0 pr-0 pl-0 mb-3">
-                <div style="width: 100%">
+                <div style="width: 90%">
                     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>

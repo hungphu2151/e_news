@@ -100,7 +100,7 @@ public class ArticleModel {
     }
 
     public static List<Article> findByViews() {
-        final String sql = "select * from articles order by views desc limit 10";
+        final String sql = "select * from articles where status=1 order by views desc limit 10";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .executeAndFetch(Article.class);
@@ -108,7 +108,7 @@ public class ArticleModel {
     }
 
     public static List<Article> findByDate() {
-        final String sql = "select * from articles order by public_date desc limit 10";
+        final String sql = "select * from articles where status=1 order by public_date desc limit 10";
         try (Connection con = DbUtils.getConnection()) {
             return con.createQuery(sql)
                     .executeAndFetch(Article.class);
@@ -117,7 +117,7 @@ public class ArticleModel {
 
     public static List<Article> findByTopCat() {
         final String sql = "select * from articles\n" +
-                "where public_date in (select max(public_date) as public_date\n" +
+                "where status=1 and public_date in (select max(public_date) as public_date\n" +
                 "                      from articles\n" +
                 "                      group by category_id)";
         try (Connection con = DbUtils.getConnection()) {
@@ -129,7 +129,7 @@ public class ArticleModel {
     public static List<Article> findBycountCmt() {
         final String sql = "select id_article, premium, title, public_date, category_id, sumary, content, status, views, writer_id\n" +
                 "from comments, articles\n" +
-                "where comments.article_id = articles.id_article\n" +
+                "where comments.article_id = articles.id_article and status=1\n" +
                 "group by article_id\n" +
                 "order by count(article_id)\n" +
                 "desc\n" +
@@ -142,7 +142,7 @@ public class ArticleModel {
 
     public static List<Article> findSameCat(int catId) {
         final String sql = "SELECT * FROM articles\n" +
-                "where category_id=4 and id_article!=:id_article\n" +
+                "where category_id=4 and id_article!=:id_article status=1\n" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 5";
         try (Connection con = DbUtils.getConnection()) {
