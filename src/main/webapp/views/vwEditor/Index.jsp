@@ -15,7 +15,7 @@
   <jsp:body>
     <div class="card">
     <h4 class="card-header d-flex justify-content-between">
-      Danh sách bài báo
+      Danh sách bài báo chưa được duyệt
     </h4>
     <c:choose>
       <c:when test="${articles.size() == 0}">

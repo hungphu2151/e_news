@@ -8,7 +8,7 @@
   </h4>
   <div class="list-group ">
     <a class="list-group-item list-group-item-action" href="${pageContext.request.contextPath}/Editor/Article">
-      Quản lí bài viết
+      Quản lí bài viết chưa được duyệt
     </a>
     <a class="list-group-item list-group-item-action" href="${pageContext.request.contextPath}/Editor/Article/AcceptedArticle">
       Quản lí bài viết đã được duyệt
