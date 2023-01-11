@@ -56,7 +56,7 @@
                         <h5 class="card-title">${s.title}</h5>
                         <p class="card-text">${s.sumary}</p>
                         <div class="d-flex justify-content-end">
-                            ${a.public_date.dayOfMonth}/${s.public_date.monthValue}/${s.public_date.year}  ${s.public_date.hour}:${s.public_date.minute}:${s.public_date.second}
+                            ${s.public_date.dayOfMonth}/${s.public_date.monthValue}/${s.public_date.year}  ${s.public_date.hour}:${s.public_date.minute}:${s.public_date.second}
                         </div>
                         <div class="d-flex justify-content-end text-danger">
                           <c:forEach items="${categoriesWithDetails}" var="c">
