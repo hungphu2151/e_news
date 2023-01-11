@@ -46,7 +46,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtPassword">Mật khẩu cũ</label>
-                                <input type="password" class="form-control" id="txtPassword" name="rawpwd" required>
+                                <input type="password" class="form-control" id="txtPassword" name="rawpwd" required> <b class="text-danger">${errorMassage}</b>
                             </div>
                             <div class="form-group">
                                 <label for="txtConfirm">Xác nhận mật khẩu mới</label>

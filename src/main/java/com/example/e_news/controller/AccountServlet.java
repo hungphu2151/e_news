@@ -181,7 +181,7 @@ public class AccountServlet extends HttpServlet {
         } else {
             request.setAttribute("hasError", true);
             request.setAttribute("errorMassage", "Mật khẩu không đúng");
-            ServletUtils.forward("/views/vwAccount/Profile.jsp", request, response);
+            ServletUtils.forward("/views/vwAccount/ChangePassword.jsp", request, response);
         }
     }
 }
