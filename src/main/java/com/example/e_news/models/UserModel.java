@@ -71,6 +71,16 @@ public class UserModel {
                     .executeUpdate();
         }
     }
+
+    public static void updatePassword(User c){
+        String insertSql = "UPDATE users SET username= :username, password= :password WHERE username = :username\n";
+        try (Connection con = DbUtils.getConnection()){
+            con.createQuery(insertSql)
+                    .addParameter("username", c.getUsername())
+                    .addParameter("password", c.getPassword())
+                    .executeUpdate();
+        }
+    }
     public static void delete (String username){
         String insertSql = "delete from users WHERE username = :username";
         try (Connection con = DbUtils.getConnection()){
@@ -92,6 +102,7 @@ public class UserModel {
             return list.get(0);
         }
     }
+
     public static List<User> findByRole(int role) {
         final String query = "select * from users WHERE role = :role ";
         try (Connection con = DbUtils.getConnection()) {

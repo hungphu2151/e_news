@@ -72,9 +72,12 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary" id="btn-update" >
+                    <button type="submit" class="btn btn-primary" id="btn-update" formaction="${pageContext.request.contextPath}/Account/Profile">
                         Cập nhật thông tin
                     </button>
+                    <a class="btn btn-info" href="${pageContext.request.contextPath}/Account/ChangePassword" role="button">
+                        Đổi mật khẩu
+                    </a>
                 </div>
             </div>
         </form>

@@ -34,6 +34,9 @@ public class AccountServlet extends HttpServlet {
                     ServletUtils.redirect("/Home", request, response);
                 } else ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 break;
+            case "/ChangePassword":
+                ServletUtils.forward("/views/vwAccount/ChangePassword.jsp", request, response);
+                break;
             case "/Profile":
                 ServletUtils.forward("/views/vwAccount/Profile.jsp", request, response);
                 break;
@@ -67,6 +70,9 @@ public class AccountServlet extends HttpServlet {
                 break;
             case "/Profile":
                 updateProfile(request,response);
+                break;
+            case "/ChangePassword":
+                changePassword(request, response);
                 break;
             case "/Logout":
                 logout(request,response);
@@ -158,5 +164,24 @@ public class AccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("authUser", user);
         ServletUtils.redirect("/Account/Profile", request, response);
+    }
+
+    private static void changePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException    {
+        String username = request.getParameter("username");
+        String rawpwd = request.getParameter("rawpwd");
+        String newRawpwd = request.getParameter("newRawpwd");
+        User user = UserModel.findByUsername(0,username);
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12, newRawpwd.toCharArray());
+        BCrypt.Result result = BCrypt.verifyer().verify(rawpwd.toCharArray(), user.getPassword());
+        if (result.verified) {
+            User u = new  User(username, bcryptHashString);
+            UserModel.updatePassword(u);
+            request.setAttribute("success",true);
+            ServletUtils.redirect("/Account/Profile", request, response);
+        } else {
+            request.setAttribute("hasError", true);
+            request.setAttribute("errorMassage", "Mật khẩu không đúng");
+            ServletUtils.forward("/views/vwAccount/Profile.jsp", request, response);
+        }
     }
 }
